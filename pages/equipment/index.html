@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>设备调研 · 电力在线监测知识库</title>
+  <style>
+    :root {
+      --bg: #070d1a; --card: #0d1b2e;
+      --border: rgba(0,180,255,0.15);
+      --accent: #00b4ff; --accent2: #00e5a0;
+      --text: #d0e8ff; --muted: #5a7a99;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    header {
+      position:sticky; top:0; z-index:100;
+      background:rgba(7,13,26,0.85); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:60px;
+    }
+    .logo { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:700; color:var(--accent); text-decoration:none; }
+    .logo span { color:var(--text); }
+    .breadcrumb { color:var(--muted); font-size:0.85rem; }
+    .breadcrumb a { color:var(--accent); text-decoration:none; }
+
+    .hero { padding:3rem 2rem 2rem; text-align:center; }
+    .hero h1 { font-size:2rem; font-weight:800; margin-bottom:0.5rem; }
+    .hero p { color:var(--muted); font-size:0.95rem; }
+
+    .container { max-width:900px; margin:0 auto; padding:2rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    .card {
+      background:var(--card); border:1px solid var(--border); border-radius:14px;
+      padding:1.4rem; text-decoration:none; color:inherit;
+      transition:transform 0.2s, border-color 0.2s;
+      display:block;
+    }
+    .card:hover { transform:translateY(-3px); border-color:rgba(0,229,160,0.4); }
+    .card-icon { font-size:1.8rem; margin-bottom:0.6rem; }
+    .card-title { font-size:1rem; font-weight:700; margin-bottom:0.3rem; }
+    .card-desc { color:var(--muted); font-size:0.83rem; line-height:1.6; margin-bottom:0.8rem; }
+    .card-meta { color:var(--accent2); font-size:0.78rem; }
+    .badge {
+      display:inline-block;
+      background:rgba(0,229,160,0.1); border:1px solid rgba(0,229,160,0.3);
+      color:var(--accent2); padding:0.15rem 0.6rem; border-radius:999px; font-size:0.72rem;
+      margin-bottom:0.8rem;
+    }
+    footer { border-top:1px solid var(--border); text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; margin-top:3rem; }
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <div class="breadcrumb"><a href="../../index.html">首页</a> / 设备调研</div>
+</header>
+
+<div class="hero">
+  <h1>🔬 设备调研</h1>
+  <p>各类电力设备、材料的专项调研报告，含规格参数、用量分析与选型建议</p>
+</div>
+
+<div class="container">
+  <div class="grid">
+
+    <a class="card" href="luomu.html">
+      <div class="badge">NEW</div>
+      <div class="card-icon">🔩</div>
+      <div class="card-title">电网螺母 · 电气连接调研报告</div>
+      <div class="card-desc">涵盖 M8~M20 规格参数、紧固力矩、材质标准、全国年用量估算（~6500万颗/年）及运维痛点分析。</div>
+      <div class="card-meta">📅 2026-03-16 · 含年用量 v2.8</div>
+    </a>
+
+    <div class="card" style="opacity:0.45; cursor:default;">
+      <div class="card-icon">🔌</div>
+      <div class="card-title">电缆终端头调研</div>
+      <div class="card-desc">各电压等级电缆终端头规格、安装工艺与常见缺陷分析。</div>
+      <div class="card-meta">🚧 即将收录</div>
+    </div>
+
+    <div class="card" style="opacity:0.45; cursor:default;">
+      <div class="card-icon">📡</div>
+      <div class="card-title">局放传感器选型调研</div>
+      <div class="card-desc">超声波、高频 CT、TEV 等局放传感器对比与选型建议。</div>
+      <div class="card-meta">🚧 即将收录</div>
+    </div>
+
+    <div class="card" style="opacity:0.45; cursor:default;">
+      <div class="card-icon">🌡️</div>
+      <div class="card-title">测温元件调研</div>
+      <div class="card-desc">红外测温、光纤测温、无线测温贴片等方案对比与应用场景。</div>
+      <div class="card-meta">🚧 即将收录</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>⚡ 电力在线监测知识库 · 设备调研模块</footer>
+</body>
+</html>
