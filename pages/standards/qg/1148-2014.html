@@ -32,6 +32,11 @@
     .info-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
     .info-label { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.3rem; }
     .info-value { font-weight: 600; }
+    .source-link { display: flex; align-items: center; gap: 0.8rem; background: rgba(0,180,255,0.05); border: 1px solid rgba(0,180,255,0.2); border-radius: 10px; padding: 1rem 1.2rem; text-decoration: none; color: var(--text); transition: border-color 0.2s; margin-bottom: 0.8rem; }
+    .source-link:hover { border-color: var(--accent); }
+    .source-link .link-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .source-link .link-info .link-title { font-weight: 600; font-size: 0.95rem; color: var(--accent); }
+    .source-link .link-info .link-desc { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
     footer { border-top: 1px solid var(--border); text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; margin-top: 2rem; }
   </style>
 </head>
@@ -55,11 +60,21 @@
     <div class="info-item"><div class="info-label">状态</div><div class="info-value">现行有效</div></div>
   </div>
   <div class="section">
-    <h2>📥 官方查看/下载</h2>
-    <ul>
-      <li><a href="https://www.sgcc.com.cn/col/col388/index.html" target="_blank" style="color:var(--accent);">国家电网标准技术资源</a> - Q/GDW 企业标准检索</li>
-      <li><a href="https://www.cec.org.cn/nybz/standard" target="_blank" style="color:var(--accent);">中国电力企业联合会</a> - 电力标准查询平台</li>
-    </ul>
+    <h2>📥 官方查看 / 下载</h2>
+    <a class="source-link" href="https://www.sgcc.com.cn/col/col388/index.html" target="_blank">
+      <span class="link-icon">🏢</span>
+      <div class="link-info">
+        <div class="link-title">国家电网公司 · 技术标准资源</div>
+        <div class="link-desc">Q/GDW 系列企业标准发布机构 · 可查阅标准目录</div>
+      </div>
+    </a>
+    <a class="source-link" href="https://hbba.sacinfo.org.cn/stdList?keyword=Q%2FGDW+1148-2014" target="_blank">
+      <span class="link-icon">🏛️</span>
+      <div class="link-info">
+        <div class="link-title">行业标准信息服务平台（sacinfo）</div>
+        <div class="link-desc">国家市场监督管理总局主管 · 搜索 Q/GDW 1148-2014 查看备案信息</div>
+      </div>
+    </a>
   </div>
   <div class="section">
     <h2>📋 标准简介</h2>
