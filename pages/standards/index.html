@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>技术规范 - 电力在线监测知识库</title>
+  <style>
+    :root {
+      --bg: #070d1a;
+      --card: #0d1b2e;
+      --border: rgba(0,180,255,0.15);
+      --accent: #00b4ff;
+      --accent2: #00e5a0;
+      --text: #d0e8ff;
+      --muted: #5a7a99;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* 导航 */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,13,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.1rem; font-weight: 700; color: var(--accent);
+      text-decoration: none;
+    }
+    .logo span { color: var(--text); }
+    nav { display: flex; gap: 1.5rem; }
+    nav a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; transition: color 0.2s;
+    }
+    nav a:hover { color: var(--accent); }
+    nav a.active { color: var(--accent); }
+
+    /* 主内容 */
+    .container {
+      max-width: 1200px; margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* 页面标题 */
+    .page-header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      position: relative;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,180,255,0.1), transparent);
+      pointer-events: none;
+    }
+    .page-header h1 {
+      font-size: 2rem; font-weight: 800;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    .page-header h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-header p {
+      color: var(--muted);
+      position: relative;
+    }
+
+    /* 分类筛选 */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 0.8rem;
+      margin-bottom: 2rem; padding: 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active {
+      background: rgba(0,180,255,0.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* 规范卡片 */
+    .standards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.2rem;
+    }
+    .standard-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      transition: transform 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .standard-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,180,255,0.35);
+    }
+    .standard-card.hidden { display: none; }
+
+    .std-header {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .std-code {
+      font-family: 'Consolas', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(0,180,255,0.15);
+      color: var(--accent);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .std-level {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .std-level.national {
+      background: rgba(0,229,160,0.15);
+      color: var(--accent2);
+    }
+    .std-level.industry {
+      background: rgba(255,170,0,0.15);
+      color: #ffaa00;
+    }
+    .std-level.enterprise {
+      background: rgba(170,100,255,0.15);
+      color: #a064ff;
+    }
+    .std-level.group {
+      background: rgba(255,100,100,0.15);
+      color: #ff6464;
+    }
+
+    .std-title {
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    .std-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .std-meta {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      font-size: 0.75rem; color: var(--muted);
+    }
+    .std-tag {
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* 搜索框 */
+    .search-box {
+      margin-bottom: 1.5rem;
+    }
+    .search-box input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1.2rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .search-box input::placeholder { color: var(--muted); }
+
+    /* 统计 */
+    .stats-row {
+      display: flex; justify-content: center; gap: 2.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.8rem; color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .standards-grid { grid-template-columns: 1fr; }
+      .container { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../equipment/index.html">设备调研</a>
+    <a href="index.html" class="active">技术规范</a>
+    <a href="../monitoring/index.html">监测技术</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="page-header">
+    <h1>电力<span style="color:var(--accent)">技术规范</span></h1>
+    <p>国家标准、行业标准、企业标准、团体标准汇总</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num" id="totalCount">0</div>
+      <div class="stat-label">收录规范</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">标准层级</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">专业领域</div>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="搜索规范名称、编号或关键词..." oninput="filterStandards()" />
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部</button>
+    <button class="filter-btn" data-filter="national" onclick="setFilter('national')">国家标准 GB/T</button>
+    <button class="filter-btn" data-filter="industry" onclick="setFilter('industry')">行业标准 DL/T</button>
+    <button class="filter-btn" data-filter="enterprise" onclick="setFilter('enterprise')">国网/南网标准</button>
+    <button class="filter-btn" data-filter="group" onclick="setFilter('group')">团体标准 T/C</button>
+  </div>
+
+  <div class="standards-grid" id="standardsGrid">
+    <!-- 国标 GB/T -->
+    <a class="standard-card" href="#" data-level="national" data-keywords="变压器 状态 评价 导则">
+      <div class="std-header">
+        <span class="std-code">GB/T 28284-2012</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">电力变压器状态评价导则</div>
+      <div class="std-desc">规定了电力变压器状态评价的原则、方法、指标和等级划分。</div>
+      <div class="std-meta">
+        <span class="std-tag">变压器</span>
+        <span class="std-tag">状态评价</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="national" data-keywords="变压器 检修 导则">
+      <div class="std-header">
+        <span class="std-code">GB/T 18892-2020</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">电力变压器运行规程</div>
+      <div class="std-desc">电力变压器的运行要求、维护保养、故障处理等基本规定。</div>
+      <div class="std-meta">
+        <span class="std-tag">变压器</span>
+        <span class="std-tag">运行规程</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="national" data-keywords="高压开关 设备 状态 评价">
+      <div class="std-header">
+        <span class="std-code">GB/T 28003-2011</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">高压开关设备状态评价导则</div>
+      <div class="std-desc">高压开关设备状态评价的方法、指标体系和评价周期。</div>
+      <div class="std-meta">
+        <span class="std-tag">开关设备</span>
+        <span class="std-tag">状态评价</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="national" data-keywords="电力设备 状态 检修">
+      <div class="std-header">
+        <span class="std-code">GB/T 33009-2016</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">电力设备状态检修管理</div>
+      <div class="std-desc">电力设备状态检修的管理要求、检修策略和实施流程。</div>
+      <div class="std-meta">
+        <span class="std-tag">状态检修</span>
+        <span class="std-tag">管理</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="national" data-keywords="局部放电 检测 超声波">
+      <div class="std-header">
+        <span class="std-code">GB/T 7354-2018</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">局部放电测量</div>
+      <div class="std-desc">电气设备局部放电试验的测量方法、仪器要求和评定标准。</div>
+      <div class="std-meta">
+        <span class="std-tag">局部放电</span>
+        <span class="std-tag">检测</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="national" data-keywords="电力设备 温度 测量 红外">
+      <div class="std-header">
+        <span class="std-code">GB/T 45671-2024</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">电力设备红外测温诊断规范</div>
+      <div class="std-desc">电力设备红外测温的现场操作规范、缺陷判据和温度阈值。</div>
+      <div class="std-meta">
+        <span class="std-tag">红外测温</span>
+        <span class="std-tag">故障诊断</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="national" data-keywords="电容型设备 绝缘 在线监测">
+      <div class="std-header">
+        <span class="std-code">GB/T 21083-2024</span>
+        <span class="std-level national">GB/T</span>
+      </div>
+      <div class="std-title">电容型设备绝缘在线监测装置</div>
+      <div class="std-desc">电容型设备绝缘在线监测装置的技术要求、试验方法和检验规则。</div>
+      <div class="std-meta">
+        <span class="std-tag">绝缘监测</span>
+        <span class="std-tag">在线监测</span>
+      </div>
+    </a>
+
+    <!-- 电力行业标准 DL/T -->
+    <a class="standard-card" href="#" data-level="industry" data-keywords="输电线路 状态 监测 技术 规范">
+      <div class="std-header">
+        <span class="std-code">DL/T 1247-2023</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">输电线路状态监测技术规范</div>
+      <div class="std-desc">架空输电线路在线监测系统的技术要求、数据传输和监测方法。</div>
+      <div class="std-meta">
+        <span class="std-tag">输电线路</span>
+        <span class="std-tag">状态监测</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="变压器 油中溶解气体 分析">
+      <div class="std-header">
+        <span class="std-code">DL/T 722-2014</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">变压器油中溶解气体分析和判断导则</div>
+      <div class="std-desc">变压器油色谱分析的方法、设备故障诊断判据和注意值。</div>
+      <div class="std-meta">
+        <span class="std-tag">油色谱</span>
+        <span class="std-tag">DGA</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="电容型设备 绝缘 试验">
+      <div class="std-header">
+        <span class="std-code">DL/T 846.3-2017</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">高压测试设备通用技术条件 第3部分</div>
+      <div class="std-desc">电容型设备绝缘在线监测装置的技术条件和测试方法。</div>
+      <div class="std-meta">
+        <span class="std-tag">绝缘监测</span>
+        <span class="std-tag">测试设备</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="局部放电 在线监测 超声波">
+      <div class="std-header">
+        <span class="std-code">DL/T 846.4-2016</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">局部放电在线监测设备</div>
+      <div class="std-desc">GIS、变压器等设备局部放电在线监测装置的技术要求。</div>
+      <div class="std-meta">
+        <span class="std-tag">局放监测</span>
+        <span class="std-tag">GIS</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="输电线路 故障 定位">
+      <div class="std-header">
+        <span class="std-code">DL/T 664-2016</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">输电线路故障定位技术规范</div>
+      <div class="std-desc">输电线路故障定位系统的技术要求、检测方法和数据处理。</div>
+      <div class="std-meta">
+        <span class="std-tag">故障定位</span>
+        <span class="std-tag">行波测距</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="电力设备 状态 检修">
+      <div class="std-header">
+        <span class="std-code">DL/T 1054-2007</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">电力设备状态检修技术标准导则</div>
+      <div class="std-desc">电力设备状态检修的总体要求、技术路线和实施指南。</div>
+      <div class="std-meta">
+        <span class="std-tag">状态检修</span>
+        <span class="std-tag">CBM</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="电缆 故障 测试">
+      <div class="std-header">
+        <span class="std-code">DL/T 846.6-2018</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">电力电缆故障测试设备</div>
+      <div class="std-desc">电力电缆故障探测设备的技术要求、测试方法和使用规范。</div>
+      <div class="std-meta">
+        <span class="std-tag">电缆故障</span>
+        <span class="std-tag">测试设备</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="industry" data-keywords="配电自动化 终端">
+      <div class="std-header">
+        <span class="std-code">DL/T 721-2013</span>
+        <span class="std-level industry">DL/T</span>
+      </div>
+      <div class="std-title">配电自动化远方终端</div>
+      <div class="std-desc">配电自动化终端（DTU、FTU、TTU）的技术要求和检验规则。</div>
+      <div class="std-meta">
+        <span class="std-tag">配电自动化</span>
+        <span class="std-tag">终端</span>
+      </div>
+    </a>
+
+    <!-- 国网标准 Q/GDW -->
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="输电线路 状态 监测 装置">
+      <div class="std-header">
+        <span class="std-code">Q/GDW 1148-2014</span>
+        <span class="std-level enterprise">国网</span>
+      </div>
+      <div class="std-title">输电线路状态监测装置技术规范</div>
+      <div class="std-desc">国家电网输电线路状态监测装置的选型、技术要求和检测规范。</div>
+      <div class="std-meta">
+        <span class="std-tag">输电线路</span>
+        <span class="std-tag">状态监测</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="变压器 状态 监测 装置">
+      <div class="std-header">
+        <span class="std-code">Q/GDW 11368-2014</span>
+        <span class="std-level enterprise">国网</span>
+      </div>
+      <div class="std-title">变压器状态监测装置技术规范</div>
+      <div class="std-desc">变压器油色谱、绕组测温等状态监测装置的技术要求。</div>
+      <div class="std-meta">
+        <span class="std-tag">变压器</span>
+        <span class="std-tag">油色谱</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="GIS 局部放电 检测">
+      <div class="std-header">
+        <span class="std-code">Q/GDW 11271-2013</span>
+        <span class="std-level enterprise">国网</span>
+      </div>
+      <div class="std-title">GIS局部放电在线监测装置技术规范</div>
+      <div class="std-desc">GIS设备局部放电在线监测装置的技术要求、安装和检测方法。</div>
+      <div class="std-meta">
+        <span class="std-tag">GIS</span>
+        <span class="std-tag">局放监测</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="智能变电站 状态 监测">
+      <div class="std-header">
+        <span class="std-code">Q/GDW 11661-2017</span>
+        <span class="std-level enterprise">国网</span>
+      </div>
+      <div class="std-title">智能变电站状态监测技术规范</div>
+      <div class="std-desc">智能变电站一次设备状态监测系统的设计和实施要求。</div>
+      <div class="std-meta">
+        <span class="std-tag">智能变电站</span>
+        <span class="std-tag">状态监测</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="输电线路 图像 视频 监测">
+      <div class="std-header">
+        <span class="std-code">Q/GDW 12096-2020</span>
+        <span class="std-level enterprise">国网</span>
+      </div>
+      <div class="std-title">输电线路图像监测装置技术规范</div>
+      <div class="std-desc">输电线路视频/图像监控装置的技术要求和数据规范。</div>
+      <div class="std-meta">
+        <span class="std-tag">图像监测</span>
+        <span class="std-tag">视频监控</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="配电物联网 智能配变终端">
+      <div class="std-header">
+        <span class="std-code">Q/GDW 11179-2023</span>
+        <span class="std-level enterprise">国网</span>
+      </div>
+      <div class="std-title">配电物联网智能配变终端技术规范</div>
+      <div class="std-desc">配电物联网智能融合终端的技术要求和功能规范。</div>
+      <div class="std-meta">
+        <span class="std-tag">配电物联网</span>
+        <span class="std-tag">智能终端</span>
+      </div>
+    </a>
+
+    <!-- 南网标准 Q/CSG -->
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="输电线路 状态 监测 南网">
+      <div class="std-header">
+        <span class="std-code">Q/CSG 1206014-2016</span>
+        <span class="std-level enterprise">南网</span>
+      </div>
+      <div class="std-title">南方电网输电线路状态监测系统技术规范</div>
+      <div class="std-desc">南方电网输电线路状态监测系统的技术要求和实施规范。</div>
+      <div class="std-meta">
+        <span class="std-tag">南网</span>
+        <span class="std-tag">输电线路</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="enterprise" data-keywords="变压器 状态 评价 南网">
+      <div class="std-header">
+        <span class="std-code">Q/CSG 116002-2011</span>
+        <span class="std-level enterprise">南网</span>
+      </div>
+      <div class="std-title">南方电网电力设备状态评价导则</div>
+      <div class="std-desc">南方电网电力设备状态评价的通用方法和指标体系。</div>
+      <div class="std-meta">
+        <span class="std-tag">南网</span>
+        <span class="std-tag">状态评价</span>
+      </div>
+    </a>
+
+    <!-- 团体标准 T/C -->
+    <a class="standard-card" href="#" data-level="group" data-keywords="电力设备 物联网 传感器">
+      <div class="std-header">
+        <span class="std-code">T/CSEE 0292-2023</span>
+        <span class="std-level group">团体</span>
+      </div>
+      <div class="std-title">电力设备智能传感器技术规范</div>
+      <div class="std-desc">电力设备智能传感器的技术要求、通信协议和数据格式。</div>
+      <div class="std-meta">
+        <span class="std-tag">智能传感器</span>
+        <span class="std-tag">物联网</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="group" data-keywords="电力设备 状态 数字孪生">
+      <div class="std-header">
+        <span class="std-code">T/CSEE 0312-2022</span>
+        <span class="std-level group">团体</span>
+      </div>
+      <div class="std-title">电力设备数字孪生技术规范</div>
+      <div class="std-desc">电力设备数字孪生系统的构建方法、数据模型和应用场景。</div>
+      <div class="std-meta">
+        <span class="std-tag">数字孪生</span>
+        <span class="std-tag">虚拟运维</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="group" data-keywords="电力设备 状态 预警 平台">
+      <div class="std-header">
+        <span class="std-code">T/CSEE 0354-2024</span>
+        <span class="std-level group">团体</span>
+      </div>
+      <div class="std-title">电力设备状态预警平台技术规范</div>
+      <div class="std-desc">电力设备状态预警平台的功能要求、数据接口和预警模型。</div>
+      <div class="std-meta">
+        <span class="std-tag">预警平台</span>
+        <span class="std-tag">大数据</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="group" data-keywords="电力光纤 传感 监测">
+      <div class="std-header">
+        <span class="std-code">T/CSEE 0187-2022</span>
+        <span class="std-level group">团体</span>
+      </div>
+      <div class="std-title">电力设施光纤传感监测技术规范</div>
+      <div class="std-desc">基于光纤传感的电力设施温度、应变等参数监测技术。</div>
+      <div class="std-meta">
+        <span class="std-tag">光纤传感</span>
+        <span class="std-tag">温度监测</span>
+      </div>
+    </a>
+
+    <a class="standard-card" href="#" data-level="group" data-keywords="电力巡检 机器人 无人机">
+      <div class="std-header">
+        <span class="std-code">T/CSEE 0245-2021</span>
+        <span class="std-level group">团体</span>
+      </div>
+      <div class="std-title">电力巡检机器人技术规范</div>
+      <div class="std-desc">电力巡检机器人的功能要求、导航定位和检测方法。</div>
+      <div class="std-meta">
+        <span class="std-tag">巡检机器人</span>
+        <span class="std-tag">无人机</span>
+      </div>
+    </a>
+  </div>
+
+  <div style="text-align:center; padding: 2rem; color: var(--muted);" id="noResult">
+    未找到匹配的技术规范
+  </div>
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · 技术规范模块 · <a href="../index.html" style="color:var(--accent);text-decoration:none;">返回首页</a></p>
+</footer>
+
+<script>
+  let currentFilter = 'all';
+  const cards = document.querySelectorAll('.standard-card');
+  const totalCount = cards.length;
+  document.getElementById('totalCount').textContent = totalCount;
+
+  function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.filter === filter);
+    });
+    filterStandards();
+  }
+
+  function filterStandards() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const level = card.dataset.level;
+      const keywords = (card.dataset.keywords || '').toLowerCase();
+      const title = card.querySelector('.std-title').textContent.toLowerCase();
+      const code = card.querySelector('.std-code').textContent.toLowerCase();
+
+      const matchFilter = currentFilter === 'all' || level === currentFilter;
+      const matchSearch = q === '' || 
+        title.includes(q) || 
+        code.includes(q) || 
+        keywords.includes(q);
+
+      const visible = matchFilter && matchSearch;
+      card.classList.toggle('hidden', !visible);
+      if (visible) visibleCount++;
+    });
+
+    document.getElementById('noResult').style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  // 初始化
+  filterStandards();
+</script>
+
+</body>
+</html>
