@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>设备调研 · 电力在线监测知识库</title>
+  <title>AI调研 · 电力在线监测知识库</title>
   <style>
     :root {
       --bg: #070d1a; --card: #0d1b2e;
@@ -28,8 +28,8 @@
     .hero h1 { font-size:2rem; font-weight:800; margin-bottom:0.5rem; }
     .hero p { color:var(--muted); font-size:0.95rem; }
 
-    .container { max-width:900px; margin:0 auto; padding:2rem; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
+    .container { max-width:960px; margin:0 auto; padding:2rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
     .card {
       background:var(--card); border:1px solid var(--border); border-radius:14px;
       padding:1.4rem; text-decoration:none; color:inherit;
@@ -47,25 +47,39 @@
       color:var(--accent2); padding:0.15rem 0.6rem; border-radius:999px; font-size:0.72rem;
       margin-bottom:0.8rem;
     }
+    .badge-ai {
+      display:inline-block;
+      background:rgba(170,100,255,0.12); border:1px solid rgba(170,100,255,0.3);
+      color:#c084fc; padding:0.15rem 0.6rem; border-radius:999px; font-size:0.72rem;
+      margin-bottom:0.8rem; margin-right:0.4rem;
+    }
     footer { border-top:1px solid var(--border); text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; margin-top:3rem; }
   </style>
 </head>
 <body>
 <header>
   <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
-  <div class="breadcrumb"><a href="../../index.html">首页</a> / 设备调研</div>
+  <div class="breadcrumb"><a href="../../index.html">首页</a> / AI调研</div>
 </header>
 
 <div class="hero">
-  <h1>🔬 设备调研</h1>
-  <p>各类电力设备、材料的专项调研报告，含规格参数、用量分析与选型建议</p>
+  <h1>🤖 AI调研</h1>
+  <p>由 AI 生成的电力设备、方案、材料专项调研报告，含规格参数、用量分析与选型建议</p>
 </div>
 
 <div class="container">
   <div class="grid">
 
+    <a class="card" href="rfid-4g-sgcc.html">
+      <div><span class="badge-ai">AI生成</span><span class="badge">NEW</span></div>
+      <div class="card-icon">🌡️</div>
+      <div class="card-title">豫电无源测温 · 4G接入国网平台方案</div>
+      <div class="card-desc">RFID无源传感器通过手持机采集，经4G+安全网关接入河南省国网物联网平台。含数据链路、MQTT协议、安全接入要素及主流网关厂家选型。</div>
+      <div class="card-meta">📅 2026-03-17 · 物联网接入 · 含安全网关厂家</div>
+    </a>
+
     <a class="card" href="luomu.html">
-      <div class="badge">NEW</div>
+      <div><span class="badge-ai">AI生成</span></div>
       <div class="card-icon">🔩</div>
       <div class="card-title">电网螺母 · 电气连接调研报告</div>
       <div class="card-desc">涵盖 M8~M20 规格参数、紧固力矩、材质标准、全国年用量估算（~6500万颗/年）及运维痛点分析。</div>
@@ -96,6 +110,6 @@
   </div>
 </div>
 
-<footer>⚡ 电力在线监测知识库 · 设备调研模块</footer>
+<footer>⚡ 电力在线监测知识库 · AI调研模块</footer>
 </body>
 </html>
