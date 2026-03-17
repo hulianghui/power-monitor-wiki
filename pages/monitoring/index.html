@@ -13,15 +13,29 @@
     .logo span{color:var(--text);}
     .breadcrumb{color:var(--muted);font-size:0.85rem;}
     .breadcrumb a{color:var(--accent);text-decoration:none;}
-    .hero{padding:4rem 2rem;text-align:center;}
-    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
-    .hero p{color:var(--muted);font-size:0.95rem;}
-    .container{max-width:900px;margin:0 auto;padding:2rem;}
-    .placeholder{text-align:center;padding:4rem 2rem;background:var(--card);border:1px dashed var(--border);border-radius:16px;margin-top:2rem;}
-    .placeholder-icon{font-size:4rem;margin-bottom:1rem;opacity:0.3;}
-    .placeholder h2{font-size:1.3rem;color:var(--muted);margin-bottom:0.5rem;}
-    .placeholder p{color:var(--muted);font-size:0.9rem;}
-    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:4rem;}
+    
+    .hero{padding:4rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2.2rem;font-weight:800;margin-bottom:0.6rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 1.5rem;}
+    
+    .container{max-width:1100px;margin:0 auto;padding:2rem;}
+    .section-title{font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;}
+    .section-sub{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;}
+    
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.6rem;text-decoration:none;color:inherit;transition:transform 0.2s,border-color 0.2s;display:flex;flex-direction:column;gap:0.8rem;}
+    .card:hover{transform:translateY(-3px);border-color:var(--accent);}
+    .card.featured{border-color:rgba(0,229,160,0.3);position:relative;}
+    .card.featured::before{content:'核心';position:absolute;top:12px;right:12px;background:rgba(0,229,160,0.15);color:var(--accent2);font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:10px;border:1px solid rgba(0,229,160,0.3);}
+    .card-icon{font-size:2.2rem;}
+    .card-title{font-size:1.1rem;font-weight:700;}
+    .card-desc{color:var(--muted);font-size:0.88rem;line-height:1.6;}
+    .card-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:auto;}
+    .tag{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:0.25rem 0.7rem;border-radius:6px;font-size:0.75rem;color:var(--muted);}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:3rem;}
+    footer a{color:var(--accent);text-decoration:none;}
   </style>
 </head>
 <body>
@@ -29,17 +43,77 @@
   <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
   <div class="breadcrumb"><a href="../../index.html">首页</a> / 监测技术</div>
 </header>
+
 <div class="hero">
-  <h1>📡 监测技术</h1>
-  <p>在线监测传感器原理、通信协议、数据采集与边缘计算算法</p>
+  <h1>📡 监测<em>技术</em></h1>
+  <p>在线监测传感器原理、通信协议、数据采集与边缘计算算法，覆盖温度、振动、局放、环境等多维度监测</p>
 </div>
+
 <div class="container">
-  <div class="placeholder">
-    <div class="placeholder-icon">📡</div>
-    <h2>模块建设中</h2>
-    <p>该模块正在建设中，即将收录传感器原理、通信协议、局放检测、测温技术等内容。</p>
+  <div class="section-title">监测类型</div>
+  <div class="section-sub">选择监测对象，深入了解技术原理与应用方案</div>
+  
+  <div class="grid">
+    <a class="card featured" href="temperature/index.html">
+      <div class="card-icon">🌡️</div>
+      <div class="card-title">温度监测</div>
+      <div class="card-desc">红外测温、光纤测温、无线测温、RFID无源测温等多种技术手段对比分析，适用于开关柜、变压器、电缆等设备。</div>
+      <div class="card-tags">
+        <span class="tag">红外</span>
+        <span class="tag">光纤</span>
+        <span class="tag">RFID无源</span>
+        <span class="tag">无线</span>
+      </div>
+    </a>
+    
+    <a class="card" href="vibration/index.html">
+      <div class="card-icon">📳</div>
+      <div class="card-title">振动监测</div>
+      <div class="card-desc">加速度传感器、速度传感器、位移传感器原理与应用，适用于变压器、GIS、断路器等设备机械状态监测。</div>
+      <div class="card-tags">
+        <span class="tag">加速度</span>
+        <span class="tag">速度</span>
+        <span class="tag">位移</span>
+      </div>
+    </a>
+    
+    <a class="card" href="pd/index.html">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">局部放电监测</div>
+      <div class="card-desc">超声波、特高频UHF、高频电流HFCT、脉冲电流等局放检测方法，适用于GIS、变压器、电缆绝缘状态评估。</div>
+      <div class="card-tags">
+        <span class="tag">超声波</span>
+        <span class="tag">UHF</span>
+        <span class="tag">HFCT</span>
+      </div>
+    </a>
+    
+    <a class="card" href="environment/index.html">
+      <div class="card-icon">🌤️</div>
+      <div class="card-title">环境监测</div>
+      <div class="card-desc">温湿度、SF₆气体、烟雾、水浸等环境参数监测，适用于配电房、变电站、电缆隧道等场景。</div>
+      <div class="card-tags">
+        <span class="tag">温湿度</span>
+        <span class="tag">SF₆</span>
+        <span class="tag">烟雾</span>
+      </div>
+    </a>
+    
+    <a class="card" href="partial/index.html">
+      <div class="card-icon">🔋</div>
+      <div class="card-title">其他监测</div>
+      <div class="card-desc">铁芯接地电流、避雷器泄漏电流、油色谱分析等专项监测技术。</div>
+      <div class="card-tags">
+        <span class="tag">接地电流</span>
+        <span class="tag">油色谱</span>
+        <span class="tag">泄漏电流</span>
+      </div>
+    </a>
   </div>
 </div>
-<footer>⚡ 电力在线监测知识库 · 监测技术模块</footer>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../../index.html">返回首页</a></p>
+</footer>
 </body>
 </html>

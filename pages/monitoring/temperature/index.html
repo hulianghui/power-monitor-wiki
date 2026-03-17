@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>温度监测技术 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    .breadcrumb{color:var(--muted);font-size:0.85rem;}
+    .breadcrumb a{color:var(--accent);text-decoration:none;}
+    
+    .hero{padding:4rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(255,100,100,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2.2rem;font-weight:800;margin-bottom:0.6rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:1rem;max-width:700px;margin:0 auto;}
+    
+    .container{max-width:1000px;margin:0 auto;padding:2rem;}
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.5rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .section p{color:var(--text);margin-bottom:1rem;}
+    
+    .method-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+    .method-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+    .method-icon{font-size:2rem;}
+    .method-title{font-size:1.15rem;font-weight:700;}
+    .method-badge{background:rgba(0,229,160,0.15);color:var(--accent2);padding:0.2rem 0.6rem;border-radius:20px;font-size:0.75rem;border:1px solid rgba(0,229,160,0.3);}
+    .method-badge.warn{background:rgba(255,170,0,0.15);color:var(--warn);border-color:rgba(255,170,0,0.3);}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.8rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
+    tr:hover{background:rgba(255,255,255,0.02);}
+    
+    .compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0;}
+    .compare-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:1.2rem;}
+    .compare-item h4{color:var(--accent);margin-bottom:0.5rem;font-size:0.95rem;}
+    .compare-item ul{margin-left:1.2rem;color:var(--muted);font-size:0.88rem;}
+    .compare-item li{margin-bottom:0.3rem;}
+    
+    .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+    .pros{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:1rem;}
+    .cons{background:rgba(255,100,100,0.08);border:1px solid rgba(255,100,100,0.2);border-radius:10px;padding:1rem;}
+    .pros h4{color:var(--accent2);margin-bottom:0.5rem;font-size:0.9rem;}
+    .cons h4{color:var(--danger);margin-bottom:0.5rem;font-size:0.9rem;}
+    .pros ul,.cons ul{margin-left:1.2rem;font-size:0.85rem;}
+    .pros li{color:var(--text);margin-bottom:0.3rem;}
+    .cons li{color:var(--text);margin-bottom:0.3rem;}
+    
+    .app-scene{background:var(--card);border-left:4px solid var(--accent);padding:1rem 1.2rem;margin:1rem 0;border-radius:0 10px 10px 0;}
+    .app-scene h4{color:var(--accent);margin-bottom:0.3rem;font-size:0.95rem;}
+    .app-scene p{color:var(--muted);font-size:0.88rem;}
+    
+    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .highlight-box.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:3rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../index.html">← 监测技术</a>
+    <a href="../../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>🌡️ 温度<em>监测技术</em></h1>
+  <p>电力设备温度监测全方案对比：红外、光纤、无线、RFID无源等多种技术手段的原理、优缺点与选型建议</p>
+</div>
+
+<div class="container">
+  
+  <!-- 概述 -->
+  <div class="section">
+    <h2>📋 技术概述</h2>
+    <p>温度是反映电力设备运行状态的关键参数。开关柜触头、变压器绕组、电缆接头等部位过热是引发设备故障的主要原因。据统计，电力设备事故中约 30% 与温度异常有关。</p>
+    <p>目前电力行业常用的温度监测技术主要包括：<strong>红外测温</strong>、<strong>光纤测温</strong>、<strong>无线测温</strong>（有源）、<strong>RFID无源无线测温</strong>、<strong>热电偶/热电阻</strong>等。不同技术适用于不同场景，选型需综合考虑测量精度、安装方式、维护成本、安全性等因素。</p>
+  </div>
+
+  <!-- 技术对比总表 -->
+  <div class="section">
+    <h2>📊 技术对比总览</h2>
+    <table>
+      <tr>
+        <th>技术类型</th>
+        <th>测量精度</th>
+        <th>供电方式</th>
+        <th>安装方式</th>
+        <th>适用场景</th>
+        <th>成本</th>
+      </tr>
+      <tr>
+        <td>红外测温</td>
+        <td>±2℃</td>
+        <td>无需接触</td>
+        <td>非接触式</td>
+        <td>巡检、变压器</td>
+        <td>中</td>
+      </tr>
+      <tr>
+        <td>光纤测温</td>
+        <td>±1℃</td>
+        <td>激光供电</td>
+        <td>接触式</td>
+        <td>变压器、开关柜</td>
+        <td>高</td>
+      </tr>
+      <tr>
+        <td>无线测温（有源）</td>
+        <td>±0.5℃</td>
+        <td>电池供电</td>
+        <td>接触式</td>
+        <td>开关柜、电缆</td>
+        <td>中</td>
+      </tr>
+      <tr>
+        <td>RFID无源测温</td>
+        <td>±0.5℃</td>
+        <td>射频取能</td>
+        <td>接触式</td>
+        <td>开关柜、母排</td>
+        <td>低</td>
+      </tr>
+      <tr>
+        <td>热电偶/热电阻</td>
+        <td>±0.5℃</td>
+        <td>有线供电</td>
+        <td>接触式</td>
+        <td>实验室、变压器</td>
+        <td>低</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 红外测温 -->
+  <div class="section">
+    <h2>🔴 红外测温技术</h2>
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-icon">🔴</span>
+        <span class="method-title">红外热成像测温</span>
+        <span class="method-badge">非接触式</span>
+      </div>
+      <p>基于黑体辐射定律，通过接收被测物体发出的红外辐射能量，换算成温度值。分为便携式红外测温仪和固定式红外热成像系统。</p>
+      
+      <h3>工作原理</h3>
+      <p>一切温度高于绝对零度的物体都会向外辐射红外线，辐射能量与温度的四次方成正比（斯蒂芬-玻尔兹曼定律）。红外探测器接收目标辐射，通过信号处理转换为温度值。</p>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>✓ 优点</h4>
+          <ul>
+            <li>非接触测量，安全距离远</li>
+            <li>响应速度快，实时成像</li>
+            <li>可测运动物体</li>
+            <li>覆盖范围广，一扫多点</li>
+            <li>不改变设备运行状态</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ 缺点</h4>
+          <ul>
+            <li>受环境影响大（灰尘、蒸汽）</li>
+            <li>表面发射率影响精度</li>
+            <li>光路遮挡无法测量</li>
+            <li>价格较高（热成像仪）</li>
+            <li>只能测表面温度</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="app-scene">
+        <h4>🎯 典型应用场景</h4>
+        <p><strong>变电站巡检：</strong>运维人员手持红外热像仪定期巡检，发现变压器套管、断路器触头、隔离开关等设备的过热缺陷。</p>
+        <p><strong>变压器监测：</strong>固定式红外热成像系统安装在变压器周围，实时监测油箱表面温度分布。</p>
+      </div>
+      
+      <div class="highlight-box warn">
+        <strong>⚠️ 注意事项：</strong>测量前需了解被测表面材料的发射率，金属表面发射率低且变化大，建议喷涂发射率涂料或粘贴发射率胶带。
+      </div>
+    </div>
+  </div>
+
+  <!-- 光纤测温 -->
+  <div class="section">
+    <h2>🔵 光纤测温技术</h2>
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-icon">🔵</span>
+        <span class="method-title">光纤光栅/分布式测温</span>
+        <span class="method-badge">高绝缘</span>
+      </div>
+      <p>利用光纤作为温度传感元件，分为光纤光栅（FBG）点式测温和分布式光纤测温（DTS/DTS）两种。光纤本身不导电，具有天然的电气隔离特性。</p>
+      
+      <h3>技术分类</h3>
+      <div class="compare-grid">
+        <div class="compare-item">
+          <h4>光纤光栅（FBG）</h4>
+          <ul>
+            <li>点式测量，精度高（±0.5℃）</li>
+            <li>可串接多测点</li>
+            <li>适合开关柜触头、母排</li>
+            <li>需要光源和解调仪</li>
+          </ul>
+        </div>
+        <div class="compare-item">
+          <h4>分布式测温（DTS）</h4>
+          <ul>
+            <li>连续分布式测量</li>
+            <li>空间分辨率可达0.5m</li>
+            <li>适合电缆隧道、长距离监测</li>
+            <li>基于拉曼散射原理</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>✓ 优点</h4>
+          <ul>
+            <li>本质安全，抗电磁干扰</li>
+            <li>绝缘性能优异</li>
+            <li>测量精度高</li>
+            <li>可远距离传输（数公里）</li>
+            <li>耐腐蚀、寿命长</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ 缺点</h4>
+          <ul>
+            <li>成本较高</li>
+            <li>安装工艺要求高</li>
+            <li>光纤脆弱，需保护</li>
+            <li>解调仪价格昂贵</li>
+            <li>弯曲半径受限</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="app-scene">
+        <h4>🎯 典型应用场景</h4>
+        <p><strong>高压开关柜：</strong>光纤光栅传感器绑扎在触头、母排上，实时监测接点温度，绝缘性能满足高压要求。</p>
+        <p><strong>电缆隧道：</strong>分布式光纤沿电缆敷设，连续监测电缆表面温度，及时发现局部过热。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 无线测温（有源） -->
+  <div class="section">
+    <h2>🟢 无线测温技术（有源）</h2>
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-icon">🟢</span>
+        <span class="method-title">无线有源测温</span>
+        <span class="method-badge warn">需电池</span>
+      </div>
+      <p>传感器内置温度测量芯片和无线通信模块（Zigbee/LoRa/433MHz），通过电池供电，将温度数据无线传输至接收装置。</p>
+      
+      <h3>通信方式对比</h3>
+      <table>
+        <tr>
+          <th>通信技术</th>
+          <th>频段</th>
+          <th>传输距离</th>
+          <th>功耗</th>
+          <th>特点</th>
+        </tr>
+        <tr>
+          <td>Zigbee</td>
+          <td>2.4GHz</td>
+          <td>100m</td>
+          <td>低</td>
+          <td>组网能力强</td>
+        </tr>
+        <tr>
+          <td>LoRa</td>
+          <td>470MHz</td>
+          <td>1-3km</td>
+          <td>极低</td>
+          <td>远距离、穿透强</td>
+        </tr>
+        <tr>
+          <td>433MHz</td>
+          <td>433MHz</td>
+          <td>500m</td>
+          <td>中</td>
+          <td>简单、成本低</td>
+        </tr>
+      </table>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>✓ 优点</h4>
+          <ul>
+            <li>安装方便，无需布线</li>
+            <li>实时在线监测</li>
+            <li>精度较高（±0.5℃）</li>
+            <li>成本适中</li>
+            <li>可组网多点监测</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ 缺点</h4>
+          <ul>
+            <li>需定期更换电池</li>
+            <li>电池寿命受温度影响</li>
+            <li>无线信号可能受屏蔽</li>
+            <li>高压环境需绝缘处理</li>
+            <li>电磁兼容性问题</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="app-scene">
+        <h4>🎯 典型应用场景</h4>
+        <p><strong>开关柜在线监测：</strong>传感器安装在断路器触头、电缆接头处，实时上传温度数据，超温自动报警。</p>
+        <p><strong>干式变压器：</strong>监测变压器绕组温度，防止过热损坏。</p>
+      </div>
+      
+      <div class="highlight-box warn">
+        <strong>⚠️ 电池寿命：</strong>高温环境（>60℃）会加速电池老化，实际寿命可能只有标称值的一半。建议选用高温电池或采用能量收集技术。
+      </div>
+    </div>
+  </div>
+
+  <!-- RFID无源测温 -->
+  <div class="section">
+    <h2>🟡 RFID无源无线测温</h2>
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-icon">🟡</span>
+        <span class="method-title">RFID无源测温</span>
+        <span class="method-badge">免维护</span>
+      </div>
+      <p>基于RFID射频识别技术，传感器无需电池，通过读写器发射的射频能量供电并回传温度数据。是近年来兴起的新型测温方案。</p>
+      
+      <h3>工作原理</h3>
+      <p>读写器发射902-928MHz射频信号，传感器标签接收能量后激活温度测量电路，将温度数据通过反向散射方式传回读写器。整个过程无需电池供电。</p>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>✓ 优点</h4>
+          <ul>
+            <li>无需电池，终身免维护</li>
+            <li>本质安全，无爆炸风险</li>
+            <li>体积小，安装简便</li>
+            <li>成本较低</li>
+            <li>适合密集部署</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ 缺点</h4>
+          <ul>
+            <li>读取距离短（1-3m）</li>
+            <li>金属环境需特殊设计</li>
+            <li>不能连续实时监测</li>
+            <li>多标签可能冲突</li>
+            <li>射频干扰问题</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="app-scene">
+        <h4>🎯 典型应用场景</h4>
+        <p><strong>开关柜触头测温：</strong>传感器安装在动触头、静触头上，运维人员持手持机巡检读取，或安装固定读写器定时采集。</p>
+        <p><strong>母排接头监测：</strong>在母排连接处粘贴RFID温度标签，实现无源无线温度监测。</p>
+      </div>
+      
+      <div class="highlight-box">
+        <strong>💡 发展趋势：</strong>随着UHF RFID技术成熟和成本下降，RFID无源测温在电力行业的应用越来越广泛，特别适合难以供电的场合。
+      </div>
+    </div>
+  </div>
+
+  <!-- 热电偶/热电阻 -->
+  <div class="section">
+    <h2>⚪ 传统测温方式</h2>
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-icon">⚪</span>
+        <span class="method-title">热电偶/热电阻（PT100）</span>
+        <span class="method-badge warn">有线</span>
+      </div>
+      <p>最传统的温度测量方式，基于热电效应或电阻温度效应。精度高、稳定性好，但需要布线，在高压场合绝缘处理困难。</p>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>✓ 优点</h4>
+          <ul>
+            <li>精度极高（±0.1℃）</li>
+            <li>稳定性好，长期可靠</li>
+            <li>成本低</li>
+            <li>技术成熟</li>
+            <li>测温范围宽</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>✗ 缺点</h4>
+          <ul>
+            <li>需要布线</li>
+            <li>高压绝缘困难</li>
+            <li>易受电磁干扰</li>
+            <li>安装复杂</li>
+            <li>不适合移动设备</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="app-scene">
+        <h4>🎯 典型应用场景</h4>
+        <p><strong>变压器油温监测：</strong>PT100传感器安装在变压器油箱内，监测顶层油温，配合温控器控制冷却系统。</p>
+        <p><strong>实验室测试：</strong>高精度温度测量和校准。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 选型建议 -->
+  <div class="section">
+    <h2>🎯 选型建议</h2>
+    
+    <h3>按应用场景推荐</h3>
+    <table>
+      <tr>
+        <th>应用场景</th>
+        <th>推荐技术</th>
+        <th>理由</th>
+      </tr>
+      <tr>
+        <td>开关柜触头/母排</td>
+        <td>RFID无源 / 光纤</td>
+        <td>高压绝缘、免维护</td>
+      </tr>
+      <tr>
+        <td>变压器绕组</td>
+        <td>光纤 / 热电阻</td>
+        <td>精度高、绝缘好</td>
+      </tr>
+      <tr>
+        <td>电缆接头</td>
+        <td>无线有源 / 光纤</td>
+        <td>安装方便、实时监测</td>
+      </tr>
+      <tr>
+        <td>电缆隧道</td>
+        <td>分布式光纤</td>
+        <td>长距离连续监测</td>
+      </tr>
+      <tr>
+        <td>日常巡检</td>
+        <td>红外热成像</td>
+        <td>非接触、快速扫描</td>
+      </tr>
+      <tr>
+        <td>配电房环境</td>
+        <td>无线有源</td>
+        <td>成本低、组网方便</td>
+      </tr>
+    </table>
+    
+    <h3>选型决策树</h3>
+    <div class="highlight-box">
+      <p><strong>1. 是否需要实时在线监测？</strong></p>
+      <p>→ 否：选择红外测温（巡检）</p>
+      <p>→ 是：继续下一步</p>
+      <br>
+      <p><strong>2. 是否有高压绝缘要求（>10kV）？</strong></p>
+      <p>→ 是：选择光纤测温或RFID无源</p>
+      <p>→ 否：继续下一步</p>
+      <br>
+      <p><strong>3. 是否能接受定期更换电池？</strong></p>
+      <p>→ 能：选择无线有源测温</p>
+      <p>→ 不能：选择RFID无源测温</p>
+    </div>
+  </div>
+
+  <!-- 发展趋势 -->
+  <div class="section">
+    <h2>📈 发展趋势</h2>
+    <div class="compare-grid">
+      <div class="compare-item">
+        <h4>🔄 多技术融合</h4>
+        <ul>
+          <li>红外+可见光双光谱成像</li>
+          <li>无线+能量收集自供电</li>
+          <li>光纤+无线混合组网</li>
+        </ul>
+      </div>
+      <div class="compare-item">
+        <h4>🤖 智能化分析</h4>
+        <ul>
+          <li>AI温度趋势预测</li>
+          <li>故障模式自动识别</li>
+          <li>数字孪生温度场仿真</li>
+        </ul>
+      </div>
+      <div class="compare-item">
+        <h4>📡 无线化普及</h4>
+        <ul>
+          <li>5G/LoRa广域覆盖</li>
+          <li>自组网Mesh技术</li>
+          <li>低功耗广域物联网</li>
+        </ul>
+      </div>
+      <div class="compare-item">
+        <h4>🔋 无源化趋势</h4>
+        <ul>
+          <li>RFID技术成熟</li>
+          <li>能量收集技术突破</li>
+          <li>终身免维护传感器</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回监测技术</a> · <a href="../../../index.html">返回首页</a></p>
+</footer>
+
+</body>
+</html>
