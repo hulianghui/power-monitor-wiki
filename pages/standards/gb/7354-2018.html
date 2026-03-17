@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <局部放电测量>局部放电测量 - 电力在线监测知识库</局部放电测量>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;transition:color 0.2s;}
+    nav a:hover{color:var(--accent);}
+    .container{max-width:900px;margin:0 auto;padding:2rem;}
+    .breadcrumb{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;}
+    .breadcrumb a{color:var(--accent);text-decoration:none;}
+    .std-header{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+    .std-code{font-family:'Consolas',monospace;font-size:0.85rem;font-weight:700;padding:0.3rem 0.8rem;border-radius:6px;display:inline-block;margin-bottom:1rem;}
+    .std-局部放电测量{font-size:1.8rem;font-weight:800;margin-bottom:0.8rem;line-height:1.3;}
+    .std-level{display:inline-block;font-size:0.75rem;padding:0.25rem 0.6rem;border-radius:4px;margin-right:0.8rem;}
+    .section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;}
+    .section h2{font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:var(--accent);}
+    .section p,.section li{color:var(--text);line-height:1.7;font-size:0.95rem;}
+    .section ul{margin-left:1.5rem;}
+    .section li{margin-bottom:0.5rem;}
+    .tag-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem;}
+    .tag{background:rgba(255,255,255,0.05);padding:0.3rem 0.7rem;border-radius:6px;font-size:0.8rem;color:var(--muted);}
+    .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem;}
+    .info-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;}
+    .info-label{color:var(--muted);font-size:0.8rem;margin-bottom:0.3rem;}
+    .info-value{font-weight:600;}
+    .source-link{display:flex;align-items:center;gap:0.8rem;background:rgba(0,180,255,0.05);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);transition:border-color 0.2s;margin-bottom:0.8rem;}
+    .source-link:hover{border-color:var(--accent);}
+    .source-link .link-icon{font-size:1.4rem;flex-shrink:0;}
+    .source-link .link-info .link-局部放电测量{font-weight:600;font-size:0.95rem;color:var(--accent);}
+    .source-link .link-info .link-desc{font-size:0.8rem;color:var(--muted);margin-top:2px;}
+    .no-link{background:rgba(255,170,0,0.08);border:1px solid rgba(255,170,0,0.25);border-radius:10px;padding:1rem 1.2rem;color:#ffaa00;font-size:0.9rem;line-height:1.7;}
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav><a href="../../index.html">首页</a><a href="../index.html">← 返回技术规范</a></nav>
+</header>
+<div class="container">
+  <div class="breadcrumb"><a href="../../index.html">首页</a> / <a href="../index.html">技术规范</a> / GB/T 7354-2018</div>
+  <div class="std-header">
+    <span class="std-code" style="background:rgba(0,229,160,0.15);color:#00e5a0">GB/T 7354-2018</span>
+    <div><span class="std-level" style="background:rgba(0,229,160,0.15);color:#00e5a0">GB/T 国家标准</span></div>
+    <h1 class="std-局部放电测量">STD局部放电测量</h1>
+    <div class="tag-row"><span class='tag'>局部放电</span><span class='tag'>pC</span><span class='tag'>绝缘</span></div>
+  </div>
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">发布部门</div><div class="info-value">国家市场监督管理总局</div></div>
+    <div class="info-item"><div class="info-label">发布日期</div><div class="info-value">2018年</div></div>
+    <div class="info-item"><div class="info-label">实施日期</div><div class="info-value">2019年</div></div>
+    <div class="info-item"><div class="info-label">状态</div><div class="info-value">现行</div></div>
+  </div>
+  <div class="section"><h2>📥 官方查看 / 下载</h2><div class="no-link">⚠️ 暂未在公开平台查到本标准直达链接，建议前往 <a href="https://hbba.sacinfo.org.cn" target="_blank" style="color:#ffaa00;">行业标准信息服务平台</a> 搜索查阅。</div></div>
+  <div class='section'><h2>📋 标准简介</h2><ul>
+      <li>本标准规定了电气设备局部放电试验的测量方法、仪器要求和评定标准，是局部放电检测的基础性国家标准。</li>
+    </ul></div><div class='section'><h2>📌 主要测量参数</h2><ul>
+      <li>视在放电量 q：单位 pC（皮库），反映放电强度</li>
+      <li>放电重复率 n：单位次/秒，反映放电频繁程度</li>
+      <li>放电相位分布 φ：放电发生的工频相位角</li>
+      <li>放电功率 P：单位 mW，反映放电能量</li>
+    </ul></div><div class='section'><h2>🔍 典型设备注意值</h2><ul>
+      <li>电力变压器：视在放电量 ≤500 pC</li>
+      <li>GIS/气体绝缘设备：视在放电量 ≤100 pC</li>
+      <li>电力电缆：视在放电量 ≤20 pC</li>
+      <li>互感器：视在放电量 ≤50 pC</li>
+    </ul></div><div class='section'><h2>💡 测量注意事项</h2><ul>
+      <li>测量前需对仪器进行校准，注入已知电荷量</li>
+      <li>测量环境应尽量减少外部干扰</li>
+      <li>区分内部放电与外部干扰信号</li>
+      <li>记录放电波形和相位分布图谱</li>
+    </ul></div>
+</div>
+<footer><p>⚡ 电力在线监测知识库 · <a href="../index.html" style="color:var(--accent);text-decoration:none;">返回技术规范</a></p></footer>
+</body>
+</html>
