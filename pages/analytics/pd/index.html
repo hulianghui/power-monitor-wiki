@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>局放数据分析 - 电力在线监测知识库</title>
+  <title>Partial Discharge Data Analysis - Power Monitoring Wiki</title>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <style>
     :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
@@ -15,696 +15,169 @@
     nav{display:flex;gap:1.5rem;align-items:center;}
     nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
     nav a:hover{color:var(--accent);}
-    
     .hero{padding:3rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(170,100,255,0.08) 0%,transparent 70%);}
     .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
     .hero h1 em{font-style:normal;color:var(--accent);}
-    .hero p{color:var(--muted);font-size:0.95rem;max-width:700px;margin:0 auto;}
-    
     .container{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;}
-    
     .level-nav{display:flex;gap:0.5rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap;}
     .level-btn{padding:0.5rem 1.2rem;border-radius:20px;font-size:0.85rem;text-decoration:none;transition:all 0.2s;border:1px solid var(--border);background:var(--card);color:var(--muted);}
     .level-btn:hover{border-color:var(--accent);color:var(--accent);}
-    .level-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
-    
     .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
-    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
-    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;}
     .section p{color:var(--text);margin-bottom:0.8rem;}
-    
-    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
-    .highlight-box.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
-    
     table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
     th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
-    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
-    
-    .pd-pattern{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:1.5rem 0;}
-    .pattern-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;}
-    .pattern-card h4{color:var(--accent);font-size:0.9rem;margin-bottom:0.5rem;}
-    .pattern-card p{color:var(--muted);font-size:0.8rem;}
-    .pattern-icon{font-size:2rem;margin-bottom:0.5rem;}
-    @media(max-width:768px){.pd-pattern{grid-template-columns:repeat(2,1fr);}}
-    
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1rem 0;}
-    @media(max-width:768px){.grid-2{grid-template-columns:1fr;}}
-    
-    .case-box{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:1.5rem;margin:1rem 0;}
-    .case-box h4{color:var(--accent2);margin-bottom:0.5rem;}
-    
+    th{background:rgba(0,180,255,0.08);color:var(--accent);}
+    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .chart-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;margin:0.5rem 0;}
+    .chart-3d{height:240px;}
+    .chart-title{text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;}
     footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
     footer a{color:var(--accent);text-decoration:none;}
   </style>
 </head>
 <body>
 <header>
-  <a class="logo" href="../../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <a class="logo" href="../../../index.html">&#9889; <span>Power Monitoring Wiki</span></a>
   <nav>
-    <a href="../index.html">← 数据分析</a>
-    <a href="../../../index.html">首页</a>
+    <a href="../index.html">&#8592; Analytics</a>
+    <a href="../../../index.html">Home</a>
   </nav>
 </header>
 
 <div class="hero">
-  <h1>⚡ 局放数据<em>分析</em></h1>
-  <p>从局放图谱解读到PRPD/PRPS分析，从放电类型识别到三维可视化，掌握绝缘状态评估方法</p>
+  <h1>&#9889; PD Data Analysis</h1>
+  <p>Learn PRPD/PRPS pattern analysis, discharge type recognition, and visualization techniques</p>
 </div>
 
 <div class="container">
   
   <div class="level-nav">
-    <a href="#basic" class="level-btn active">📚 科普入门</a>
-    <a href="#professional" class="level-btn">🔬 专业方法</a>
-    <a href="#visual" class="level-btn">📊 可视化</a>
+    <a href="#basic" class="level-btn">&#128218; Basics</a>
+    <a href="#professional" class="level-btn">&#128300; Professional</a>
+    <a href="#visual" class="level-btn">&#128202; Visualization</a>
   </div>
 
-  <!-- ==================== 科普部分 ==================== -->
   <div class="section" id="basic">
-    <h2>📚 科普入门：局放图谱怎么看</h2>
+    <h2>&#128218; Basics: Understanding PD Patterns</h2>
+    <h3>What is Partial Discharge?</h3>
+    <p>Partial Discharge (PD) is a localized discharge in insulation system that does not bridge the entire insulation. Although single discharge energy is small, long-term accumulation leads to insulation deterioration and eventual breakdown.</p>
     
-    <h3>什么是局部放电？</h3>
-    <p>局部放电（Partial Discharge, PD）是电气设备绝缘系统中<strong>局部区域的放电</strong>，尚未贯穿整个绝缘。虽然单次放电能量很小，但长期积累会导致绝缘劣化，最终引发击穿事故。</p>
-    
-    <h3>局放图谱的基本形态</h3>
-    <p>局放信号通常用工频周期的相位来表征，形成<strong>PRPD图谱</strong>（Phase-Resolved Partial Discharge）。</p>
-    
-    <div class="pd-pattern">
-      <div class="pattern-card">
-        <div class="pattern-icon">🔵</div>
-        <h4>内部放电</h4>
-        <p>对称分布在正负半周，相位稳定</p>
-      </div>
-      <div class="pattern-card">
-        <div class="pattern-icon">🟡</div>
-        <h4>表面放电</h4>
-        <p>集中在正半周或负半周某一侧</p>
-      </div>
-      <div class="pattern-card">
-        <div class="pattern-icon">🔴</div>
-        <h4>电晕放电</h4>
-        <p>单极性，相位固定</p>
-      </div>
-      <div class="pattern-card">
-        <div class="pattern-icon">⚪</div>
-        <h4>悬浮放电</h4>
-        <p>相位漂移，脉冲密集</p>
-      </div>
-    </div>
-    
-    <h3>关键参数解读</h3>
+    <h3>Basic PRPD Pattern Types</h3>
     <table>
-      <tr>
-        <th>参数</th>
-        <th>含义</th>
-        <th>关注点</th>
-      </tr>
-      <tr>
-        <td>放电量（pC）</td>
-        <td>单次放电强度</td>
-        <td>是否超过注意值</td>
-      </tr>
-      <tr>
-        <td>放电次数</td>
-        <td>单位时间放电次数</td>
-        <td>放电频繁程度</td>
-      </tr>
-      <tr>
-        <td>放电相位</td>
-        <td>放电发生时的工频相位</td>
-        <td>判断放电类型</td>
-      </tr>
-      <tr>
-        <td>放电谱图</td>
-        <td>相位-幅值-次数三维分布</td>
-        <td>指纹特征识别</td>
-      </tr>
+      <tr><th>Type</th><th>Phase Feature</th><th>Amplitude</th><th>Typical Cause</th></tr>
+      <tr><td>Internal Discharge</td><td>Symmetric in 0-90 and 180-270 deg</td><td>Concentrated</td><td>Void, delamination</td></tr>
+      <tr><td>Surface Discharge</td><td>Concentrated in one phase region</td><td>High dispersion</td><td>Surface contamination</td></tr>
+      <tr><td>Corona Discharge</td><td>Fixed at 90 or 270 deg</td><td>Stable</td><td>Sharp points, burrs</td></tr>
+      <tr><td>Floating Discharge</td><td>Phase drift, no fixed region</td><td>High dispersion</td><td>Poor grounding</td></tr>
     </table>
-    
-    <div class="highlight-box warn">
-      <strong>⚠️ 注意：</strong>局放检测受环境噪声干扰严重，常见干扰源包括：开关操作、无线电信号、电焊、电机启动等。需结合<strong>频域滤波</strong>、<strong>时域开窗</strong>、<strong>脉冲识别</strong>等方法抑制干扰。
-    </div>
   </div>
 
-  <!-- ==================== 专业部分 ==================== -->
   <div class="section" id="professional">
-    <h2>🔬 专业方法：图谱识别与诊断</h2>
+    <h2>&#128300; Professional: Analysis Methods</h2>
+    <h3>1. PRPD Pattern Analysis</h3>
+    <p>Phase-Resolved Partial Discharge (PRPD) displays discharge pulses distributed by power frequency phase.</p>
     
-    <h3>1. PRPD图谱分析</h3>
-    <p>PRPD（相位分辨局部放电）是最常用的局放分析方法，将放电脉冲按工频相位分布统计。</p>
+    <h3>2. PRPS Pattern Analysis</h3>
+    <p>Phase-Resolved Pulse Sequence adds time dimension to observe discharge sequence characteristics.</p>
     
-    <div class="grid-2">
-      <div class="highlight-box">
-        <strong>📊 PRPD图谱构成：</strong><br>
-        • X轴：工频相位（0°~360°）<br>
-        • Y轴：放电幅值（mV或pC）<br>
-        • 颜色/大小：放电次数密度<br>
-        • 形态：点云、柱状、热力图
-      </div>
-      <div class="highlight-box">
-        <strong>🔍 分析要点：</strong><br>
-        • 放电相位区间宽度<br>
-        • 正负半周对称性<br>
-        • 放电幅值分布范围<br>
-        • 放电次数密度分布
-      </div>
-    </div>
-    
-    <h3>2. PRPS图谱分析</h3>
-    <p>PRPS（Phase-Resolved Pulse Sequence）在PRPD基础上增加时间维度，可观察放电序列特征。</p>
-    
-    <h3>3. 典型放电类型特征</h3>
+    <h3>3. Typical Discharge Features</h3>
     <table>
-      <tr>
-        <th>放电类型</th>
-        <th>相位特征</th>
-        <th>幅值特征</th>
-        <th>典型原因</th>
-      </tr>
-      <tr>
-        <td>内部放电</td>
-        <td>对称分布于0°~90°和180°~270°</td>
-        <td>幅值分散性小</td>
-        <td>绝缘内部气隙、分层</td>
-      </tr>
-      <tr>
-        <td>表面放电</td>
-        <td>集中于某一相位区间</td>
-        <td>幅值变化大</td>
-        <td>绝缘表面污秽、爬电</td>
-      </tr>
-      <tr>
-        <td>电晕放电</td>
-        <td>集中在峰值附近（90°或270°）</td>
-        <td>幅值稳定</td>
-        <td>导体尖角、毛刺</td>
-      </tr>
-      <tr>
-        <td>悬浮放电</td>
-        <td>相位不稳定，漂移</td>
-        <td>幅值分散性大</td>
-        <td>金属部件接地不良</td>
-      </tr>
-      <tr>
-        <td>颗粒放电</td>
-        <td>随机分布，无明显规律</td>
-        <td>幅值变化剧烈</td>
-        <td>GIS内自由金属颗粒</td>
-      </tr>
+      <tr><th>Type</th><th>Phase Distribution</th><th>Amplitude Distribution</th><th>Pattern Shape</th></tr>
+      <tr><td>Internal</td><td>Symmetric 0-90 / 180-270</td><td>High concentration</td><td>Two symmetric bands</td></tr>
+      <tr><td>Surface</td><td>0-45 or 180-225</td><td>High dispersion</td><td>Asymmetric single side</td></tr>
+      <tr><td>Corona</td><td>Fixed near 90/270</td><td>Stable</td><td>Two sharp peaks</td></tr>
+      <tr><td>Floating</td><td>Phase drift</td><td>Very high dispersion</td><td>Wide scatter</td></tr>
     </table>
     
-    <h3>4. 局放定位方法</h3>
-    <p>多个传感器联合检测，可定位放电源位置。</p>
-    
-    <div class="highlight-box">
-      <strong>📍 常用定位方法：</strong><br>
-      • <strong>时差法：</strong>根据信号到达不同传感器的时间差定位<br>
-      • <strong>幅值法：</strong>距离放电源越近信号越强<br>
-      • <strong>平分面法：</strong>利用传感器阵列构建定位区域<br>
-      • <strong>声电联合：</strong>结合超声波和电信号提高定位精度
-    </div>
-    
-    <h3>5. 严重程度评估</h3>
+    <h3>4. Severity Assessment</h3>
     <table>
-      <tr>
-        <th>评估指标</th>
-        <th>正常</th>
-        <th>注意</th>
-        <th>异常</th>
-      </tr>
-      <tr>
-        <td>最大放电量</td>
-        <td>< 100 pC</td>
-        <td>100 ~ 500 pC</td>
-        <td>> 500 pC</td>
-      </tr>
-      <tr>
-        <td>放电次数/周期</td>
-        <td>< 10</td>
-        <td>10 ~ 50</td>
-        <td>> 50</td>
-      </tr>
-      <tr>
-        <td>放电增长率</td>
-        <td>稳定</td>
-        <td>缓慢增长</td>
-        <td>快速增长</td>
-      </tr>
+      <tr><th>Indicator</th><th>Normal</th><th>Attention</th><th>Abnormal</th></tr>
+      <tr><td>Max Discharge (pC)</td><td>< 100</td><td>100-500</td><td>> 500</td></tr>
+      <tr><td>Discharge Count/cycle</td><td>< 10</td><td>10-50</td><td>> 50</td></tr>
     </table>
   </div>
 
-  <!-- ==================== 可视化部分 ==================== -->
   <div class="section" id="visual">
-    <h2>📊 可视化：局放数据展示</h2>
+    <h2>&#128202; Visualization: 3D PRPD Patterns</h2>
     
-    <h3>1. PRPD散点图 - 不同放电类型图谱</h3>
-    <p>每个放电脉冲用一个点表示，直观显示放电分布。以下是四种典型放电类型的PRPD图谱模拟：</p>
+    <h3>1. Four Typical PD Types (3D PRPD)</h3>
+    <p>X-axis: Phase (0-360deg), Y-axis: Amplitude (mV), Z-axis: Count</p>
     
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1rem 0;">
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
-        <div id="internalChart" style="width:100%;height:200px;"></div>
-        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">内部放电（气隙）</p>
-      </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
-        <div id="surfaceChart" style="width:100%;height:200px;"></div>
-        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">表面放电</p>
-      </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
-        <div id="coronaChart" style="width:100%;height:200px;"></div>
-        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">电晕放电</p>
-      </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
-        <div id="floatingChart" style="width:100%;height:200px;"></div>
-        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">悬浮放电</p>
-      </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;">
+      <div class="chart-box chart-3d"><div id="internalChart" style="width:100%;height:200px;"></div><div class="chart-title">Internal Discharge (Void)</div></div>
+      <div class="chart-box chart-3d"><div id="surfaceChart" style="width:100%;height:200px;"></div><div class="chart-title">Surface Discharge</div></div>
+      <div class="chart-box chart-3d"><div id="coronaChart" style="width:100%;height:200px;"></div><div class="chart-title">Corona Discharge</div></div>
+      <div class="chart-box chart-3d"><div id="floatingChart" style="width:100%;height:200px;"></div><div class="chart-title">Floating Discharge</div></div>
     </div>
     
-    <h3>2. PRPD图谱特征解读</h3>
-    <table>
-      <tr>
-        <th>放电类型</th>
-        <th>相位分布特征</th>
-        <th>幅值分布</th>
-        <th>图谱形态</th>
-      </tr>
-      <tr>
-        <td>内部放电</td>
-        <td>对称分布于0°~90°和180°~270°</td>
-        <td>集中度高</td>
-        <td>两个对称的"带状"区域</td>
-      </tr>
-      <tr>
-        <td>表面放电</td>
-        <td>集中于0°~45°或180°~225°</td>
-        <td>分散性大</td>
-        <td>单侧或双侧不对称分布</td>
-      </tr>
-      <tr>
-        <td>电晕放电</td>
-        <td>固定在90°或270°附近</td>
-        <td>稳定</td>
-        <td>两个尖锐的"峰"</td>
-      </tr>
-      <tr>
-        <td>悬浮放电</td>
-        <td>相位漂移，无固定区域</td>
-        <td>分散性极大</td>
-        <td>散点密集，覆盖范围广</td>
-      </tr>
-    </table>
-    
-    <h3>3. 实际PRPD案例图谱</h3>
-    <p>以下是实际检测案例的PRPD图谱：</p>
-    
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1rem 0;">
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:240px;">
-        <div id="case1Chart" style="width:100%;height:200px;"></div>
-        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">案例1：GIS气隙放电</p>
-      </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:240px;">
-        <div id="case2Chart" style="width:100%;height:200px;"></div>
-        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">案例2：变压器表面放电</p>
-      </div>
+    <h3>2. Real Case PRPD Patterns</h3>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;">
+      <div class="chart-box chart-3d"><div id="case1Chart" style="width:100%;height:200px;"></div><div class="chart-title">Case1: GIS Void Discharge</div></div>
+      <div class="chart-box chart-3d"><div id="case2Chart" style="width:100%;height:200px;"></div><div class="chart-title">Case2: Transformer Surface PD</div></div>
     </div>
     
-    <h3>4. 放电发展趋势监测</h3>
-    <p>跟踪放电量、放电次数随时间的变化趋势：</p>
-    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;margin:1rem 0;">
-      <div id="trendChart" style="width:100%;height:280px;"></div>
-    </div>
+    <h3>3. Trend Monitoring</h3>
+    <div class="chart-box"><div id="trendChart" style="width:100%;height:250px;"></div></div>
     
-    <h3>5. 多通道对比图</h3>
-    <p>对比不同测点的局放信号，辅助定位：</p>
-    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;margin:1rem 0;">
-      <div id="multiChannelChart" style="width:100%;height:220px;"></div>
-    </div>
-    
-    <div class="highlight-box">
-      <strong>🎨 可视化设计建议：</strong><br>
-      • 使用不同颜色区分放电类型（自动识别结果）<br>
-      • 标注关注阈值和警戒线<br>
-      • 支持历史数据叠加对比<br>
-      • 提供图谱缩放、平移功能<br>
-      • 实时更新模式与静态回放模式
-    </div>
-  </div>
-
-  <!-- ==================== 案例 ==================== -->
-  <div class="section">
-    <h2>🔧 典型诊断案例</h2>
-    
-    <div class="case-box">
-      <h4>案例1：GIS绝缘子气隙放电</h4>
-      <p><strong>现象：</strong>某220kV GIS局放监测发现异常信号</p>
-      <p><strong>图谱特征：</strong></p>
-      <p>• PRPD图谱显示对称分布于正负半周</p>
-      <p>• 相位区间：30°~80°和210°~260°</p>
-      <p>• 放电量约800pC</p>
-      <p><strong>诊断：</strong>内部气隙放电</p>
-      <p><strong>验证：</strong>解体检修发现绝缘子内部存在制造缺陷气隙</p>
-    </div>
-    
-    <div class="case-box">
-      <h4>案例2：变压器套管表面放电</h4>
-      <p><strong>现象：</strong>变压器局放监测告警</p>
-      <p><strong>图谱特征：</strong></p>
-      <p>• 放电集中在正半周</p>
-      <p>• 相位区间：60°~120°</p>
-      <p>• 放电幅值分散性大</p>
-      <p><strong>诊断：</strong>表面放电</p>
-      <p><strong>原因：</strong>套管表面污秽严重，导致沿面放电</p>
-      <p><strong>处理：</strong>清扫套管表面，放电消失</p>
-    </div>
-  </div>
-
-  <!-- ==================== 检测方法详解 ==================== -->
-  <div class="section">
-    <h2>📡 局放检测方法详解</h2>
-    
-    <h3>1. 特高频检测（UHF）</h3>
-    <p>检测局放产生的300MHz~3GHz特高频电磁波信号。</p>
-    
-    <table>
-      <tr>
-        <th>优点</th>
-        <th>缺点</th>
-        <th>适用场景</th>
-      </tr>
-      <tr>
-        <td>灵敏度高</td>
-        <td>易受外部干扰</td>
-        <td>GIS、变压器</td>
-      </tr>
-      <tr>
-        <td>抗低频干扰</td>
-        <td>传感器价格高</td>
-        <td>开关柜</td>
-      </tr>
-      <tr>
-        <td>可实现定位</td>
-        <td>需屏蔽处理</td>
-        <td>电缆</td>
-      </tr>
-    </table>
-    
-    <h3>2. 超声波检测（AE）</h3>
-    <p>检测局放产生的20kHz~100kHz超声波信号。</p>
-    
-    <div class="highlight-box">
-      <strong>🔊 超声波检测特点：</strong><br>
-      • 非接触检测，安全便捷<br>
-      • 对电弧放电敏感<br>
-      • 传播衰减大，检测距离有限<br>
-      • 背景噪声小，信号纯净
-    </div>
-    
-    <h3>3. 高频电流检测（HFCT）</h3>
-    <p>通过铁芯传感器检测接地线中的高频放电电流。</p>
-    
-    <div class="highlight-box">
-      <strong>⚡ HFCT检测要点：</strong><br>
-      • 传感器套在接地线上<br>
-      • 检测频段：3MHz~30MHz<br>
-      • 适合变压器、电缆<br>
-      • 需注意接地方式
-    </div>
-    
-    <h3>4. 脉冲电流检测</h3>
-    <p>直接测量试品两端的放电电流脉冲。</p>
-    <p>优点：可定量校准；缺点：需停电接线</p>
-  </div>
-
-  <!-- ==================== 干扰识别 ==================== -->
-  <div class="section">
-    <h2>🚫 干扰识别与抑制</h2>
-    
-    <h3>常见干扰源</h3>
-    <table>
-      <tr>
-        <th>干扰类型</th>
-        <th>频率特征</th>
-        <th>识别方法</th>
-      </tr>
-      <tr>
-        <td>无线电干扰</td>
-        <td>高频持续</td>
-        <td>频率分析</td>
-      </tr>
-      <tr>
-        <td>开关操作</td>
-        <td>宽频瞬时</td>
-        <td>时域同步</td>
-      </tr>
-      <tr>
-        <td>电焊干扰</td>
-        <td>周期性</td>
-        <td>波形特征</td>
-      </tr>
-      <tr>
-        <td>电机启动</td>
-        <td>低频周期性</td>
-        <td>负载关联</td>
-      </tr>
-      <tr>
-        <td>接触不良</td>
-        <td>随机脉冲</td>
-        <td>多源对比</td>
-      </tr>
-    </table>
-    
-    <h3>干扰抑制技术</h3>
-    <div class="grid-2">
-      <div class="highlight-box">
-        <strong>🔧硬件方法</strong><br>
-        • 滤波器的使用<br>
-        • 屏蔽层接地<br>
-        • 传感器布置优化<br>
-        • 接地良好
-      </div>
-      <div class="highlight-box">
-        <strong>🔧软件方法</strong><br>
-        • 数字滤波<br>
-        • 小波去噪<br>
-        • 时域开窗<br>
-        • 相位筛选
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== 标准规范 ==================== -->
-  <div class="section">
-    <h2>📜 相关标准规范</h2>
-    
-    <table>
-      <tr>
-        <th>标准编号</th>
-        <th>标准名称</th>
-        <th>适用范围</th>
-      </tr>
-      <tr>
-        <td>GB/T 7354-2018</td>
-        <td>局部放电测量</td>
-        <td>通用方法</td>
-      </tr>
-      <tr>
-        <td>DL/T 417-2006</td>
-        <td>电力设备局部放电现场测量导则</td>
-        <td>现场检测</td>
-      </tr>
-      <tr>
-        <td>DL/T 846.4-2016</td>
-        <td>局部放电检测仪</td>
-        <td>检测仪器</td>
-      </tr>
-      <tr>
-        <td>GB/T 1094.3-2017</td>
-        <td>电力变压器绝缘水平和绝缘试验</td>
-        <td>变压器</td>
-      </tr>
-      <tr>
-        <td>DL/T 846.3-2016</td>
-        <td>振荡波局部放电检测仪</td>
-        <td>电缆检测</td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- ==================== AI应用 ==================== -->
-  <div class="section">
-    <h2>🤖 人工智能在局放分析中的应用</h2>
-    
-    <h3>智能图谱识别</h3>
-    <div class="highlight-box">
-      <strong>🤖 深度学习应用：</strong><br>
-      • CNN：PRPD图谱图像分类<br>
-      • ResNet：深层特征提取<br>
-      • GAN：图谱数据增强<br>
-      • 目标检测：放电点定位
-    </div>
-    
-    <h3>放电类型自动分类</h3>
-    <table>
-      <tr>
-        <th>输入特征</th>
-        <th>输出结果</th>
-        <th>典型方法</th>
-      </tr>
-      <tr>
-        <td>PRPD图谱图像</td>
-        <td>放电类型标签</td>
-        <td>CNN分类</td>
-      </tr>
-      <tr>
-        <td>多参数特征</td>
-        <td>严重程度等级</td>
-        <td>随机森林</td>
-      </tr>
-      <tr>
-        <td>时序放电序列</td>
-        <td>发展趋势预测</td>
-        <td>LSTM</td>
-      </tr>
-      <tr>
-        <td>多传感器数据</td>
-        <td>综合诊断结果</td>
-        <td>多模态融合</td>
-      </tr>
-    </table>
-    
-    <h3>发展趋势预测</h3>
-    <div class="formula">
-      预测模型输入：历史放电量 + 放电次数 + 时间 + 工况<br>
-      输出：未来N天的放电发展趋势<br>
-      目标：提前预警，避免故障
-    </div>
+    <h3>4. Multi-Channel Comparison</h3>
+    <div class="chart-box"><div id="multiChannelChart" style="width:100%;height:200px;"></div></div>
   </div>
 
 </div>
 
 <footer>
-  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回数据分析</a> · <a href="../../../index.html">返回首页</a></p>
+  <p>&#9889; Power Monitoring Wiki - <a href="../index.html">Back to Analytics</a></p>
 </footer>
 
 <script>
-// 内部放电PRPD - 3D散点图，对称分布在正负半周
-const internalX = [], internalY = [], internalZ = [];
-for(let i=0;i<150;i++){
-  const half = Math.random()>0.5;
-  internalX.push(half ? Math.random()*90 : 180 + Math.random()*90);
-  internalY.push(30 + Math.random()*60);
-  internalZ.push(Math.floor(Math.random()*20) + 1);
-}
-Plotly.newPlot('internalChart', [{
-  x: internalX, y: internalY, z: internalZ,
-  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: internalZ, colorscale: 'Blues', opacity: 0.8 }
-}], {
-  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,25]} },
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
-}, {responsive: true});
+// Internal discharge - symmetric in pos/neg half cycle
+var ix=[], iy=[], iz=[];
+for(var i=0;i<150;i++){ ix.push(Math.random()>0.5?Math.random()*90:180+Math.random()*90); iy.push(30+Math.random()*60); iz.push(Math.floor(Math.random()*20)+1); }
+Plotly.newPlot('internalChart', [{x:ix,y:iy,z:iz,mode:'markers',type:'scatter3d',marker:{size:4,color:iz,colorscale:'Blues',opacity:0.8}}], 
+{scene:{xaxis:{title:'Phase(deg)',range:[0,360]},yaxis:{title:'Amp(mV)',range:[0,120]},zaxis:{title:'Count',range:[0,25]}},paper_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},margin:{l:0,r:0,t:0,b:0}},{responsive:true});
 
-// 表面放电PRPD - 不对称，单侧集中
-const surfaceX = [], surfaceY = [], surfaceZ = [];
-for(let i=0;i<120;i++){
-  const half = Math.random()>0.35;
-  surfaceX.push(half ? Math.random()*40 + 180 : Math.random()*40);
-  surfaceY.push(20 + Math.random()*70);
-  surfaceZ.push(Math.floor(Math.random()*15) + 1);
-}
-Plotly.newPlot('surfaceChart', [{
-  x: surfaceX, y: surfaceY, z: surfaceZ,
-  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: surfaceZ, colorscale: 'Oranges', opacity: 0.8 }
-}], {
-  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,20]} },
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
-}, {responsive: true});
+// Surface discharge - asymmetric
+var sx=[], sy=[], sz=[];
+for(var i=0;i<120;i++){ sx.push(Math.random()>0.35?(180+Math.random()*40):Math.random()*40); sy.push(20+Math.random()*70); sz.push(Math.floor(Math.random()*15)+1); }
+Plotly.newPlot('surfaceChart', [{x:sx,y:sy,z:sz,mode:'markers',type:'scatter3d',marker:{size:4,color:sz,colorscale:'Oranges',opacity:0.8}}], 
+{scene:{xaxis:{title:'Phase(deg)',range:[0,360]},yaxis:{title:'Amp(mV)',range:[0,120]},zaxis:{title:'Count',range:[0,20]}},paper_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},margin:{l:0,r:0,t:0,b:0}},{responsive:true});
 
-// 电晕放电PRPD - 固定在90°和270°附近
-const coronaX = [], coronaY = [], coronaZ = [];
-for(let i=0;i<80;i++){
-  const peak = Math.random()>0.5 ? 90 : 270;
-  coronaX.push(peak + (Math.random()-0.5)*25);
-  coronaY.push(40 + Math.random()*40);
-  coronaZ.push(Math.floor(Math.random()*12) + 1);
-}
-Plotly.newPlot('coronaChart', [{
-  x: coronaX, y: coronaY, z: coronaZ,
-  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: coronaZ, colorscale: 'Reds', opacity: 0.8 }
-}], {
-  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,15]} },
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
-}, {responsive: true});
+// Corona - fixed at 90/270
+var cx=[], cy=[], cz=[];
+for(var i=0;i<80;i++){ var peak=Math.random()>0.5?90:270; cx.push(peak+(Math.random()-0.5)*25); cy.push(40+Math.random()*40); cz.push(Math.floor(Math.random()*12)+1); }
+Plotly.newPlot('coronaChart', [{x:cx,y:cy,z:cz,mode:'markers',type:'scatter3d',marker:{size:4,color:cz,colorscale:'Reds',opacity:0.8}}], 
+{scene:{xaxis:{title:'Phase(deg)',range:[0,360]},yaxis:{title:'Amp(mV)',range:[0,120]},zaxis:{title:'Count',range:[0,15]}},paper_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},margin:{l:0,r:0,t:0,b:0}},{responsive:true});
 
-// 悬浮放电PRPD - 相位漂移，分散性大
-const floatingX = [], floatingY = [], floatingZ = [];
-for(let i=0;i<180;i++){
-  floatingX.push(Math.random()*360);
-  floatingY.push(15 + Math.random()*85);
-  floatingZ.push(Math.floor(Math.random()*10) + 1);
-}
-Plotly.newPlot('floatingChart', [{
-  x: floatingX, y: floatingY, z: floatingZ,
-  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: floatingZ, colorscale: 'Viridis', opacity: 0.8 }
-}], {
-  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,12]} },
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
-}, {responsive: true});
+// Floating - wide scatter
+var fx=[], fy=[], fz=[];
+for(var i=0;i<180;i++){ fx.push(Math.random()*360); fy.push(15+Math.random()*85); fz.push(Math.floor(Math.random()*10)+1); }
+Plotly.newPlot('floatingChart', [{x:fx,y:fy,z:fz,mode:'markers',type:'scatter3d',marker:{size:4,color:fz,colorscale:'Viridis',opacity:0.8}}], 
+{scene:{xaxis:{title:'Phase(deg)',range:[0,360]},yaxis:{title:'Amp(mV)',range:[0,120]},zaxis:{title:'Count',range:[0,12]}},paper_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},margin:{l:0,r:0,t:0,b:0}},{responsive:true});
 
-// 案例1：GIS气隙放电
-const case1X = [], case1Y = [], case1Z = [];
-for(let i=0;i<130;i++){
-  const half = Math.random()>0.5;
-  case1X.push(half ? 30 + Math.random()*55 : 210 + Math.random()*55);
-  case1Y.push(50 + Math.random()*60);
-  case1Z.push(Math.floor(Math.random()*18) + 1);
-}
-Plotly.newPlot('case1Chart', [{
-  x: case1X, y: case1Y, z: case1Z,
-  mode: 'markers', type: 'scatter3d', marker: { size: 5, color: case1Z, colorscale: [[0,'#00b4ff'],[1,'#ff6464']], opacity: 0.85 }
-}], {
-  title: { text: '内部气隙放电：对称双峰', font: { color: '#d0e8ff', size: 12 } },
-  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,150]}, zaxis:{title:'次数'} },
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:30,b:0}
-}, {responsive: true});
+// Case1: GIS void
+var c1x=[], c1y=[], c1z=[];
+for(var i=0;i<130;i++){ c1x.push(Math.random()>0.5?(30+Math.random()*55):(210+Math.random()*55)); c1y.push(50+Math.random()*60); c1z.push(Math.floor(Math.random()*18)+1); }
+Plotly.newPlot('case1Chart', [{x:c1x,y:c1y,z:c1z,mode:'markers',type:'scatter3d',marker:{size:5,color:c1z,colorscale:[[0,'#00b4ff'],[1,'#ff6464']],opacity:0.85}}], 
+{title:{text:'Void Discharge: Symmetric Peaks',font:{color:'#d0e8ff',size:12}},scene:{xaxis:{title:'Phase(deg)',range:[0,360]},yaxis:{title:'Amp(mV)',range:[0,150]},zaxis:{title:'Count'}},paper_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},margin:{l:0,r:0,t:30,b:0}},{responsive:true});
 
-// 案例2：变压器表面放电
-const case2X = [], case2Y = [], case2Z = [];
-for(let i=0;i<100;i++){
-  const half = Math.random()>0.38;
-  case2X.push(half ? 180 + Math.random()*30 : Math.random()*30);
-  case2Y.push(20 + Math.random()*65);
-  case2Z.push(Math.floor(Math.random()*12) + 1);
-}
-Plotly.newPlot('case2Chart', [{
-  x: case2X, y: case2Y, z: case2Z,
-  mode: 'markers', type: 'scatter3d', marker: { size: 5, color: case2Z, colorscale: [[0,'#00b4ff'],[1,'#ffaa00']], opacity: 0.85 }
-}], {
-  title: { text: '表面放电：单侧密集', font: { color: '#d0e8ff', size: 12 } },
-  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,150]}, zaxis:{title:'次数'} },
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:30,b:0}
-}, {responsive: true});
+// Case2: Surface
+var c2x=[], c2y=[], c2z=[];
+for(var i=0;i<100;i++){ c2x.push(Math.random()>0.38?(180+Math.random()*30):Math.random()*30); c2y.push(20+Math.random()*65); c2z.push(Math.floor(Math.random()*12)+1); }
+Plotly.newPlot('case2Chart', [{x:c2x,y:c2y,z:c2z,mode:'markers',type:'scatter3d',marker:{size:5,color:c2z,colorscale:[[0,'#00b4ff'],[1,'#ffaa00']],opacity:0.85}}], 
+{title:{text:'Surface Discharge: Single Side Dense',font:{color:'#d0e8ff',size:12}},scene:{xaxis:{title:'Phase(deg)',range:[0,360]},yaxis:{title:'Amp(mV)',range:[0,150]},zaxis:{title:'Count'}},paper_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},margin:{l:0,r:0,t:30,b:0}},{responsive:true});
 
-// 趋势监测图 - 使用Plotly
+// Trend
 Plotly.newPlot('trendChart', [
-  { x: ['1月','2月','3月','4月','5月','6月','7月','8月'], y: [120,135,150,180,220,350,520,780], type: 'scatter', mode: 'lines+markers', name: '最大放电量(pC)', line: {color:'#ff6464',width:2}, fill: 'tozeroy', fillcolor: 'rgba(255,100,100,0.15)' },
-  { x: ['1月','2月','3月','4月','5月','6月','7月','8月'], y: [8,10,15,25,40,65,120,200], type: 'scatter', mode: 'lines+markers', name: '放电次数', line: {color:'#ffaa00',width:2} },
-  { x: ['1月','2月','3月','4月','5月','6月','7月','8月'], y: [500,500,500,500,500,500,500,500], type: 'scatter', mode: 'lines', name: '预警阈值', line: {color:'#ff6464',width:1,dash:'dash'} }
-], {
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' },
-  xaxis: { gridcolor: 'rgba(255,255,255,0.1)', title: '时间' },
-  yaxis: { gridcolor: 'rgba(255,255,255,0.1)', title: '数值' },
-  legend: { orientation: 'h', y: 1.1 }
-}, {responsive: true});
+{x:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],y:[120,135,150,180,220,350,520,780],type:'scatter',mode:'lines+markers',name:'Max PD(pC)',line:{color:'#ff6464',width:2},fill:'tozeroy',fillcolor:'rgba(255,100,100,0.15)'},
+{x:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],y:[8,10,15,25,40,65,120,200],type:'scatter',mode:'lines+markers',name:'Count',line:{color:'#ffaa00',width:2}},
+{x:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],y:[500,500,500,500,500,500,500,500],type:'scatter',mode:'lines',name:'Threshold',line:{color:'#ff6464',width:1,dash:'dash'}}
+],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},xaxis:{gridcolor:'rgba(255,255,255,0.1)'},yaxis:{gridcolor:'rgba(255,255,255,0.1)'},legend:{orientation:'h',y:1.1}},{responsive:true});
 
-// 多通道对比图
-Plotly.newPlot('multiChannelChart', [{
-  x: ['通道1','通道2','通道3','通道4','通道5','通道6'],
-  y: [520,180,85,45,320,120],
-  type: 'bar', marker: { color: ['#ff6464','#00b4ff','#00b4ff','#00b4ff','#ffaa00','#00b4ff'] }
-}], {
-  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' },
-  xaxis: { gridcolor: 'rgba(255,255,255,0.1)' },
-  yaxis: { gridcolor: 'rgba(255,255,255,0.1)', title: '放电量(pC)' }
-}, {responsive: true});
+// Multi-channel
+Plotly.newPlot('multiChannelChart', [{x:['Ch1','Ch2','Ch3','Ch4','Ch5','Ch6'],y:[520,180,85,45,320,120],type:'bar',marker:{color:['#ff6464','#00b4ff','#00b4ff','#00b4ff','#ffaa00','#00b4ff']}}],
+{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:'#d0e8ff'},xaxis:{gridcolor:'rgba(255,255,255,0.1)'},yaxis:{gridcolor:'rgba(255,255,255,0.1)',title:'PD(pC)'}}},{responsive:true});
 </script>
 
 </body>
