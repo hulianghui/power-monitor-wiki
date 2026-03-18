@@ -57,6 +57,8 @@
     .case-box{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:1.5rem;margin:1rem 0;}
     .case-box h4{color:var(--accent2);margin-bottom:0.5rem;}
     
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1rem 0;}
+    @media(max-width:768px){.grid-2{grid-template-columns:1fr;}}
     footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
     footer a{color:var(--accent);text-decoration:none;}
   </style>
@@ -306,7 +308,7 @@
     </div>
   </div>
 
-  <!-- ==================== 实践案例 ==================== -->
+  <!-- ==================== 案例 ==================== -->
   <div class="section">
     <h2>🔧 实践案例</h2>
     
@@ -326,6 +328,215 @@
       <p><strong>方法：</strong>使用LSTM模型预测触头温度</p>
       <p><strong>效果：</strong>提前2小时预警，准确率达92%</p>
       <p><strong>关键特征：</strong>历史温度、负载电流、环境温度</p>
+    </div>
+  </div>
+
+  <!-- ==================== 扩展：行业标准 ==================== -->
+  <div class="section">
+    <h2>📜 相关标准规范</h2>
+    
+    <table>
+      <tr>
+        <th>标准编号</th>
+        <th>标准名称</th>
+        <th>适用范围</th>
+      </tr>
+      <tr>
+        <td>DL/T 664-2008</td>
+        <td>带电设备红外诊断应用规范</td>
+        <td>红外测温诊断</td>
+      </tr>
+      <tr>
+        <td>GB/T 11022-2011</td>
+        <td>高压开关设备和控制设备标准的共用技术要求</td>
+        <td>开关设备温度限值</td>
+      </tr>
+      <tr>
+        <td>DL/T 572-2021</td>
+        <td>电力变压器运行规程</td>
+        <td>变压器温度管理</td>
+      </tr>
+      <tr>
+        <td>GB/T 7252-2001</td>
+        <td>变压器油中溶解气体分析和判断导则</td>
+        <td>油色谱分析</td>
+      </tr>
+      <tr>
+        <td>JB/T 8450-2006</td>
+        <td>变压器用绕组温度计</td>
+        <td>温度测量</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ==================== 扩展：传感器选型 ==================== -->
+  <div class="section">
+    <h2>🔧 传感器选型与数据质量</h2>
+    
+    <h3>测温传感器性能对比</h3>
+    <table>
+      <tr>
+        <th>传感器类型</th>
+        <th>测温范围</th>
+        <th>精度</th>
+        <th>响应时间</th>
+        <th>特点</th>
+      </tr>
+      <tr>
+        <td>PT100热电阻</td>
+        <td>-200~850℃</td>
+        <td>±0.1℃</td>
+        <td>秒级</td>
+        <td>精度高，需布线</td>
+      </tr>
+      <tr>
+        <td>热电偶K型</td>
+        <td>-200~1300℃</td>
+        <td>±0.5℃</td>
+        <td>毫秒级</td>
+        <td>耐高温，响应快</td>
+      </tr>
+      <tr>
+        <td>红外热电堆</td>
+        <td>-20~300℃</td>
+        <td>±1℃</td>
+        <td>毫秒级</td>
+        <td>非接触，安装方便</td>
+      </tr>
+      <tr>
+        <td>光纤光栅FBG</td>
+        <td>-40~300℃</td>
+        <td>±0.5℃</td>
+        <td>毫秒级</td>
+        <td>抗电磁干扰，绝缘好</td>
+      </tr>
+      <tr>
+        <td>RFID无源</td>
+        <td>-40~125℃</td>
+        <td>±0.5℃</td>
+        <td>秒级</td>
+        <td>免电池，免维护</td>
+      </tr>
+    </table>
+    
+    <h3>数据质量影响因素</h3>
+    <div class="highlight-box">
+      <strong>⚠️ 数据质量常见问题：</strong><br>
+      • <strong>传感器漂移：</strong>长期运行后精度下降，需定期校准<br>
+      • <strong>接触不良：</strong>安装工艺问题导致测温不准<br>
+      • <strong>环境影响：</strong>环境温度、湿度、电磁干扰<br>
+      • <strong>数据缺失：</strong>通信故障导致数据丢失<br>
+      • <strong>异常值：</strong>突变数据需识别和处理
+    </div>
+    
+    <h3>数据预处理方法</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">缺失值处理</div>
+          <div class="step-desc">线性插值、均值填充、插值算法</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">异常值检测</div>
+          <div class="step-desc">3σ原则、IQR方法、箱线图</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">数据平滑</div>
+          <div class="step-desc">移动平均、卡尔曼滤波、Savitzky-Golay滤波</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">归一化处理</div>
+          <div class="step-desc">Min-Max归一化、Z-Score标准化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 扩展：AI应用 ==================== -->
+  <div class="section">
+    <h2>🤖 人工智能在温度分析中的应用</h2>
+    
+    <h3>典型应用场景</h3>
+    <div class="grid-2">
+      <div class="highlight-box">
+        <strong>📈 温度预测</strong><br>
+        • LSTM/GRU时序预测<br>
+        • Transformer时间序列<br>
+        • 提前预判温度趋势<br>
+        • 支撑预防性维护决策
+      </div>
+      <div class="highlight-box">
+        <strong>🔍 异常检测</strong><br>
+        • 自编码器异常识别<br>
+        • 孤立森林异常检测<br>
+        • One-Class SVM<br>
+        • 无监督发现故障模式
+      </div>
+    </div>
+    
+    <h3>特征工程</h3>
+    <table>
+      <tr>
+        <th>特征类型</th>
+        <th>特征名称</th>
+        <th>计算方法</th>
+      </tr>
+      <tr>
+        <td rowspan="3">时域特征</td>
+        <td>均值、标准差</td>
+        <td>统计计算</td>
+      </tr>
+      <tr>
+        <td>最大值、最小值</td>
+        <td>统计计算</td>
+      </tr>
+      <tr>
+        <td>斜度、峰度</td>
+        <td>高阶矩计算</td>
+      </tr>
+      <tr>
+        <td rowspan="3">趋势特征</td>
+        <td>一阶差分</td>
+        <td>ΔT = T(n) - T(n-1)</td>
+      </tr>
+      <tr>
+        <td>温升速率</td>
+        <td>ΔT/Δt</td>
+      </tr>
+      <tr>
+        <td>趋势斜率</td>
+        <td>线性回归系数</td>
+      </tr>
+      <tr>
+        <td rowspan="3">周期特征</td>
+        <td>日周期性</td>
+        <td>FFT提取周期</td>
+      </tr>
+      <tr>
+        <td>周周期性</td>
+        <td>工作日/休息日模式</td>
+      </tr>
+      <tr>
+        <td>负载相关性</td>
+        <td>与电流的相关系数</td>
+      </tr>
+    </table>
+    
+    <h3>模型评估指标</h3>
+    <div class="formula">
+      MAE = (1/N) × Σ|T_actual - T_predicted|  （平均绝对误差）<br>
+      RMSE = √[(1/N) × Σ(T_actual - T_predicted)²]  （均方根误差）<br>
+      MAPE = (1/N) × Σ|T_actual - T_predicted| / T_actual × 100%  （平均百分比误差）
     </div>
   </div>
 

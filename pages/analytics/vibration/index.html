@@ -313,6 +313,177 @@
     </div>
   </div>
 
+  <!-- ==================== 行业标准 ==================== -->
+  <div class="section">
+    <h2>📜 相关标准规范</h2>
+    
+    <table>
+      <tr>
+        <th>标准编号</th>
+        <th>标准名称</th>
+        <th>适用范围</th>
+      </tr>
+      <tr>
+        <td>GB/T 6075.1-2015</td>
+        <td>机械振动评价标准</td>
+        <td>旋转机械振动评价</td>
+      </tr>
+      <tr>
+        <td>GB/T 11348.1-2010</td>
+        <td>旋转机械轴部位振动测量</td>
+        <td>轴振动的测量方法</td>
+      </tr>
+      <tr>
+        <td>DL/T 1432-2015</td>
+        <td>变压器振动监测技术导则</td>
+        <td>变压器振动监测</td>
+      </tr>
+      <tr>
+        <td>JB/T 10667-2006</td>
+        <td>往复式机器振动分级</td>
+        <td>往复机械振动</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ==================== 传感器技术 ==================== -->
+  <div class="section">
+    <h2>🔧 振动传感器技术</h2>
+    
+    <h3>传感器类型对比</h3>
+    <table>
+      <tr>
+        <th>传感器类型</th>
+        <th>测量参数</th>
+        <th>频率范围</th>
+        <th>特点</th>
+      </tr>
+      <tr>
+        <td>压电加速度传感器</td>
+        <td>加速度</td>
+        <td>0.2Hz~20kHz</td>
+        <td>灵敏度高，频响宽</td>
+      </tr>
+      <tr>
+        <td>IEPE加速度传感器</td>
+        <td>加速度</td>
+        <td>0.5Hz~10kHz</td>
+        <td>内置电荷放大器</td>
+      </tr>
+      <tr>
+        <td>MEMS加速度传感器</td>
+        <td>加速度</td>
+        <td>0~500Hz</td>
+        <td>体积小，成本低</td>
+      </tr>
+      <tr>
+        <td>电涡流位移传感器</td>
+        <td>位移</td>
+        <td>0~10kHz</td>
+        <td>非接触，需校准</td>
+      </tr>
+      <tr>
+        <td>速度传感器</td>
+        <td>速度</td>
+        <td>10Hz~1kHz</td>
+        <td>低频特性好</td>
+      </tr>
+    </table>
+    
+    <h3>安装方式</h3>
+    <div class="highlight-box">
+      <strong>📍 传感器安装要点：</strong><br>
+      • <strong>安装位置：</strong>选择最能反映设备振动的位置，通常在轴承座上<br>
+      • <strong>安装方向：</strong>通常垂直、水平两个方向安装<br>
+      • <strong>固定方式：</strong>螺纹连接、磁座、粘接，需保证接触紧密<br>
+      • <strong>布线要求：</strong>远离强电线缆，减少电磁干扰
+    </div>
+  </div>
+
+  <!-- ==================== 信号处理 ==================== -->
+  <div class="section">
+    <h2>📡 振动信号处理技术</h2>
+    
+    <h3>时频分析</h3>
+    <p>对于非平稳信号（如启停机过程），需要时频分析方法来同时展示信号的频率和时间特征。</p>
+    
+    <div class="grid-2">
+      <div class="highlight-box">
+        <strong>🔬 STFT（短时傅里叶变换）</strong><br>
+        将信号分成小段，分别做FFT<br>
+        优点：计算简单，结果直观<br>
+        缺点：时间分辨率和频率分辨率相互制约
+      </div>
+      <div class="highlight-box">
+        <strong>🔬 小波变换</strong><br>
+        多尺度时频分析<br>
+        优点：自适应窗口，高频时间分辨率高<br>
+        缺点：计算量较大
+      </div>
+    </div>
+    
+    <div class="highlight-box">
+      <strong>🔬 Wigner-Ville分布</strong><br>
+      二次时频分布，交叉项问题需处理<br>
+      优点：时频聚集性好，适合非线性信号<br>
+      缺点：交叉项干扰
+    </div>
+    
+    <h3>阶次分析</h3>
+    <p>适用于变速设备的振动分析，将信号从时域映射到阶次域。</p>
+    
+    <div class="formula">
+      阶次 = 频率 / 基频转速<br>
+      <br>
+      优点：消除转速波动影响，适合启停机分析
+    </div>
+  </div>
+
+  <!-- ==================== AI应用 ==================== -->
+  <div class="section">
+    <h2>🤖 人工智能在振动分析中的应用</h2>
+    
+    <h3>智能故障诊断</h3>
+    <table>
+      <tr>
+        <th>方法</th>
+        <th>原理</th>
+        <th>适用场景</th>
+      </tr>
+      <tr>
+        <td>CNN卷积神经网络</td>
+        <td>图像识别，直接处理频谱图</td>
+        <td>故障分类</td>
+      </tr>
+      <tr>
+        <td>RNN/LSTM</td>
+        <td>时序建模，处理振动波形</td>
+        <td>趋势预测</td>
+      </tr>
+      <tr>
+        <td>Transformer</td>
+        <td>注意力机制，捕捉长时依赖</td>
+        <td>复杂故障模式</td>
+      </tr>
+      <tr>
+        <td>迁移学习</td>
+        <td>预训练模型微调</td>
+        <td>样本不足时</td>
+      </tr>
+    </table>
+    
+    <h3>特征自动提取</h3>
+    <div class="highlight-box">
+      <strong>🤖 自动特征提取流程：</strong><br>
+      1. 原始振动信号 → 预处理（滤波去噪）<br>
+      2. → 频谱/包络谱计算<br>
+      3. → 深度学习自动提取特征<br>
+      4. → 分类器输出诊断结果<br>
+      <br>
+      优势：无需人工设计特征端，减少专家依赖
+    </div>
+  </div>
+
 </div>
 
 <footer>

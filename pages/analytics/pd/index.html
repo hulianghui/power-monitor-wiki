@@ -309,6 +309,208 @@
     </div>
   </div>
 
+  <!-- ==================== 检测方法详解 ==================== -->
+  <div class="section">
+    <h2>📡 局放检测方法详解</h2>
+    
+    <h3>1. 特高频检测（UHF）</h3>
+    <p>检测局放产生的300MHz~3GHz特高频电磁波信号。</p>
+    
+    <table>
+      <tr>
+        <th>优点</th>
+        <th>缺点</th>
+        <th>适用场景</th>
+      </tr>
+      <tr>
+        <td>灵敏度高</td>
+        <td>易受外部干扰</td>
+        <td>GIS、变压器</td>
+      </tr>
+      <tr>
+        <td>抗低频干扰</td>
+        <td>传感器价格高</td>
+        <td>开关柜</td>
+      </tr>
+      <tr>
+        <td>可实现定位</td>
+        <td>需屏蔽处理</td>
+        <td>电缆</td>
+      </tr>
+    </table>
+    
+    <h3>2. 超声波检测（AE）</h3>
+    <p>检测局放产生的20kHz~100kHz超声波信号。</p>
+    
+    <div class="highlight-box">
+      <strong>🔊 超声波检测特点：</strong><br>
+      • 非接触检测，安全便捷<br>
+      • 对电弧放电敏感<br>
+      • 传播衰减大，检测距离有限<br>
+      • 背景噪声小，信号纯净
+    </div>
+    
+    <h3>3. 高频电流检测（HFCT）</h3>
+    <p>通过铁芯传感器检测接地线中的高频放电电流。</p>
+    
+    <div class="highlight-box">
+      <strong>⚡ HFCT检测要点：</strong><br>
+      • 传感器套在接地线上<br>
+      • 检测频段：3MHz~30MHz<br>
+      • 适合变压器、电缆<br>
+      • 需注意接地方式
+    </div>
+    
+    <h3>4. 脉冲电流检测</h3>
+    <p>直接测量试品两端的放电电流脉冲。</p>
+    <p>优点：可定量校准；缺点：需停电接线</p>
+  </div>
+
+  <!-- ==================== 干扰识别 ==================== -->
+  <div class="section">
+    <h2>🚫 干扰识别与抑制</h2>
+    
+    <h3>常见干扰源</h3>
+    <table>
+      <tr>
+        <th>干扰类型</th>
+        <th>频率特征</th>
+        <th>识别方法</th>
+      </tr>
+      <tr>
+        <td>无线电干扰</td>
+        <td>高频持续</td>
+        <td>频率分析</td>
+      </tr>
+      <tr>
+        <td>开关操作</td>
+        <td>宽频瞬时</td>
+        <td>时域同步</td>
+      </tr>
+      <tr>
+        <td>电焊干扰</td>
+        <td>周期性</td>
+        <td>波形特征</td>
+      </tr>
+      <tr>
+        <td>电机启动</td>
+        <td>低频周期性</td>
+        <td>负载关联</td>
+      </tr>
+      <tr>
+        <td>接触不良</td>
+        <td>随机脉冲</td>
+        <td>多源对比</td>
+      </tr>
+    </table>
+    
+    <h3>干扰抑制技术</h3>
+    <div class="grid-2">
+      <div class="highlight-box">
+        <strong>🔧硬件方法</strong><br>
+        • 滤波器的使用<br>
+        • 屏蔽层接地<br>
+        • 传感器布置优化<br>
+        • 接地良好
+      </div>
+      <div class="highlight-box">
+        <strong>🔧软件方法</strong><br>
+        • 数字滤波<br>
+        • 小波去噪<br>
+        • 时域开窗<br>
+        • 相位筛选
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 标准规范 ==================== -->
+  <div class="section">
+    <h2>📜 相关标准规范</h2>
+    
+    <table>
+      <tr>
+        <th>标准编号</th>
+        <th>标准名称</th>
+        <th>适用范围</th>
+      </tr>
+      <tr>
+        <td>GB/T 7354-2018</td>
+        <td>局部放电测量</td>
+        <td>通用方法</td>
+      </tr>
+      <tr>
+        <td>DL/T 417-2006</td>
+        <td>电力设备局部放电现场测量导则</td>
+        <td>现场检测</td>
+      </tr>
+      <tr>
+        <td>DL/T 846.4-2016</td>
+        <td>局部放电检测仪</td>
+        <td>检测仪器</td>
+      </tr>
+      <tr>
+        <td>GB/T 1094.3-2017</td>
+        <td>电力变压器绝缘水平和绝缘试验</td>
+        <td>变压器</td>
+      </tr>
+      <tr>
+        <td>DL/T 846.3-2016</td>
+        <td>振荡波局部放电检测仪</td>
+        <td>电缆检测</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ==================== AI应用 ==================== -->
+  <div class="section">
+    <h2>🤖 人工智能在局放分析中的应用</h2>
+    
+    <h3>智能图谱识别</h3>
+    <div class="highlight-box">
+      <strong>🤖 深度学习应用：</strong><br>
+      • CNN：PRPD图谱图像分类<br>
+      • ResNet：深层特征提取<br>
+      • GAN：图谱数据增强<br>
+      • 目标检测：放电点定位
+    </div>
+    
+    <h3>放电类型自动分类</h3>
+    <table>
+      <tr>
+        <th>输入特征</th>
+        <th>输出结果</th>
+        <th>典型方法</th>
+      </tr>
+      <tr>
+        <td>PRPD图谱图像</td>
+        <td>放电类型标签</td>
+        <td>CNN分类</td>
+      </tr>
+      <tr>
+        <td>多参数特征</td>
+        <td>严重程度等级</td>
+        <td>随机森林</td>
+      </tr>
+      <tr>
+        <td>时序放电序列</td>
+        <td>发展趋势预测</td>
+        <td>LSTM</td>
+      </tr>
+      <tr>
+        <td>多传感器数据</td>
+        <td>综合诊断结果</td>
+        <td>多模态融合</td>
+      </tr>
+    </table>
+    
+    <h3>发展趋势预测</h3>
+    <div class="formula">
+      预测模型输入：历史放电量 + 放电次数 + 时间 + 工况<br>
+      输出：未来N天的放电发展趋势<br>
+      目标：提前预警，避免故障
+    </div>
+  </div>
+
 </div>
 
 <footer>
