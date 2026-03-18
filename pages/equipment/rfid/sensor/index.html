@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RFID温度标签传感器 - 电力在线监测知识库</title>
   <style>
-    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99; }
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00; }
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
     header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
@@ -14,190 +14,301 @@
     nav{display:flex;gap:1.5rem;align-items:center;}
     nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
     nav a:hover{color:var(--accent);}
-    
-    .hero{padding:3rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,0.1) 0%,transparent 70%);}
+    .hero{padding:3rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,160,0.1) 0%,transparent 70%);}
     .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
-    .hero h1 em{font-style:normal;color:var(--accent);}
-    
+    .hero h1 em{font-style:normal;color:var(--accent2);}
+    .hero p{color:var(--muted);font-size:0.95rem;max-width:700px;margin:0 auto;}
     .container{max-width:1000px;margin:0 auto;padding:0 2rem 3rem;}
-    
     .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
-    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
-    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
     .section p{color:var(--text);margin-bottom:0.8rem;}
-    
     table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
-    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
-    th{background:rgba(0,180,255,0.08);color:var(--accent);}
-    
-    .highlight{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
-    
-    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1rem 0;}
+    th,td{padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
+    tr:hover{background:rgba(255,255,255,0.02);}
+    .highlight{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .highlight.blue{background:rgba(0,180,255,0.08);border-color:rgba(0,180,255,0.2);}
+    .highlight.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
+    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0;}
     .spec-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
-    .spec-card h4{color:var(--accent);margin-bottom:0.5rem;font-size:0.95rem;}
+    .spec-card h4{color:var(--accent2);margin-bottom:0.6rem;font-size:0.95rem;font-weight:600;}
     .spec-card ul{margin-left:1rem;color:var(--muted);font-size:0.85rem;}
-    .spec-card li{margin-bottom:0.3rem;}
-    
+    .spec-card li{margin-bottom:0.35rem;}
+    .badge{display:inline-block;background:rgba(0,229,160,0.15);color:var(--accent2);border:1px solid rgba(0,229,160,0.3);padding:0.2rem 0.7rem;border-radius:20px;font-size:0.75rem;margin-right:0.4rem;}
+    .badge.blue{background:rgba(0,180,255,0.15);color:var(--accent);border-color:rgba(0,180,255,0.3);}
     footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
     footer a{color:var(--accent);text-decoration:none;}
   </style>
 </head>
 <body>
 <header>
-  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <a class="logo" href="../../../../index.html">&#9889; <span>电力在线监测知识库</span></a>
   <nav>
-    <a href="index.html">← RFID模块</a>
-    <a href="../../index.html">首页</a>
+    <a href="../index.html">← RFID模块</a>
+    <a href="../../../../index.html">首页</a>
   </nav>
 </header>
 
 <div class="hero">
-  <h1>🏷️ RFID<em>温度标签传感器</em></h1>
+  <h1>🏷️ 温度标签<em>传感器</em></h1>
+  <p>基于悦和 LTU 系列专用测温芯片的 RFID 无源温度标签，专为电力设备高压测温场景设计</p>
 </div>
 
 <div class="container">
-  
-  <div class="section">
-    <h2>📋 标签概述</h2>
-    <p>RFID温度标签是无源无线测温系统的核心传感元件，集成天线、芯片和温度传感器，无需电池供电，通过接收读写器发射的射频能量实现温度测量和数据传输。</p>
-  </div>
 
+  <!-- 核心芯片 -->
   <div class="section">
-    <h2>🔬 工作原理</h2>
-    <h3>能量获取与温度测量</h3>
+    <h2>🔬 核心芯片：悦和 LTU 系列</h2>
+    <p>悦和科技自主研发的 <strong>LTU 系列测温芯片</strong>是专为电力设备无源无线测温场景设计的专用芯片，集成 RFID 通信、温度传感、能量管理于一体，无需外部电池即可完成温度采集与数据传输。</p>
+
     <div class="highlight">
-      <strong>📊 工作流程：</strong><br>
-      1. <strong>能量收集：</strong>标签天线接收读写器发射的UHF射频信号（902-928MHz）<br>
-      2. <strong>整流稳压：</strong>整流电路将射频能量转换为直流电，为芯片供电<br>
-      3. <strong>温度传感：</strong>内置温度传感器（通常为NTC或数字温度传感器）测量温度<br>
-      4. <strong>数据调制：</strong>将温度数据通过反向散射调制传回读写器
+      <strong>🌟 LTU 系列核心特性：</strong><br>
+      • 工作频率：902-928MHz（UHF 超高频）<br>
+      • 内置高精度温度传感器，无需外部 NTC<br>
+      • 超低功耗设计，射频能量即可驱动<br>
+      • 支持 EPC Gen2 / ISO 18000-6C 标准协议<br>
+      • 工业级宽温设计，适应恶劣环境
     </div>
-    
-    <h3>关键芯片方案</h3>
+
+    <h3>LTU 系列型号对比</h3>
     <table>
-      <tr><th>芯片方案</th><th>特点</th><th>典型应用</th></tr>
-      <tr><td>Monza R6</td><td>灵敏度-20dBm，标准EPC Gen2</td><td>通用标签</td></tr>
-      <tr><td>MR6-P</td><td>支持温度传感，低功耗</td><td>测温标签</td></tr>
-      <tr><td>SL3S1003</td><td>NXP方案，稳定可靠</td><td>工业标签</td></tr>
-      <tr><td>UCODE 8</td><td>读取距离远，内存大</td><td>高端应用</td></tr>
+      <tr>
+        <th>型号</th>
+        <th>测温范围</th>
+        <th>精度</th>
+        <th>读取距离</th>
+        <th>适用场景</th>
+      </tr>
+      <tr>
+        <td><strong>LTU-01</strong></td>
+        <td>-40°C ~ +85°C</td>
+        <td>±1°C</td>
+        <td>0.5-1.5m</td>
+        <td>低压开关柜、配电箱</td>
+      </tr>
+      <tr>
+        <td><strong>LTU-02</strong></td>
+        <td>-40°C ~ +125°C</td>
+        <td>±0.5°C</td>
+        <td>0.5-2m</td>
+        <td>中压开关柜触头、母排</td>
+      </tr>
+      <tr>
+        <td><strong>LTU-03H</strong></td>
+        <td>-40°C ~ +150°C</td>
+        <td>±0.5°C</td>
+        <td>0.5-2m</td>
+        <td>高温场合、变压器绕组</td>
+      </tr>
+      <tr>
+        <td><strong>LTU-04M</strong></td>
+        <td>-40°C ~ +125°C</td>
+        <td>±0.3°C</td>
+        <td>0.5-3m</td>
+        <td>高精度场合、计量设备</td>
+      </tr>
+    </table>
+
+    <h3>芯片内部结构</h3>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>📡 射频前端</h4>
+        <ul>
+          <li>UHF 天线接口</li>
+          <li>整流器（RF → DC）</li>
+          <li>稳压电路</li>
+          <li>反向散射调制器</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🌡️ 温度传感</h4>
+        <ul>
+          <li>内置 CMOS 温度传感器</li>
+          <li>12-bit ADC 采样</li>
+          <li>温度补偿电路</li>
+          <li>出厂校准</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>💾 存储与控制</h4>
+        <ul>
+          <li>EPC 存储区（96bit）</li>
+          <li>用户存储区（512bit）</li>
+          <li>温度历史记录</li>
+          <li>防碰撞算法</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>⚡ 能量管理</h4>
+        <ul>
+          <li>超低启动功耗</li>
+          <li>动态功耗调节</li>
+          <li>欠压保护</li>
+          <li>无需外部电容</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 标签产品 -->
+  <div class="section">
+    <h2>🏷️ 标签产品规格</h2>
+    <p>基于 LTU 系列芯片封装的温度标签产品，针对电力设备不同安装场景提供多种规格。</p>
+
+    <h3>标准型温度标签</h3>
+    <table>
+      <tr><th>参数</th><th>规格</th></tr>
+      <tr><td>芯片型号</td><td>悦和 LTU-02</td></tr>
+      <tr><td>外形尺寸</td><td>50mm × 20mm × 5mm</td></tr>
+      <tr><td>天线类型</td><td>PCB 偶极子天线</td></tr>
+      <tr><td>测温范围</td><td>-40°C ~ +125°C</td></tr>
+      <tr><td>测温精度</td><td>±0.5°C</td></tr>
+      <tr><td>读取距离</td><td>0.5-2m（视读写器功率）</td></tr>
+      <tr><td>工作频率</td><td>902-928MHz</td></tr>
+      <tr><td>防护等级</td><td>IP67</td></tr>
+      <tr><td>使用寿命</td><td>≥10年（无电池）</td></tr>
+      <tr><td>安装方式</td><td>螺栓固定 / 粘贴</td></tr>
+    </table>
+
+    <h3>抗金属型温度标签</h3>
+    <p>专为金属表面安装设计，采用陶瓷基材隔离金属干扰，适用于开关柜触头、母排等金属部件。</p>
+    <table>
+      <tr><th>参数</th><th>规格</th></tr>
+      <tr><td>芯片型号</td><td>悦和 LTU-02 / LTU-03H</td></tr>
+      <tr><td>外形尺寸</td><td>40mm × 15mm × 8mm</td></tr>
+      <tr><td>基材</td><td>高温陶瓷</td></tr>
+      <tr><td>测温范围</td><td>-40°C ~ +150°C</td></tr>
+      <tr><td>测温精度</td><td>±0.5°C</td></tr>
+      <tr><td>读取距离</td><td>0.3-1.5m（金属表面）</td></tr>
+      <tr><td>防护等级</td><td>IP68</td></tr>
+      <tr><td>安装方式</td><td>螺栓固定（M3/M4）</td></tr>
+    </table>
+
+    <h3>高精度型温度标签</h3>
+    <p>采用 LTU-04M 芯片，精度达 ±0.3°C，适用于计量设备、精密测温场合。</p>
+    <table>
+      <tr><th>参数</th><th>规格</th></tr>
+      <tr><td>芯片型号</td><td>悦和 LTU-04M</td></tr>
+      <tr><td>测温精度</td><td>±0.3°C</td></tr>
+      <tr><td>读取距离</td><td>0.5-3m</td></tr>
+      <tr><td>校准</td><td>出厂逐一校准，附校准证书</td></tr>
     </table>
   </div>
 
+  <!-- 安装方式 -->
   <div class="section">
-    <h2>📐 标签结构与封装</h2>
-    <h3>典型结构</h3>
+    <h2>🔧 安装方式</h2>
     <div class="spec-grid">
       <div class="spec-card">
-        <h4>🏗️ 芯片模块</h4>
+        <h4>🔩 螺栓固定（推荐）</h4>
         <ul>
-          <li>RFID芯片（存储ID和温度数据）</li>
-          <li>温度传感器（NTC/数字）</li>
-          <li>整流器电路</li>
-          <li>调制电路</li>
+          <li>M3/M4 螺栓固定</li>
+          <li>接触热阻最小</li>
+          <li>适用于触头、母排</li>
+          <li>牢固可靠，不易脱落</li>
         </ul>
       </div>
       <div class="spec-card">
-        <h4>📡 天线</h4>
+        <h4>🩹 导热胶粘贴</h4>
         <ul>
-          <li>偶极子天线</li>
-          <li>折纸天线</li>
-          <li>抗金属标签专用天线</li>
-          <li>定制PCB天线</li>
+          <li>高导热双面胶</li>
+          <li>安装快捷</li>
+          <li>适用于光滑平面</li>
+          <li>注意清洁表面</li>
         </ul>
       </div>
       <div class="spec-card">
-        <h4>🧤 封装</h4>
+        <h4>🔗 扎带捆绑</h4>
         <ul>
-          <li>PCB基材封装</li>
-          <li>陶瓷封装（耐高温）</li>
-          <li>塑料外壳封装</li>
-          <li>柔性基材封装</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>🔧 关键技术参数</h2>
-    <table>
-      <tr><th>参数</th><th>典型值</th><th>说明</th></tr>
-      <tr><td>工作频率</td><td>902-928MHz (UHF)</td><td>超高频段</td></tr>
-      <tr><td>读取距离</td><td>0.5-3m</td><td>视天线和读写器功率</td></tr>
-      <tr><td>测温范围</td><td>-40°C ~ +125°C</td><td>工业级NTC</td></tr>
-      <tr><td>测温精度</td><td>±0.5°C</td><td>典型值</td></tr>
-      <tr><td>响应时间</td><td>50-200ms</td><td>单次读取</td></tr>
-      <tr><td>使用寿命</td><td>10年+</td><td>理论无限（无电池）</td></tr>
-      <tr><td>存储容量</td><td>96bit EPC + 512bit User</td><td>可存储历史数据</td></tr>
-      <tr><td>防护等级</td><td>IP67可选</td><td>户外应用</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h2>🛠️ 安装方式</h2>
-    <div class="spec-grid">
-      <div class="spec-card">
-        <h4>🔩 螺栓固定</h4>
-        <ul>
-          <li>使用螺栓固定标签</li>
-          <li>适用于金属表面</li>
-          <li>牢固可靠</li>
-        </ul>
-      </div>
-      <div class="spec-card">
-        <h4>🩹 粘贴式</h4>
-        <ul>
-          <li>3M胶带粘贴</li>
-          <li>适用于光滑表面</li>
-          <li>安装便捷</li>
-        </ul>
-      </div>
-      <div class="spec-card">
-        <h4>🔗 捆绑式</h4>
-        <ul>
-          <li>扎带捆绑</li>
-          <li>适用于母排、电缆</li>
+          <li>耐高温尼龙扎带</li>
+          <li>适用于电缆、母排</li>
           <li>适应不规则表面</li>
+          <li>安装灵活</li>
         </ul>
       </div>
       <div class="spec-card">
-        <h4>🧲 磁吸式</h4>
+        <h4>🧲 磁吸固定</h4>
         <ul>
-          <li>强磁固定</li>
+          <li>强力钕铁硼磁铁</li>
           <li>适用于铁磁性表面</li>
-          <li>可重复安装</li>
+          <li>可重复拆装</li>
+          <li>适合临时测温</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight warn">
+      <strong>⚠️ 安装注意事项：</strong><br>
+      • 安装前清洁被测表面，去除油污和氧化层<br>
+      • 螺栓固定时涂抹导热硅脂，降低接触热阻<br>
+      • 标签天线方向应与读写器天线方向一致<br>
+      • 金属表面必须使用抗金属型标签<br>
+      • 安装后用读写器验证读取距离和温度数据
+    </div>
+  </div>
+
+  <!-- 技术优势 -->
+  <div class="section">
+    <h2>✅ LTU 系列技术优势</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>🔋 真正无源</h4>
+        <ul>
+          <li>无需任何电池</li>
+          <li>射频能量直接驱动</li>
+          <li>理论寿命无限</li>
+          <li>无需维护更换</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🎯 高精度</h4>
+        <ul>
+          <li>内置精密温度传感器</li>
+          <li>出厂逐一校准</li>
+          <li>精度 ±0.3~±0.5°C</li>
+          <li>长期稳定性好</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🛡️ 高可靠</h4>
+        <ul>
+          <li>工业级宽温设计</li>
+          <li>IP67/IP68 防护</li>
+          <li>抗振动冲击</li>
+          <li>耐腐蚀封装</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>⚡ 高压绝缘</h4>
+        <ul>
+          <li>无金属导线连接</li>
+          <li>射频无线传输</li>
+          <li>满足高压绝缘要求</li>
+          <li>适用 10kV 及以上</li>
         </ul>
       </div>
     </div>
   </div>
 
+  <!-- 选型建议 -->
   <div class="section">
-    <h2>⚠️ 抗金属标签</h2>
-    <p>普通RFID标签在金属表面会因电磁感应导致失效，需使用抗金属标签：</p>
+    <h2>🎯 选型建议</h2>
     <table>
-      <tr><th>类型</th><th>原理</th><th>特点</th></tr>
-      <tr><td>陶瓷封装</td><td>陶瓷介质隔离金属</td><td>耐高温，性能稳定</td></tr>
-      <tr><td>泡沫垫层</td><td>空气隔离层</td><td>成本低，厚度大</td></tr>
-      <tr><td>吸波材料</td><td>吸波材料吸收干扰</td><td>薄型化</td></tr>
-      <tr><td>离地天线</td><td>天线悬空设计</td><td>性能均衡</td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <h2>🏭 主流厂家</h2>
-    <table>
-      <tr><th>厂家</th><th>产品特点</th><th>备注</th></tr>
-      <tr><td>Alien</td><td>灵敏度极高</td><td>价格较高</td></tr>
-      <tr><td>Impinj</td><td>性能稳定</td><td>行业标准</td></tr>
-      <tr><td>NXP</td><td>芯片方案全</td><td>标签厂采购</td></tr>
-      <tr><td>Confidex</td><td>工业级耐用</td><td>适合恶劣环境</td></tr>
-      <tr><td>国产方案</td><td>成本优势</td><td>悦和等</td></tr>
+      <tr><th>应用场景</th><th>推荐型号</th><th>理由</th></tr>
+      <tr><td>10kV 开关柜触头</td><td>LTU-02 抗金属型</td><td>金属表面，中温范围</td></tr>
+      <tr><td>35kV 母排接头</td><td>LTU-02 抗金属型</td><td>高压绝缘，免维护</td></tr>
+      <tr><td>变压器绕组</td><td>LTU-03H</td><td>高温场合，耐热性好</td></tr>
+      <tr><td>电缆接头</td><td>LTU-02 标准型</td><td>扎带安装，成本优先</td></tr>
+      <tr><td>计量设备</td><td>LTU-04M</td><td>高精度要求</td></tr>
+      <tr><td>配电箱低压</td><td>LTU-01</td><td>低温范围，成本低</td></tr>
     </table>
   </div>
 
 </div>
 
 <footer>
-  <p>⚡ 电力在线监测知识库 · <a href="index.html">返回RFID模块</a></p>
+  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回RFID模块</a> · <a href="../../../../index.html">返回首页</a></p>
 </footer>
 
 </body>
