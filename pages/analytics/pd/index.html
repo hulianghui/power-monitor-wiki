@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>局放数据分析 - 电力在线监测知识库</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <style>
     :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -261,21 +261,21 @@
     <p>每个放电脉冲用一个点表示，直观显示放电分布。以下是四种典型放电类型的PRPD图谱模拟：</p>
     
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1rem 0;">
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;">
-        <canvas id="internalChart"></canvas>
-        <p style="text-align:center;color:var(--accent);font-size:0.85rem;margin-top:0.5rem;">内部放电（气隙）</p>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
+        <div id="internalChart" style="width:100%;height:200px;"></div>
+        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">内部放电（气隙）</p>
       </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;">
-        <canvas id="surfaceChart"></canvas>
-        <p style="text-align:center;color:var(--accent);font-size:0.85rem;margin-top:0.5rem;">表面放电</p>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
+        <div id="surfaceChart" style="width:100%;height:200px;"></div>
+        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">表面放电</p>
       </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;">
-        <canvas id="coronaChart"></canvas>
-        <p style="text-align:center;color:var(--accent);font-size:0.85rem;margin-top:0.5rem;">电晕放电</p>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
+        <div id="coronaChart" style="width:100%;height:200px;"></div>
+        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">电晕放电</p>
       </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;">
-        <canvas id="floatingChart"></canvas>
-        <p style="text-align:center;color:var(--accent);font-size:0.85rem;margin-top:0.5rem;">悬浮放电</p>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:220px;">
+        <div id="floatingChart" style="width:100%;height:200px;"></div>
+        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">悬浮放电</p>
       </div>
     </div>
     
@@ -317,26 +317,26 @@
     <p>以下是实际检测案例的PRPD图谱：</p>
     
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1rem 0;">
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;">
-        <canvas id="case1Chart"></canvas>
-        <p style="text-align:center;color:var(--accent);font-size:0.85rem;margin-top:0.5rem;">案例1：GIS气隙放电</p>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:240px;">
+        <div id="case1Chart" style="width:100%;height:200px;"></div>
+        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">案例1：GIS气隙放电</p>
       </div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;">
-        <canvas id="case2Chart"></canvas>
-        <p style="text-align:center;color:var(--accent);font-size:0.85rem;margin-top:0.5rem;">案例2：变压器表面放电</p>
+      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;height:240px;">
+        <div id="case2Chart" style="width:100%;height:200px;"></div>
+        <p style="text-align:center;color:var(--accent);font-size:0.8rem;margin-top:0.3rem;">案例2：变压器表面放电</p>
       </div>
     </div>
     
     <h3>4. 放电发展趋势监测</h3>
     <p>跟踪放电量、放电次数随时间的变化趋势：</p>
-    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;margin:1rem 0;">
-      <canvas id="trendChart" style="height:250px;"></canvas>
+    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;margin:1rem 0;">
+      <div id="trendChart" style="width:100%;height:280px;"></div>
     </div>
     
     <h3>5. 多通道对比图</h3>
     <p>对比不同测点的局放信号，辅助定位：</p>
-    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1rem;margin:1rem 0;">
-      <canvas id="multiChannelChart" style="height:200px;"></canvas>
+    <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:0.5rem;margin:1rem 0;">
+      <div id="multiChannelChart" style="width:100%;height:220px;"></div>
     </div>
     
     <div class="highlight-box">
@@ -586,177 +586,125 @@
 </footer>
 
 <script>
-// 内部放电PRPD - 对称分布在正负半周
-const internalCtx = document.getElementById('internalChart').getContext('2d');
-const internalData = [];
-for(let i=0;i<80;i++){
-  const phase = Math.random()*90 + (Math.random()>0.5?180:0);
-  const mag = 50 + Math.random()*40 + (phase>170?10:-10);
-  internalData.push({x:phase, y:mag});
+// 内部放电PRPD - 3D散点图，对称分布在正负半周
+const internalX = [], internalY = [], internalZ = [];
+for(let i=0;i<150;i++){
+  const half = Math.random()>0.5;
+  internalX.push(half ? Math.random()*90 : 180 + Math.random()*90);
+  internalY.push(30 + Math.random()*60);
+  internalZ.push(Math.floor(Math.random()*20) + 1);
 }
-new Chart(internalCtx, {
-  type: 'scatter',
-  data: { datasets: [{ label: '放电点', data: internalData, backgroundColor: 'rgba(0,180,255,0.6)', pointRadius: 3 }] },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: { x: { min: 0, max: 360, title: {display:true,text:'相位(°)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} }, 
-              y: { min: 0, max: 120, title: {display:true,text:'幅值(mV)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} } },
-    plugins: { legend: { display: false } }
-  }
-});
+Plotly.newPlot('internalChart', [{
+  x: internalX, y: internalY, z: internalZ,
+  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: internalZ, colorscale: 'Blues', opacity: 0.8 }
+}], {
+  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,25]} },
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
+}, {responsive: true});
 
 // 表面放电PRPD - 不对称，单侧集中
-const surfaceCtx = document.getElementById('surfaceChart').getContext('2d');
-const surfaceData = [];
-for(let i=0;i<60;i++){
-  const phase = Math.random()*40 + (Math.random()>0.3?180:0);
-  const mag = 30 + Math.random()*60;
-  surfaceData.push({x:phase, y:mag});
+const surfaceX = [], surfaceY = [], surfaceZ = [];
+for(let i=0;i<120;i++){
+  const half = Math.random()>0.35;
+  surfaceX.push(half ? Math.random()*40 + 180 : Math.random()*40);
+  surfaceY.push(20 + Math.random()*70);
+  surfaceZ.push(Math.floor(Math.random()*15) + 1);
 }
-new Chart(surfaceCtx, {
-  type: 'scatter',
-  data: { datasets: [{ label: '放电点', data: surfaceData, backgroundColor: 'rgba(255,170,0,0.6)', pointRadius: 3 }] },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: { x: { min: 0, max: 360, title: {display:true,text:'相位(°)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} }, 
-              y: { min: 0, max: 120, title: {display:true,text:'幅值(mV)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} } },
-    plugins: { legend: { display: false } }
-  }
-});
+Plotly.newPlot('surfaceChart', [{
+  x: surfaceX, y: surfaceY, z: surfaceZ,
+  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: surfaceZ, colorscale: 'Oranges', opacity: 0.8 }
+}], {
+  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,20]} },
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
+}, {responsive: true});
 
 // 电晕放电PRPD - 固定在90°和270°附近
-const coronaCtx = document.getElementById('coronaChart').getContext('2d');
-const coronaData = [];
-for(let i=0;i<50;i++){
-  const peak = Math.random()>0.5?90:270;
-  const phase = peak + (Math.random()-0.5)*20;
-  const mag = 40 + Math.random()*20;
-  coronaData.push({x:phase, y:mag});
+const coronaX = [], coronaY = [], coronaZ = [];
+for(let i=0;i<80;i++){
+  const peak = Math.random()>0.5 ? 90 : 270;
+  coronaX.push(peak + (Math.random()-0.5)*25);
+  coronaY.push(40 + Math.random()*40);
+  coronaZ.push(Math.floor(Math.random()*12) + 1);
 }
-new Chart(coronaCtx, {
-  type: 'scatter',
-  data: { datasets: [{ label: '放电点', data: coronaData, backgroundColor: 'rgba(255,100,100,0.6)', pointRadius: 3 }] },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: { x: { min: 0, max: 360, title: {display:true,text:'相位(°)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} }, 
-              y: { min: 0, max: 120, title: {display:true,text:'幅值(mV)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} } },
-    plugins: { legend: { display: false } }
-  }
-});
+Plotly.newPlot('coronaChart', [{
+  x: coronaX, y: coronaY, z: coronaZ,
+  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: coronaZ, colorscale: 'Reds', opacity: 0.8 }
+}], {
+  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,15]} },
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
+}, {responsive: true});
 
 // 悬浮放电PRPD - 相位漂移，分散性大
-const floatingCtx = document.getElementById('floatingChart').getContext('2d');
-const floatingData = [];
-for(let i=0;i<100;i++){
-  const phase = Math.random()*360;
-  const mag = 20 + Math.random()*80;
-  floatingData.push({x:phase, y:mag});
+const floatingX = [], floatingY = [], floatingZ = [];
+for(let i=0;i<180;i++){
+  floatingX.push(Math.random()*360);
+  floatingY.push(15 + Math.random()*85);
+  floatingZ.push(Math.floor(Math.random()*10) + 1);
 }
-new Chart(floatingCtx, {
-  type: 'scatter',
-  data: { datasets: [{ label: '放电点', data: floatingData, backgroundColor: 'rgba(170,100,255,0.6)', pointRadius: 3 }] },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: { x: { min: 0, max: 360, title: {display:true,text:'相位(°)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} }, 
-              y: { min: 0, max: 120, title: {display:true,text:'幅值(mV)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} } },
-    plugins: { legend: { display: false } }
-  }
-});
+Plotly.newPlot('floatingChart', [{
+  x: floatingX, y: floatingY, z: floatingZ,
+  mode: 'markers', type: 'scatter3d', marker: { size: 4, color: floatingZ, colorscale: 'Viridis', opacity: 0.8 }
+}], {
+  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,120]}, zaxis:{title:'次数', range:[0,12]} },
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:20,b:0}
+}, {responsive: true});
 
 // 案例1：GIS气隙放电
-const case1Ctx = document.getElementById('case1Chart').getContext('2d');
-const case1Data = [];
-for(let i=0;i<70;i++){
-  const phase = Math.random()*60 + (Math.random()>0.5?30:210);
-  const mag = 60 + Math.random()*50;
-  case1Data.push({x:phase, y:mag});
+const case1X = [], case1Y = [], case1Z = [];
+for(let i=0;i<130;i++){
+  const half = Math.random()>0.5;
+  case1X.push(half ? 30 + Math.random()*55 : 210 + Math.random()*55);
+  case1Y.push(50 + Math.random()*60);
+  case1Z.push(Math.floor(Math.random()*18) + 1);
 }
-new Chart(case1Ctx, {
-  type: 'scatter',
-  data: { datasets: [{ label: '放电点', data: case1Data, backgroundColor: 'rgba(255,100,100,0.7)', pointRadius: 4 }] },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: { x: { min: 0, max: 360, title: {display:true,text:'相位(°)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} }, 
-              y: { min: 0, max: 150, title: {display:true,text:'幅值(mV)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} } },
-    plugins: { legend: { display: false }, title: {display:true,text:'内部气隙放电特征：对称分布于正负半周',color:'#d0e8ff',font:{size:11}} }
-  }
-});
+Plotly.newPlot('case1Chart', [{
+  x: case1X, y: case1Y, z: case1Z,
+  mode: 'markers', type: 'scatter3d', marker: { size: 5, color: case1Z, colorscale: [[0,'#00b4ff'],[1,'#ff6464']], opacity: 0.85 }
+}], {
+  title: { text: '内部气隙放电：对称双峰', font: { color: '#d0e8ff', size: 12 } },
+  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,150]}, zaxis:{title:'次数'} },
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:30,b:0}
+}, {responsive: true});
 
 // 案例2：变压器表面放电
-const case2Ctx = document.getElementById('case2Chart').getContext('2d');
-const case2Data = [];
-for(let i=0;i<60;i++){
-  const phase = Math.random()*35 + (Math.random()>0.4?180:0);
-  const mag = 25 + Math.random()*55;
-  case2Data.push({x:phase, y:mag});
+const case2X = [], case2Y = [], case2Z = [];
+for(let i=0;i<100;i++){
+  const half = Math.random()>0.38;
+  case2X.push(half ? 180 + Math.random()*30 : Math.random()*30);
+  case2Y.push(20 + Math.random()*65);
+  case2Z.push(Math.floor(Math.random()*12) + 1);
 }
-new Chart(case2Ctx, {
-  type: 'scatter',
-  data: { datasets: [{ label: '放电点', data: case2Data, backgroundColor: 'rgba(255,170,0,0.7)', pointRadius: 4 }] },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    scales: { x: { min: 0, max: 360, title: {display:true,text:'相位(°)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} }, 
-              y: { min: 0, max: 150, title: {display:true,text:'幅值(mV)',color:'#5a7a99'}, ticks:{color:'#5a7a99'}, grid:{color:'rgba(255,255,255,0.1)'} } },
-    plugins: { legend: { display: false }, title: {display:true,text:'表面放电特征：集中于正半周，分散性大',color:'#d0e8ff',font:{size:11}} }
-  }
-});
+Plotly.newPlot('case2Chart', [{
+  x: case2X, y: case2Y, z: case2Z,
+  mode: 'markers', type: 'scatter3d', marker: { size: 5, color: case2Z, colorscale: [[0,'#00b4ff'],[1,'#ffaa00']], opacity: 0.85 }
+}], {
+  title: { text: '表面放电：单侧密集', font: { color: '#d0e8ff', size: 12 } },
+  scene: { xaxis:{title:'相位(°)', range:[0,360]}, yaxis:{title:'幅值(mV)', range:[0,150]}, zaxis:{title:'次数'} },
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' }, margin: {l:0,r:0,t:30,b:0}
+}, {responsive: true});
 
-// 趋势监测图
-const trendCtx = document.getElementById('trendChart').getContext('2d');
-new Chart(trendCtx, {
-  type: 'line',
-  data: {
-    labels: ['1月','2月','3月','4月','5月','6月','7月','8月'],
-    datasets: [{
-      label: '最大放电量(pC)',
-      data: [120,135,150,180,220,350,520,780],
-      borderColor: '#ff6464',
-      backgroundColor: 'rgba(255,100,100,0.1)',
-      tension: 0.3, fill: true
-    }, {
-      label: '放电次数(次/周期)',
-      data: [8,10,15,25,40,65,120,200],
-      borderColor: '#ffaa00',
-      tension: 0.3, fill: false
-    }, {
-      label: '预警阈值',
-      data: Array(8).fill(500),
-      borderColor: '#ff6464',
-      borderDash: [5,5],
-      pointRadius: 0, fill: false
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: '#d0e8ff' } } },
-    scales: {
-      x: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' }, min: 0 }
-    }
-  }
-});
+// 趋势监测图 - 使用Plotly
+Plotly.newPlot('trendChart', [
+  { x: ['1月','2月','3月','4月','5月','6月','7月','8月'], y: [120,135,150,180,220,350,520,780], type: 'scatter', mode: 'lines+markers', name: '最大放电量(pC)', line: {color:'#ff6464',width:2}, fill: 'tozeroy', fillcolor: 'rgba(255,100,100,0.15)' },
+  { x: ['1月','2月','3月','4月','5月','6月','7月','8月'], y: [8,10,15,25,40,65,120,200], type: 'scatter', mode: 'lines+markers', name: '放电次数', line: {color:'#ffaa00',width:2} },
+  { x: ['1月','2月','3月','4月','5月','6月','7月','8月'], y: [500,500,500,500,500,500,500,500], type: 'scatter', mode: 'lines', name: '预警阈值', line: {color:'#ff6464',width:1,dash:'dash'} }
+], {
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' },
+  xaxis: { gridcolor: 'rgba(255,255,255,0.1)', title: '时间' },
+  yaxis: { gridcolor: 'rgba(255,255,255,0.1)', title: '数值' },
+  legend: { orientation: 'h', y: 1.1 }
+}, {responsive: true});
 
 // 多通道对比图
-const multiCtx = document.getElementById('multiChannelChart').getContext('2d');
-new Chart(multiCtx, {
-  type: 'bar',
-  data: {
-    labels: ['通道1','通道2','通道3','通道4','通道5','通道6'],
-    datasets: [{
-      label: '放电量(pC)',
-      data: [520,180,85,45,320,120],
-      backgroundColor: (ctx) => ctx.dataIndex === 0 ? '#ff6464' : (ctx.dataIndex === 4 ? '#ffaa00' : '#00b4ff')
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { color: '#5a7a99' }, grid: { display: false } },
-      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' }, title: {display:true,text:'放电量(pC)',color:'#5a7a99'} }
-    }
-  }
-});
+Plotly.newPlot('multiChannelChart', [{
+  x: ['通道1','通道2','通道3','通道4','通道5','通道6'],
+  y: [520,180,85,45,320,120],
+  type: 'bar', marker: { color: ['#ff6464','#00b4ff','#00b4ff','#00b4ff','#ffaa00','#00b4ff'] }
+}], {
+  paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#d0e8ff' },
+  xaxis: { gridcolor: 'rgba(255,255,255,0.1)' },
+  yaxis: { gridcolor: 'rgba(255,255,255,0.1)', title: '放电量(pC)' }
+}, {responsive: true});
 </script>
 
 </body>
