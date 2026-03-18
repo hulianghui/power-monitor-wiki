@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFID温度监测系统 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,0.1) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    
+    .container{max-width:1000px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);}
+    
+    .highlight{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    
+    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1rem 0;}
+    .spec-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
+    .spec-card h4{color:var(--accent);margin-bottom:0.5rem;font-size:0.95rem;}
+    .spec-card ul{margin-left:1rem;color:var(--muted);font-size:0.85rem;}
+    .spec-card li{margin-bottom:0.3rem;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="index.html">← RFID模块</a>
+    <a href="../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>🖥️ RFID<em>温度监测系统</em></h1>
+</div>
+
+<div class="container">
+  
+  <div class="section">
+    <h2>📋 系统概述</h2>
+    <p>RFID温度监测系统是面向电力设备温度监测的完整解决方案，包括数据采集、传输、存储、分析和展示等模块，实现设备温度的实时监测和预警。</p>
+  </div>
+
+  <div class="section">
+    <h2>🏗️ 系统架构</h2>
+    <div class="highlight">
+      <strong>📊 四层架构：</strong><br><br>
+      <strong>1. 感知层（数据采集）</strong><br>
+      RFID温度标签 → 采集手持终端/固定读写器<br><br>
+      <strong>2. 传输层（数据通信）</strong><br>
+      4G/5G/NB-IoT → 安全接入区 → 物联网平台<br><br>
+      <strong>3. 平台层（数据处理）</strong><br>
+      物联网平台 → 数据清洗 → 存储与分析<br><br>
+      <strong>4. 应用层（业务展示）</strong><br>
+      Web/APP → 实时监测 → 预警告警 → 报表统计
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔗 平台对接方案</h2>
+    <h3>国网物联网平台对接</h3>
+    <p>接入国网电力物联网平台需要满足以下要求：</p>
+    <table>
+      <tr><th>要求项</th><th>说明</th></tr>
+      <tr><td>安全接入</td><td>通过安全接入区，使用加密通信</td></tr>
+      <tr><td>协议要求</td><td>支持MQTT/Modbus等协议</td></tr>
+      <tr><td>设备认证</td><td>获得设备型号证书</td></tr>
+      <tr><td>数据格式</td><td>符合物模型规范</td></tr>
+    </table>
+    
+    <h3>数据上报协议</h3>
+    <div class="highlight">
+      <strong>📡 MQTT协议：</strong><br>
+      • Topic: /{orgId}/{deviceId}/data<br>
+      • Payload: JSON格式<br>
+      • QoS: 1<br>
+      • 加密: TLS/SSL
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📊 核心功能</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>📈 实时监测</h4>
+        <ul>
+          <li>温度数据实时展示</li>
+          <li>多设备、多测点统一管理</li>
+          <li>历史曲线查询</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🚨 预警告警</h4>
+        <ul>
+          <li>温度超限告警</li>
+          <li>温升速率告警</li>
+          <li>多级预警机制</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>📋 巡检管理</h4>
+        <ul>
+          <li>巡检计划制定</li>
+          <li>巡检任务下发</li>
+          <li>巡检记录归档</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>📊 统计分析</h4>
+        <ul>
+          <li>温度趋势分析</li>
+          <li>设备健康评估</li>
+          <li>报表自动生成</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔐 安全防护</h2>
+    <div class="highlight">
+      <strong>🛡️ 安全措施：</strong><br>
+      • 通信加密：TLS 1.2/1.3<br>
+      • 设备认证：X.509证书<br>
+      • 访问控制：RBAC权限管理<br>
+      • 数据安全：敏感数据脱敏<br>
+      • 审计日志：操作全程记录
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔧 实施要点</h2>
+    <table>
+      <tr><th>阶段</th><th>工作内容</th></tr>
+      <tr><td>方案设计</td><td>现场勘察、标签选型、点位规划</td></tr>
+      <tr><td>施工安装</td><td>标签安装、读写器部署、网络配置</td></tr>
+      <tr><td>系统部署</td><td>平台搭建、数据对接、功能配置</td></tr>
+      <tr><td>验收测试</td><td>功能测试、性能测试、用户培训</td></tr>
+      <tr><td>运维保障</td><td>定期巡检、故障响应、版本升级</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>💰 投资预算参考</h2>
+    <table>
+      <tr><th>项目</th><th>参考单价</th><th>说明</th></tr>
+      <tr><td>RFID温度标签</td><td>30-80元/个</td><td>视规格而定</td></tr>
+      <tr><td>手持采集终端</td><td>2000-5000元/台</td><td>工业级</td></tr>
+      <tr><td>固定读写器</td><td>3000-8000元/台</td><td>含天线</td></tr>
+      <tr><td>监测平台</td><td>5-20万元</td><td>视规模定制</td></tr>
+      <tr><td>施工安装</td><td>100-200元/点</td><td>含辅材</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="index.html">返回RFID模块</a></p>
+</footer>
+
+</body>
+</html>

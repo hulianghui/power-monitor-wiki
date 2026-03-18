@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFID温度标签传感器 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,0.1) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    
+    .container{max-width:1000px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);}
+    
+    .highlight{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    
+    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1rem 0;}
+    .spec-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
+    .spec-card h4{color:var(--accent);margin-bottom:0.5rem;font-size:0.95rem;}
+    .spec-card ul{margin-left:1rem;color:var(--muted);font-size:0.85rem;}
+    .spec-card li{margin-bottom:0.3rem;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="index.html">← RFID模块</a>
+    <a href="../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>🏷️ RFID<em>温度标签传感器</em></h1>
+</div>
+
+<div class="container">
+  
+  <div class="section">
+    <h2>📋 标签概述</h2>
+    <p>RFID温度标签是无源无线测温系统的核心传感元件，集成天线、芯片和温度传感器，无需电池供电，通过接收读写器发射的射频能量实现温度测量和数据传输。</p>
+  </div>
+
+  <div class="section">
+    <h2>🔬 工作原理</h2>
+    <h3>能量获取与温度测量</h3>
+    <div class="highlight">
+      <strong>📊 工作流程：</strong><br>
+      1. <strong>能量收集：</strong>标签天线接收读写器发射的UHF射频信号（902-928MHz）<br>
+      2. <strong>整流稳压：</strong>整流电路将射频能量转换为直流电，为芯片供电<br>
+      3. <strong>温度传感：</strong>内置温度传感器（通常为NTC或数字温度传感器）测量温度<br>
+      4. <strong>数据调制：</strong>将温度数据通过反向散射调制传回读写器
+    </div>
+    
+    <h3>关键芯片方案</h3>
+    <table>
+      <tr><th>芯片方案</th><th>特点</th><th>典型应用</th></tr>
+      <tr><td>Monza R6</td><td>灵敏度-20dBm，标准EPC Gen2</td><td>通用标签</td></tr>
+      <tr><td>MR6-P</td><td>支持温度传感，低功耗</td><td>测温标签</td></tr>
+      <tr><td>SL3S1003</td><td>NXP方案，稳定可靠</td><td>工业标签</td></tr>
+      <tr><td>UCODE 8</td><td>读取距离远，内存大</td><td>高端应用</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>📐 标签结构与封装</h2>
+    <h3>典型结构</h3>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>🏗️ 芯片模块</h4>
+        <ul>
+          <li>RFID芯片（存储ID和温度数据）</li>
+          <li>温度传感器（NTC/数字）</li>
+          <li>整流器电路</li>
+          <li>调制电路</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>📡 天线</h4>
+        <ul>
+          <li>偶极子天线</li>
+          <li>折纸天线</li>
+          <li>抗金属标签专用天线</li>
+          <li>定制PCB天线</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🧤 封装</h4>
+        <ul>
+          <li>PCB基材封装</li>
+          <li>陶瓷封装（耐高温）</li>
+          <li>塑料外壳封装</li>
+          <li>柔性基材封装</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔧 关键技术参数</h2>
+    <table>
+      <tr><th>参数</th><th>典型值</th><th>说明</th></tr>
+      <tr><td>工作频率</td><td>902-928MHz (UHF)</td><td>超高频段</td></tr>
+      <tr><td>读取距离</td><td>0.5-3m</td><td>视天线和读写器功率</td></tr>
+      <tr><td>测温范围</td><td>-40°C ~ +125°C</td><td>工业级NTC</td></tr>
+      <tr><td>测温精度</td><td>±0.5°C</td><td>典型值</td></tr>
+      <tr><td>响应时间</td><td>50-200ms</td><td>单次读取</td></tr>
+      <tr><td>使用寿命</td><td>10年+</td><td>理论无限（无电池）</td></tr>
+      <tr><td>存储容量</td><td>96bit EPC + 512bit User</td><td>可存储历史数据</td></tr>
+      <tr><td>防护等级</td><td>IP67可选</td><td>户外应用</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🛠️ 安装方式</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>🔩 螺栓固定</h4>
+        <ul>
+          <li>使用螺栓固定标签</li>
+          <li>适用于金属表面</li>
+          <li>牢固可靠</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🩹 粘贴式</h4>
+        <ul>
+          <li>3M胶带粘贴</li>
+          <li>适用于光滑表面</li>
+          <li>安装便捷</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🔗 捆绑式</h4>
+        <ul>
+          <li>扎带捆绑</li>
+          <li>适用于母排、电缆</li>
+          <li>适应不规则表面</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🧲 磁吸式</h4>
+        <ul>
+          <li>强磁固定</li>
+          <li>适用于铁磁性表面</li>
+          <li>可重复安装</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>⚠️ 抗金属标签</h2>
+    <p>普通RFID标签在金属表面会因电磁感应导致失效，需使用抗金属标签：</p>
+    <table>
+      <tr><th>类型</th><th>原理</th><th>特点</th></tr>
+      <tr><td>陶瓷封装</td><td>陶瓷介质隔离金属</td><td>耐高温，性能稳定</td></tr>
+      <tr><td>泡沫垫层</td><td>空气隔离层</td><td>成本低，厚度大</td></tr>
+      <tr><td>吸波材料</td><td>吸波材料吸收干扰</td><td>薄型化</td></tr>
+      <tr><td>离地天线</td><td>天线悬空设计</td><td>性能均衡</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🏭 主流厂家</h2>
+    <table>
+      <tr><th>厂家</th><th>产品特点</th><th>备注</th></tr>
+      <tr><td>Alien</td><td>灵敏度极高</td><td>价格较高</td></tr>
+      <tr><td>Impinj</td><td>性能稳定</td><td>行业标准</td></tr>
+      <tr><td>NXP</td><td>芯片方案全</td><td>标签厂采购</td></tr>
+      <tr><td>Confidex</td><td>工业级耐用</td><td>适合恶劣环境</td></tr>
+      <tr><td>国产方案</td><td>成本优势</td><td>悦和等</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="index.html">返回RFID模块</a></p>
+</footer>
+
+</body>
+</html>

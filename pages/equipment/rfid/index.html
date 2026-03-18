@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFID无源无线测温 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,0.1) 0%,transparent 70%);}
+    .hero h1{font-size:2.2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:1rem;max-width:700px;margin:0 auto;}
+    
+    .container{max-width:1000px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;margin:1.5rem 0;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-decoration:none;color:inherit;transition:all 0.2s;}
+    .card:hover{border-color:var(--accent);transform:translateY(-3px);}
+    .card-icon{font-size:2rem;margin-bottom:0.8rem;}
+    .card-title{font-size:1.05rem;font-weight:700;margin-bottom:0.4rem;}
+    .card-desc{color:var(--muted);font-size:0.88rem;line-height:1.6;}
+    
+    .highlight{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../../pages/equipment/index.html">← AI调研</a>
+    <a href="../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>📡 RFID<em>无源无线测温</em></h1>
+  <p>基于RFID射频识别技术的无源无线温度监测方案，从原理到应用的全方位技术指南</p>
+</div>
+
+<div class="container">
+  
+  <div class="section">
+    <h2>📋 模块概述</h2>
+    <p>RFID无源无线测温技术是近年来兴起的的新型测温方案，传感器无需电池，通过读写器发射的射频能量供电并回传温度数据。本模块涵盖以下内容：</p>
+    
+    <div class="grid">
+      <a class="card" href="sensor/index.html">
+        <div class="card-icon">🏷️</div>
+        <div class="card-title">温度标签传感器</div>
+        <div class="card-desc">RFID温度标签的工作原理、芯片选型、天线设计、封装工艺及安装方法</div>
+      </a>
+      
+      <a class="card" href="collector/index.html">
+        <div class="card-icon">📱</div>
+        <div class="card-title">温度采集装置</div>
+        <div class="card-desc">固定式读写器、手持采集终端的选型参数、通信协议及组网方案</div>
+      </a>
+      
+      <a class="card" href="system/index.html">
+        <div class="card-icon">🖥️</div>
+        <div class="card-title">温度监测系统</div>
+        <div class="card-desc">系统平台架构、数据对接、物联网平台接入及行业应用案例</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔬 技术原理</h2>
+    <h3>工作原理</h3>
+    <p>RFID无源测温系统由读写器（Reader）和温度标签（Tag）组成。读写器发射902-928MHz超高频射频信号，标签接收能量后激活内部电路，测量温度并将数据通过反向散射方式传回读写器。</p>
+    
+    <div class="highlight">
+      <strong>📊 工作流程：</strong><br>
+      1. 读写器发射射频能量<br>
+      2. 标签天线接收能量，整流后供电<br>
+      3. 标签内置温度传感器测量温度<br>
+      4. 标签将温度数据调制到反向散射信号<br>
+      5. 读写器接收并解调数据
+    </div>
+    
+    <h3>系统架构</h3>
+    <table>
+      <tr><th>层级</th><th>组件</th><th>功能</th></tr>
+      <tr><td>感知层</td><td>RFID温度标签</td><td>温度测量与数据发送</td></tr>
+      <tr><td>采集层</td><td>读写器/手持终端</td><td>能量供给与数据采集</td></tr>
+      <tr><td>传输层</td><td>4G/有线网络</td><td>数据传输</td></tr>
+      <tr><td>应用层</td><td>监测平台</td><td>数据展示与分析</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>✅ 核心优势</h2>
+    <div class="grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="highlight">
+        <strong>🔋 免电池，终身免维护</strong><br>
+        无需更换电池，适合难以维护的场合
+      </div>
+      <div class="highlight">
+        <strong>🛡️ 本质安全，无爆炸风险</strong><br>
+        无电池，无火花，适合易燃易爆环境
+      </div>
+      <div class="highlight">
+        <strong>📏 体积小，安装简便</strong><br>
+        标签尺寸小，可粘贴或捆绑安装
+      </div>
+      <div class="highlight">
+        <strong>💰 成本较低</strong><br>
+        相比有源无线方案成本更低
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>⚠️ 技术局限</h2>
+    <div class="grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="highlight" style="background:rgba(255,100,100,0.08);border-color:rgba(255,100,100,0.2);">
+        <strong>📶 读取距离短</strong><br>
+        典型距离1-3米，需近距离采集
+      </div>
+      <div class="highlight" style="background:rgba(255,100,100,0.08);border-color:rgba(255,100,100,0.2);">
+        <strong>🔩 金属环境需特殊设计</strong><br>
+        金属会吸收射频能量，需抗金属标签
+      </div>
+      <div class="highlight" style="background:rgba(255,100,100,0.08);border-color:rgba(255,100,100,0.2);">
+        <strong>⏱️ 非连续实时监测</strong><br>
+        需要触发读取，不适合连续监测
+      </div>
+      <div class="highlight" style="background:rgba(255,100,100,0.08);border-color:rgba(255,100,100,0.2);">
+        <strong>📊 多标签可能冲突</strong><br>
+        密集部署时需防碰撞算法
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 典型应用场景</h2>
+    <table>
+      <tr><th>场景</th><th>适用性</th><th>说明</th></tr>
+      <tr><td>开关柜触头测温</td><td>⭐⭐⭐⭐⭐</td><td>高压绝缘要求，免维护</td></tr>
+      <tr><td>母排接头监测</td><td>⭐⭐⭐⭐⭐</td><td>密集部署，成本优势</td></tr>
+      <tr><td>变压器绕组</td><td>⭐⭐⭐</td><td>空间受限，需定制天线</td></tr>
+      <tr><td>电缆接头</td><td>⭐⭐⭐⭐</td><td>适合手持采集巡检</td></tr>
+      <tr><td>配电房环境</td><td>⭐⭐⭐</td><td>低频应用场景</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../../pages/equipment/index.html">返回AI调研</a></p>
+</footer>
+
+</body>
+</html>

@@ -53,6 +53,10 @@
       color:#c084fc; padding:0.15rem 0.6rem; border-radius:999px; font-size:0.72rem;
       margin-bottom:0.8rem; margin-right:0.4rem;
     }
+    .card.featured {
+      border-color: #00e5a0;
+      background: linear-gradient(135deg, #0d1b2e, rgba(0,229,160,0.1));
+    }
     footer { border-top:1px solid var(--border); text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; margin-top:3rem; }
   </style>
 </head>
@@ -69,6 +73,15 @@
 
 <div class="container">
   <div class="grid">
+
+    <!-- RFID模块 - 大卡片 -->
+    <a class="card featured" href="rfid/index.html" style="grid-column: span 2;">
+      <div><span class="badge-ai">AI生成</span><span class="badge">核心模块</span></div>
+      <div class="card-icon" style="font-size:2.5rem;">📡</div>
+      <div class="card-title" style="font-size:1.3rem;">RFID无源无线测温</div>
+      <div class="card-desc" style="font-size:0.95rem;">从原理到应用的全方位技术指南，包含传感器标签、采集装置、系统方案及行业应用案例</div>
+      <div class="card-meta">📅 2026-03-18 · 核心技术模块</div>
+    </a>
 
     <a class="card" href="rfid-intro.html">
       <div><span class="badge-ai">AI生成</span><span class="badge">NEW</span></div>

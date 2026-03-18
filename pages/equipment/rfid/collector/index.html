@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFID温度采集装置 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,180,255,0.1) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    
+    .container{max-width:1000px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);}
+    
+    .highlight{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    
+    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1rem 0;}
+    .spec-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
+    .spec-card h4{color:var(--accent);margin-bottom:0.5rem;font-size:0.95rem;}
+    .spec-card ul{margin-left:1rem;color:var(--muted);font-size:0.85rem;}
+    .spec-card li{margin-bottom:0.3rem;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="index.html">← RFID模块</a>
+    <a href="../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>📱 RFID<em>温度采集装置</em></h1>
+</div>
+
+<div class="container">
+  
+  <div class="section">
+    <h2>📋 采集装置概述</h2>
+    <p>RFID温度采集装置包括固定式读写器和手持采集终端两大类，负责向标签发射射频能量并接收温度数据，是连接传感器与系统平台的桥梁。</p>
+  </div>
+
+  <div class="section">
+    <h2>📱 手持采集终端</h2>
+    <p>手持终端是RFID测温系统中最常用的采集设备，由运维人员在巡检时手持采集温度数据。</p>
+    
+    <h3>典型应用流程</h3>
+    <div class="highlight">
+      <strong>📋 巡检流程：</strong><br>
+      1. 运维人员携带手持终端进入配电房<br>
+      2. 终端自动搜索附近RFID温度标签<br>
+      3. 读取各测点温度数据<br>
+      4. 数据存储或实时上传<br>
+      5. 导出/上传至监测平台
+    </div>
+    
+    <h3>选型参数</h3>
+    <table>
+      <tr><th>参数</th><th>要求</th><th>说明</th></tr>
+      <tr><td>工作频率</td><td>902-928MHz</td><td>UHF频段</td></tr>
+      <tr><td>读取距离</td><td>≥1m</td><td>满足开关柜采集需求</td></tr>
+      <tr><td>防爆认证</td><td>Ex ib IIB T4 Gb</td><td>危险区域使用</td></tr>
+      <tr><td>防护等级</td><td>IP65</td><td>户外使用</td></tr>
+      <tr><td>续航</td><td>≥8小时</td><td>满足一天巡检</td></tr>
+      <tr><td>存储</td><td>≥10000条</td><td>离线存储</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🏭 固定式读写器</h2>
+    <p>固定式读写器安装在现场，实现自动化数据采集，适合无人值守场景。</p>
+    
+    <h3>典型应用场景</h3>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h4>🏢 配电房部署</h4>
+        <ul>
+          <li>读写器固定安装在天花板或墙壁</li>
+          <li>覆盖范围内自动采集</li>
+          <li>定时上传数据</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🔌 开关柜集成</h4>
+        <ul>
+          <li>读写器安装在柜内</li>
+          <li>柜门关闭时仍可采集</li>
+          <li>与柜内设备一体化</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h4>🚪 门禁联动</h4>
+        <ul>
+          <li>人员进入时触发采集</li>
+          <li>结合门禁系统</li>
+          <li>提高采集效率</li>
+        </ul>
+      </div>
+    </div>
+    
+    <h3>选型参数</h3>
+    <table>
+      <tr><th>参数</th><th>要求</th><th>说明</th></tr>
+      <tr><td>发射功率</td><td>≤30dBm</td><td>符合法规</td></tr>
+      <tr><td>读取速度</td><td>≥50tags/s</td><td>多标签处理</td></tr>
+      <tr><td>通信接口</td><td>RS485/4G/WiFi</td><td>数据传输</td></tr>
+      <tr><td>工作温度</td><td>-40°C~+70°C</td><td>恶劣环境</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>📡 通信协议</h2>
+    <h3>RFID空中接口协议</h3>
+    <table>
+      <tr><th>协议标准</th><th>特点</th><th>应用</th></tr>
+      <tr><td>EPC Gen2 (ISO18000-6C)</td><td>国际标准，兼容性好</td><td>通用</td></tr>
+      <tr><td>GB/T 29768-2013</td><td>中国UHF RFID标准</td><td>国标</td></tr>
+      <tr><td>GJB 7377.1-2011</td><td>军用UHF RFID标准</td><td>军工</td></tr>
+    </table>
+    
+    <h3>数据上传协议</h3>
+    <table>
+      <tr><th>协议</th><th>特点</th><th>适用场景</th></tr>
+      <tr><td>MQTT</td><td>轻量级，物联网标准</td><td>云平台接入</td></tr>
+      <tr><td>Modbus RTU</td><td>工业常用</td><td>本地系统</td></tr>
+      <tr><td>HTTP/HTTPS</td><td>通用性强</td><td>Web服务</td></tr>
+      <tr><td>TCP/IP</td><td>Socket通信</td><td>私有协议</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🔐 安全接入</h2>
+    <p>接入电力物联网平台需满足安全要求：</p>
+    <div class="highlight">
+      <strong>🛡️ 接入要求：</strong><br>
+      • 设备需要通过安全检测<br>
+      • 通信加密（TLS/SSL）<br>
+      • 身份认证（证书）<br>
+      • 符合电力监控系统安全防护规定
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🏭 主流厂家</h2>
+    <table>
+      <tr><th>类型</th><th>厂家</th><th>产品特点</th></tr>
+      <tr><td rowspan="3">手持终端</td><td>Symbol/Zebra</td><td>工业级，耐用</td></tr>
+      <tr><td>Chainway</td><td>国产，性价比高</td></tr>
+      <tr><td>Newland</td><td>扫描性能好</td></tr>
+      <tr><td rowspan="3">固定读写器</td><td>Impinj</td><td>性能稳定</td></tr>
+      <tr><td>Alien</td><td>读取距离远</td></tr>
+      <tr><td>国产方案</td><td>成本优势</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="index.html">返回RFID模块</a></p>
+</footer>
+
+</body>
+</html>
