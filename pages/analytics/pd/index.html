@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>局放数据分析 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(170,100,255,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:0.95rem;max-width:700px;margin:0 auto;}
+    
+    .container{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .level-nav{display:flex;gap:0.5rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap;}
+    .level-btn{padding:0.5rem 1.2rem;border-radius:20px;font-size:0.85rem;text-decoration:none;transition:all 0.2s;border:1px solid var(--border);background:var(--card);color:var(--muted);}
+    .level-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .level-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .highlight-box.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
+    
+    .pd-pattern{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:1.5rem 0;}
+    .pattern-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;}
+    .pattern-card h4{color:var(--accent);font-size:0.9rem;margin-bottom:0.5rem;}
+    .pattern-card p{color:var(--muted);font-size:0.8rem;}
+    .pattern-icon{font-size:2rem;margin-bottom:0.5rem;}
+    @media(max-width:768px){.pd-pattern{grid-template-columns:repeat(2,1fr);}}
+    
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1rem 0;}
+    @media(max-width:768px){.grid-2{grid-template-columns:1fr;}}
+    
+    .case-box{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:1.5rem;margin:1rem 0;}
+    .case-box h4{color:var(--accent2);margin-bottom:0.5rem;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../index.html">← 数据分析</a>
+    <a href="../../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>⚡ 局放数据<em>分析</em></h1>
+  <p>从局放图谱解读到PRPD/PRPS分析，从放电类型识别到三维可视化，掌握绝缘状态评估方法</p>
+</div>
+
+<div class="container">
+  
+  <div class="level-nav">
+    <a href="#basic" class="level-btn active">📚 科普入门</a>
+    <a href="#professional" class="level-btn">🔬 专业方法</a>
+    <a href="#visual" class="level-btn">📊 可视化</a>
+  </div>
+
+  <!-- ==================== 科普部分 ==================== -->
+  <div class="section" id="basic">
+    <h2>📚 科普入门：局放图谱怎么看</h2>
+    
+    <h3>什么是局部放电？</h3>
+    <p>局部放电（Partial Discharge, PD）是电气设备绝缘系统中<strong>局部区域的放电</strong>，尚未贯穿整个绝缘。虽然单次放电能量很小，但长期积累会导致绝缘劣化，最终引发击穿事故。</p>
+    
+    <h3>局放图谱的基本形态</h3>
+    <p>局放信号通常用工频周期的相位来表征，形成<strong>PRPD图谱</strong>（Phase-Resolved Partial Discharge）。</p>
+    
+    <div class="pd-pattern">
+      <div class="pattern-card">
+        <div class="pattern-icon">🔵</div>
+        <h4>内部放电</h4>
+        <p>对称分布在正负半周，相位稳定</p>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-icon">🟡</div>
+        <h4>表面放电</h4>
+        <p>集中在正半周或负半周某一侧</p>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-icon">🔴</div>
+        <h4>电晕放电</h4>
+        <p>单极性，相位固定</p>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-icon">⚪</div>
+        <h4>悬浮放电</h4>
+        <p>相位漂移，脉冲密集</p>
+      </div>
+    </div>
+    
+    <h3>关键参数解读</h3>
+    <table>
+      <tr>
+        <th>参数</th>
+        <th>含义</th>
+        <th>关注点</th>
+      </tr>
+      <tr>
+        <td>放电量（pC）</td>
+        <td>单次放电强度</td>
+        <td>是否超过注意值</td>
+      </tr>
+      <tr>
+        <td>放电次数</td>
+        <td>单位时间放电次数</td>
+        <td>放电频繁程度</td>
+      </tr>
+      <tr>
+        <td>放电相位</td>
+        <td>放电发生时的工频相位</td>
+        <td>判断放电类型</td>
+      </tr>
+      <tr>
+        <td>放电谱图</td>
+        <td>相位-幅值-次数三维分布</td>
+        <td>指纹特征识别</td>
+      </tr>
+    </table>
+    
+    <div class="highlight-box warn">
+      <strong>⚠️ 注意：</strong>局放检测受环境噪声干扰严重，常见干扰源包括：开关操作、无线电信号、电焊、电机启动等。需结合<strong>频域滤波</strong>、<strong>时域开窗</strong>、<strong>脉冲识别</strong>等方法抑制干扰。
+    </div>
+  </div>
+
+  <!-- ==================== 专业部分 ==================== -->
+  <div class="section" id="professional">
+    <h2>🔬 专业方法：图谱识别与诊断</h2>
+    
+    <h3>1. PRPD图谱分析</h3>
+    <p>PRPD（相位分辨局部放电）是最常用的局放分析方法，将放电脉冲按工频相位分布统计。</p>
+    
+    <div class="grid-2">
+      <div class="highlight-box">
+        <strong>📊 PRPD图谱构成：</strong><br>
+        • X轴：工频相位（0°~360°）<br>
+        • Y轴：放电幅值（mV或pC）<br>
+        • 颜色/大小：放电次数密度<br>
+        • 形态：点云、柱状、热力图
+      </div>
+      <div class="highlight-box">
+        <strong>🔍 分析要点：</strong><br>
+        • 放电相位区间宽度<br>
+        • 正负半周对称性<br>
+        • 放电幅值分布范围<br>
+        • 放电次数密度分布
+      </div>
+    </div>
+    
+    <h3>2. PRPS图谱分析</h3>
+    <p>PRPS（Phase-Resolved Pulse Sequence）在PRPD基础上增加时间维度，可观察放电序列特征。</p>
+    
+    <h3>3. 典型放电类型特征</h3>
+    <table>
+      <tr>
+        <th>放电类型</th>
+        <th>相位特征</th>
+        <th>幅值特征</th>
+        <th>典型原因</th>
+      </tr>
+      <tr>
+        <td>内部放电</td>
+        <td>对称分布于0°~90°和180°~270°</td>
+        <td>幅值分散性小</td>
+        <td>绝缘内部气隙、分层</td>
+      </tr>
+      <tr>
+        <td>表面放电</td>
+        <td>集中于某一相位区间</td>
+        <td>幅值变化大</td>
+        <td>绝缘表面污秽、爬电</td>
+      </tr>
+      <tr>
+        <td>电晕放电</td>
+        <td>集中在峰值附近（90°或270°）</td>
+        <td>幅值稳定</td>
+        <td>导体尖角、毛刺</td>
+      </tr>
+      <tr>
+        <td>悬浮放电</td>
+        <td>相位不稳定，漂移</td>
+        <td>幅值分散性大</td>
+        <td>金属部件接地不良</td>
+      </tr>
+      <tr>
+        <td>颗粒放电</td>
+        <td>随机分布，无明显规律</td>
+        <td>幅值变化剧烈</td>
+        <td>GIS内自由金属颗粒</td>
+      </tr>
+    </table>
+    
+    <h3>4. 局放定位方法</h3>
+    <p>多个传感器联合检测，可定位放电源位置。</p>
+    
+    <div class="highlight-box">
+      <strong>📍 常用定位方法：</strong><br>
+      • <strong>时差法：</strong>根据信号到达不同传感器的时间差定位<br>
+      • <strong>幅值法：</strong>距离放电源越近信号越强<br>
+      • <strong>平分面法：</strong>利用传感器阵列构建定位区域<br>
+      • <strong>声电联合：</strong>结合超声波和电信号提高定位精度
+    </div>
+    
+    <h3>5. 严重程度评估</h3>
+    <table>
+      <tr>
+        <th>评估指标</th>
+        <th>正常</th>
+        <th>注意</th>
+        <th>异常</th>
+      </tr>
+      <tr>
+        <td>最大放电量</td>
+        <td>< 100 pC</td>
+        <td>100 ~ 500 pC</td>
+        <td>> 500 pC</td>
+      </tr>
+      <tr>
+        <td>放电次数/周期</td>
+        <td>< 10</td>
+        <td>10 ~ 50</td>
+        <td>> 50</td>
+      </tr>
+      <tr>
+        <td>放电增长率</td>
+        <td>稳定</td>
+        <td>缓慢增长</td>
+        <td>快速增长</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ==================== 可视化部分 ==================== -->
+  <div class="section" id="visual">
+    <h2>📊 可视化：局放数据展示</h2>
+    
+    <h3>1. PRPD散点图</h3>
+    <p>每个放电脉冲用一个点表示，直观显示放电分布。</p>
+    
+    <h3>2. PRPD热力图</h3>
+    <p>将相位-幅值平面划分为网格，用颜色深浅表示放电次数密度。</p>
+    
+    <h3>3. 三维谱图</h3>
+    <p>X轴-相位，Y轴-幅值，Z轴-次数，三维立体展示放电特征。</p>
+    
+    <h3>4. 趋势监测曲线</h3>
+    <p>跟踪放电量、放电次数随时间的变化趋势。</p>
+    
+    <h3>5. 多通道对比图</h3>
+    <p>对比不同测点的局放信号，辅助定位。</p>
+    
+    <div class="highlight-box">
+      <strong>🎨 可视化设计建议：</strong><br>
+      • 使用不同颜色区分放电类型（自动识别结果）<br>
+      • 标注关注阈值和警戒线<br>
+      • 支持历史数据叠加对比<br>
+      • 提供图谱缩放、平移功能<br>
+      • 实时更新模式与静态回放模式
+    </div>
+  </div>
+
+  <!-- ==================== 案例 ==================== -->
+  <div class="section">
+    <h2>🔧 典型诊断案例</h2>
+    
+    <div class="case-box">
+      <h4>案例1：GIS绝缘子气隙放电</h4>
+      <p><strong>现象：</strong>某220kV GIS局放监测发现异常信号</p>
+      <p><strong>图谱特征：</strong></p>
+      <p>• PRPD图谱显示对称分布于正负半周</p>
+      <p>• 相位区间：30°~80°和210°~260°</p>
+      <p>• 放电量约800pC</p>
+      <p><strong>诊断：</strong>内部气隙放电</p>
+      <p><strong>验证：</strong>解体检修发现绝缘子内部存在制造缺陷气隙</p>
+    </div>
+    
+    <div class="case-box">
+      <h4>案例2：变压器套管表面放电</h4>
+      <p><strong>现象：</strong>变压器局放监测告警</p>
+      <p><strong>图谱特征：</strong></p>
+      <p>• 放电集中在正半周</p>
+      <p>• 相位区间：60°~120°</p>
+      <p>• 放电幅值分散性大</p>
+      <p><strong>诊断：</strong>表面放电</p>
+      <p><strong>原因：</strong>套管表面污秽严重，导致沿面放电</p>
+      <p><strong>处理：</strong>清扫套管表面，放电消失</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回数据分析</a> · <a href="../../../index.html">返回首页</a></p>
+</footer>
+
+</body>
+</html>

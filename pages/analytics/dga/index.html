@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>油色谱分析（DGA） - 电力在线监测知识库</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(255,170,0,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:0.95rem;max-width:700px;margin:0 auto;}
+    
+    .container{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .level-nav{display:flex;gap:0.5rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap;}
+    .level-btn{padding:0.5rem 1.2rem;border-radius:20px;font-size:0.85rem;text-decoration:none;transition:all 0.2s;border:1px solid var(--border);background:var(--card);color:var(--muted);}
+    .level-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .level-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .highlight-box.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
+    .highlight-box.danger{background:rgba(255,100,100,0.08);border-color:rgba(255,100,100,0.2);}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
+    
+    .gas-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:1.5rem 0;}
+    .gas-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;}
+    .gas-card h4{font-size:0.85rem;color:var(--accent);margin-bottom:0.3rem;}
+    .gas-card .formula{font-size:0.9rem;color:var(--text);font-weight:600;}
+    .gas-card .name{font-size:0.8rem;color:var(--muted);}
+    
+    .triangle-box{background:rgba(0,0,0,0.3);border-radius:12px;padding:2rem;text-align:center;margin:1rem 0;}
+    .triangle-box canvas{max-width:400px;margin:0 auto;}
+    
+    .chart-container{background:rgba(0,0,0,0.2);border-radius:10px;padding:1rem;margin:1rem 0;height:250px;}
+    .chart-container.tall{height:320px;}
+    
+    .case-box{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:1.5rem;margin:1rem 0;}
+    .case-box h4{color:var(--accent2);margin-bottom:0.5rem;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../index.html">← 数据分析</a>
+    <a href="../../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>🛢️ 油色谱分析<em>DGA</em></h1>
+  <p>从气体来源解读到三比值法诊断，从大卫三角图到趋势分析，掌握变压器潜伏性故障诊断方法</p>
+</div>
+
+<div class="container">
+  
+  <div class="level-nav">
+    <a href="#basic" class="level-btn active">📚 科普入门</a>
+    <a href="#professional" class="level-btn">🔬 专业方法</a>
+    <a href="#visual" class="level-btn">📊 可视化</a>
+  </div>
+
+  <!-- ==================== 科普部分 ==================== -->
+  <div class="section" id="basic">
+    <h2>📚 科普入门：油中气体从哪来</h2>
+    
+    <h3>什么是油色谱分析？</h3>
+    <p>油中溶解气体分析（Dissolved Gas Analysis, DGA）是通过对变压器绝缘油中溶解气体的定性定量分析，诊断变压器内部潜伏性故障的方法。被誉为变压器"验血"技术。</p>
+    
+    <h3>特征气体及其来源</h3>
+    <p>变压器油和纸绝缘在热和电的作用下会分解产生气体，不同故障类型产生的气体组合不同。</p>
+    
+    <div class="gas-cards">
+      <div class="gas-card">
+        <h4>氢气</h4>
+        <div class="formula">H₂</div>
+        <div class="name">局部放电、电晕</div>
+      </div>
+      <div class="gas-card">
+        <h4>甲烷</h4>
+        <div class="formula">CH₄</div>
+        <div class="name">低温过热（<150℃）</div>
+      </div>
+      <div class="gas-card">
+        <h4>乙烷</h4>
+        <div class="formula">C₂H₆</div>
+        <div class="name">中温过热（150-300℃）</div>
+      </div>
+      <div class="gas-card">
+        <h4>乙烯</h4>
+        <div class="formula">C₂H₄</div>
+        <div class="name">高温过热（>300℃）</div>
+      </div>
+      <div class="gas-card">
+        <h4>乙炔</h4>
+        <div class="formula">C₂H₂</div>
+        <div class="name">电弧放电</div>
+      </div>
+      <div class="gas-card">
+        <h4>一氧化碳</h4>
+        <div class="formula">CO</div>
+        <div class="name">固体绝缘过热</div>
+      </div>
+      <div class="gas-card">
+        <h4>二氧化碳</h4>
+        <div class="formula">CO₂</div>
+        <div class="name">固体绝缘老化</div>
+      </div>
+    </div>
+    
+    <h3>故障类型与气体特征</h3>
+    <table>
+      <tr>
+        <th>故障类型</th>
+        <th>主要特征气体</th>
+        <th>次要特征气体</th>
+      </tr>
+      <tr>
+        <td>局部放电</td>
+        <td>H₂</td>
+        <td>CH₄, CO</td>
+      </tr>
+      <tr>
+        <td>低能放电（火花）</td>
+        <td>H₂, C₂H₂</td>
+        <td>CH₄</td>
+      </tr>
+      <tr>
+        <td>高能放电（电弧）</td>
+        <td>H₂, C₂H₂</td>
+        <td>C₂H₄, CH₄</td>
+      </tr>
+      <tr>
+        <td>低温过热（<150℃）</td>
+        <td>CH₄</td>
+        <td>H₂, C₂H₆</td>
+      </tr>
+      <tr>
+        <td>中温过热（150-300℃）</td>
+        <td>CH₄, C₂H₆</td>
+        <td>H₂, C₂H₄</td>
+      </tr>
+      <tr>
+        <td>高温过热（>300℃）</td>
+        <td>C₂H₄</td>
+        <td>CH₄, C₂H₆, H₂</td>
+      </tr>
+      <tr>
+        <td>涉及固体绝缘</td>
+        <td>CO, CO₂</td>
+        <td>其他烃类</td>
+      </tr>
+    </table>
+    
+    <div class="highlight-box">
+      <strong>💡 关键提示：</strong><br>
+      • <strong>C₂H₂（乙炔）</strong>出现通常意味着电弧放电，需高度重视<br>
+      • <strong>CO/CO₂比值</strong>可判断固体绝缘是否受损<br>
+      • 单次分析仅供参考，应关注<strong>气体增长趋势</strong>
+    </div>
+  </div>
+
+  <!-- ==================== 专业部分 ==================== -->
+  <div class="section" id="professional">
+    <h2>🔬 专业方法：故障诊断技术</h2>
+    
+    <h3>1. 注意值判断（GB/T 7252）</h3>
+    <table>
+      <tr>
+        <th>气体</th>
+        <th>注意值（μL/L）</th>
+      </tr>
+      <tr><td>H₂</td><td>150</td></tr>
+      <tr><td>CH₄</td><td>50</td></tr>
+      <tr><td>C₂H₆</td><td>100</td></tr>
+      <tr><td>C₂H₄</td><td>100</td></tr>
+      <tr><td>C₂H₂</td><td>5（330kV以上）/ 1（其他）</td></tr>
+      <tr><td>CO</td><td>400</td></tr>
+      <tr><td>CO₂</td><td>5000</td></tr>
+      <tr><td>总烃</td><td>150</td></tr>
+    </table>
+    
+    <h3>2. 三比值法（IEC 60599）</h3>
+    <p>通过三种气体比值组合判断故障类型，是最经典的诊断方法。</p>
+    
+    <table>
+      <tr>
+        <th>比值</th>
+        <th>编码范围</th>
+        <th>含义</th>
+      </tr>
+      <tr>
+        <td rowspan="3">C₂H₂/C₂H₄</td>
+        <td>< 0.1 → 0</td>
+        <td>无电弧</td>
+      </tr>
+      <tr><td>0.1 ~ 3 → 1</td><td>低能放电</td></tr>
+      <tr><td>> 3 → 2</td><td>高能放电</td></tr>
+      <tr>
+        <td rowspan="3">CH₄/H₂</td>
+        <td>< 0.1 → 1</td>
+        <td>局部放电</td>
+      </tr>
+      <tr><td>0.1 ~ 1 → 0</td><td>正常</td></tr>
+      <tr><td>> 1 → 2</td><td>过热</td></tr>
+      <tr>
+        <td rowspan="3">C₂H₄/C₂H₆</td>
+        <td>< 1 → 0</td>
+        <td>低温过热</td>
+      </tr>
+      <tr><td>1 ~ 3 → 1</td><td>中温过热</td></tr>
+      <tr><td>> 3 → 2</td><td>高温过热</td></tr>
+    </table>
+    
+    <h3>3. 大卫三角法</h3>
+    <p>用三种气体的相对含量构成三角坐标，直观显示故障类型。</p>
+    
+    <div class="triangle-box">
+      <p style="color:var(--muted);font-size:0.9rem;">三角图区域示意（实际应用中绘制测点位置）</p>
+      <p style="color:var(--text);margin-top:1rem;">
+        △ 左下角：局部放电区<br>
+        △ 顶部：高温过热区<br>
+        △ 右下角：低能放电区<br>
+        △ 中心：正常/轻微故障
+      </p>
+    </div>
+    
+    <h3>4. 气体增长率分析</h3>
+    <p>绝对产气速率更能反映故障严重程度。</p>
+    
+    <div class="highlight-box">
+      <strong>📈 产气速率计算：</strong><br>
+      绝对产气速率 = (C₂ - C₁) × m / (Δt × ρ)<br>
+      <br>
+      其中：C₁、C₂为两次分析浓度，m为油重，Δt为时间间隔，ρ为油密度<br>
+      <br>
+      <strong>注意值：</strong>总烃产气速率 > 12 mL/天 需关注
+    </div>
+    
+    <h3>5. CO/CO₂比值分析</h3>
+    <p>判断固体绝缘（纸、纸板）是否参与反应。</p>
+    
+    <table>
+      <tr>
+        <th>CO/CO₂比值</th>
+        <th>判断</th>
+      </tr>
+      <tr><td>< 0.1</td><td>固体绝缘正常老化</td></tr>
+      <tr><td>0.1 ~ 0.3</td><td>固体绝缘可能过热</td></tr>
+      <tr><td>> 0.3</td><td>固体绝缘严重过热</td></tr>
+    </table>
+  </div>
+
+  <!-- ==================== 可视化部分 ==================== -->
+  <div class="section" id="visual">
+    <h2>📊 可视化：气体数据分析</h2>
+    
+    <h3>1. 气体浓度柱状图</h3>
+    <p>直观展示各气体组分浓度与注意值对比。</p>
+    <div class="chart-container tall">
+      <canvas id="gasChart"></canvas>
+    </div>
+    
+    <h3>2. 气体趋势曲线</h3>
+    <p>跟踪关键气体浓度随时间的变化趋势。</p>
+    <div class="chart-container">
+      <canvas id="trendChart"></canvas>
+    </div>
+    
+    <h3>3. 三角图可视化</h3>
+    <p>将测点标注在大卫三角图上，直观判断故障类型。</p>
+    
+    <h3>4. 雷达图</h3>
+    <p>多气体组分综合对比，用于多台变压器横向比较。</p>
+    
+    <h3>5. 产气速率仪表盘</h3>
+    <p>实时显示产气速率，直观预警。</p>
+    
+    <div class="highlight-box warn">
+      <strong>⚠️ 可视化设计要点：</strong><br>
+      • 明确标注注意值线<br>
+      • 异常值用醒目颜色标识<br>
+      • 支持历史数据叠加对比<br>
+      • 三角图标注测点历史轨迹
+    </div>
+  </div>
+
+  <!-- ==================== 案例 ==================== -->
+  <div class="section">
+    <h2>🔧 典型诊断案例</h2>
+    
+    <div class="case-box">
+      <h4>案例1：变压器绕组匝间短路</h4>
+      <p><strong>DGA数据：</strong>H₂=280, CH₄=120, C₂H₆=45, C₂H₄=180, C₂H₂=35 μL/L</p>
+      <p><strong>三比值：</strong>C₂H₂/C₂H₄=0.19(1), CH₄/H₂=0.43(0), C₂H₄/C₂H₆=4(2)</p>
+      <p><strong>编码：</strong>1,0,2 → 高能放电</p>
+      <p><strong>诊断：</strong>电弧放电，可能存在绕组匝间短路</p>
+      <p><strong>验证：</strong>吊罩检查发现高压绕组匝间短路烧损</p>
+    </div>
+    
+    <div class="case-box">
+      <h4>案例2：变压器铁芯过热</h4>
+      <p><strong>DGA数据：</strong>H₂=85, CH₄=180, C₂H₆=95, C₂H₄=210, C₂H₂=0 μL/L</p>
+      <p><strong>三比值：</strong>C₂H₂/C₂H₄=0(0), CH₄/H₂=2.1(2), C₂H₄/C₂H₆=2.2(1)</p>
+      <p><strong>编码：</strong>0,2,1 → 中温过热</p>
+      <p><strong>诊断：</strong>铁芯多点接地或铁芯短路</p>
+      <p><strong>处理：</strong>检查铁芯接地，消除多余接地点</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回数据分析</a> · <a href="../../../index.html">返回首页</a></p>
+</footer>
+
+<script>
+// 气体浓度柱状图
+const gasCtx = document.getElementById('gasChart').getContext('2d');
+new Chart(gasCtx, {
+  type: 'bar',
+  data: {
+    labels: ['H₂', 'CH₄', 'C₂H₆', 'C₂H₄', 'C₂H₂', 'CO', 'CO₂'],
+    datasets: [{
+      label: '实测值(μL/L)',
+      data: [280, 120, 45, 180, 35, 420, 2800],
+      backgroundColor: (ctx) => {
+        const limits = [150, 50, 100, 100, 5, 400, 5000];
+        const values = [280, 120, 45, 180, 35, 420, 2800];
+        return values[ctx.dataIndex] > limits[ctx.dataIndex] ? '#ff6464' : '#00b4ff';
+      }
+    }, {
+      label: '注意值',
+      data: [150, 50, 100, 100, 5, 400, 5000],
+      type: 'line',
+      borderColor: '#ffaa00',
+      borderDash: [5,5],
+      pointRadius: 0,
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#d0e8ff' } } },
+    scales: {
+      x: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' }, type: 'logarithmic' }
+    }
+  }
+});
+
+// 趋势图
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+new Chart(trendCtx, {
+  type: 'line',
+  data: {
+    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+    datasets: [{
+      label: '总烃(μL/L)',
+      data: [85, 92, 110, 145, 210, 380],
+      borderColor: '#ffaa00',
+      tension: 0.3,
+      fill: false
+    }, {
+      label: 'C₂H₂(μL/L)',
+      data: [0, 0, 0.5, 2, 8, 35],
+      borderColor: '#ff6464',
+      tension: 0.3,
+      fill: false
+    }, {
+      label: '注意值',
+      data: Array(6).fill(150),
+      borderColor: '#ff6464',
+      borderDash: [5,5],
+      pointRadius: 0,
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#d0e8ff' } } },
+    scales: {
+      x: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

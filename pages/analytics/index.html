@@ -13,15 +13,39 @@
     .logo span{color:var(--text);}
     .breadcrumb{color:var(--muted);font-size:0.85rem;}
     .breadcrumb a{color:var(--accent);text-decoration:none;}
-    .hero{padding:4rem 2rem;text-align:center;}
-    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
-    .hero p{color:var(--muted);font-size:0.95rem;}
-    .container{max-width:900px;margin:0 auto;padding:2rem;}
-    .placeholder{text-align:center;padding:4rem 2rem;background:var(--card);border:1px dashed var(--border);border-radius:16px;margin-top:2rem;}
-    .placeholder-icon{font-size:4rem;margin-bottom:1rem;opacity:0.3;}
-    .placeholder h2{font-size:1.3rem;color:var(--muted);margin-bottom:0.5rem;}
-    .placeholder p{color:var(--muted);font-size:0.9rem;}
-    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:4rem;}
+    
+    .hero{padding:4rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,160,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2.2rem;font-weight:800;margin-bottom:0.6rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:1rem;max-width:650px;margin:0 auto;}
+    
+    .intro{max-width:900px;margin:0 auto;padding:0 2rem 2rem;text-align:center;}
+    .intro p{color:var(--muted);line-height:1.8;}
+    
+    .container{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;}
+    .section-title{font-size:1.3rem;font-weight:700;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;}
+    .section-sub{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;}
+    
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.8rem;text-decoration:none;color:inherit;transition:transform 0.2s,border-color 0.2s;display:flex;flex-direction:column;}
+    .card:hover{transform:translateY(-3px);border-color:var(--accent);}
+    .card-icon{font-size:2.2rem;margin-bottom:0.8rem;}
+    .card-title{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;}
+    .card-desc{color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:1rem;}
+    .card-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:auto;}
+    .tag{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:0.25rem 0.7rem;border-radius:6px;font-size:0.75rem;color:var(--muted);}
+    .tag.level-basic{background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.2);color:var(--accent2);}
+    .tag.level-pro{background:rgba(0,180,255,0.1);border-color:rgba(0,180,255,0.2);color:var(--accent);}
+    .tag.level-adv{background:rgba(170,100,255,0.1);border-color:rgba(170,100,255,0.2);color:#c084fc;}
+    
+    .levels{display:flex;gap:0.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+    .level{font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:4px;}
+    .level-basic{background:rgba(0,229,160,0.15);color:var(--accent2);}
+    .level-pro{background:rgba(0,180,255,0.15);color:var(--accent);}
+    .level-adv{background:rgba(170,100,255,0.15);color:#c084fc;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
   </style>
 </head>
 <body>
@@ -29,17 +53,109 @@
   <a class="logo" href="../../index.html">⚡ <span>电力在线监测知识库</span></a>
   <div class="breadcrumb"><a href="../../index.html">首页</a> / 数据分析</div>
 </header>
+
 <div class="hero">
-  <h1>📊 数据分析</h1>
-  <p>监测数据统计分析、趋势预测、异常预警模型，以及典型数据可视化案例</p>
+  <h1>📊 数据<em>分析</em></h1>
+  <p>监测数据统计分析、趋势预测、异常预警模型，从科普到专业到可视化的全流程分析方法</p>
 </div>
+
+<div class="intro">
+  <p>数据分析是在线监测的核心环节。从原始监测数据到有价值的诊断结论，需要经过数据预处理、特征提取、趋势分析、异常检测、可视化展示等多个步骤。本模块按「科普→专业→可视化」三个层次，系统介绍电力设备监测数据的分析方法。</p>
+</div>
+
 <div class="container">
-  <div class="placeholder">
-    <div class="placeholder-icon">📊</div>
-    <h2>模块建设中</h2>
-    <p>该模块正在建设中，即将收录趋势分析方法、预警模型构建、数据可视化案例等内容。</p>
+  
+  <div class="section-title">📈 分析对象</div>
+  <div class="section-sub">选择监测数据类型，学习对应的分析方法</div>
+  
+  <div class="grid">
+    
+    <a class="card" href="temperature/index.html">
+      <div class="card-icon">🌡️</div>
+      <div class="card-title">温度数据分析</div>
+      <div class="card-desc">温度时序数据预处理、温升趋势分析、相对温差法、热点定位与过热预警模型，掌握设备热状态评估方法。</div>
+      <div class="card-tags">
+        <span class="tag level-basic">科普：温升曲线解读</span>
+        <span class="tag level-pro">专业：相对温差法</span>
+        <span class="tag level-adv">可视化：热力图</span>
+      </div>
+      <div class="levels">
+        <span class="level level-basic">科普</span>
+        <span class="level level-pro">专业</span>
+        <span class="level level-adv">可视化</span>
+      </div>
+    </a>
+    
+    <a class="card" href="vibration/index.html">
+      <div class="card-icon">📳</div>
+      <div class="card-title">振动数据分析</div>
+      <div class="card-desc">振动信号时域/频域分析、FFT变换、特征频率识别、包络分析，诊断变压器、GIS、断路器机械故障。</div>
+      <div class="card-tags">
+        <span class="tag level-basic">科普：振动波形</span>
+        <span class="tag level-pro">专业：FFT频谱</span>
+        <span class="tag level-adv">可视化：瀑布图</span>
+      </div>
+      <div class="levels">
+        <span class="level level-basic">科普</span>
+        <span class="level level-pro">专业</span>
+        <span class="level level-adv">可视化</span>
+      </div>
+    </a>
+    
+    <a class="card" href="pd/index.html">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">局放数据分析</div>
+      <div class="card-desc">局放图谱识别（PRPD/PRPS）、放电类型分类、噪声抑制、定位算法，评估GIS、变压器、电缆绝缘状态。</div>
+      <div class="card-tags">
+        <span class="tag level-basic">科普：局放图谱</span>
+        <span class="tag level-pro">专业：PRPD分析</span>
+        <span class="tag level-adv">可视化：3D图谱</span>
+      </div>
+      <div class="levels">
+        <span class="level level-basic">科普</span>
+        <span class="level level-pro">专业</span>
+        <span class="level level-adv">可视化</span>
+      </div>
+    </a>
+    
+    <a class="card" href="dga/index.html">
+      <div class="card-icon">🛢️</div>
+      <div class="card-title">油色谱分析（DGA）</div>
+      <div class="card-desc">油中溶解气体分析方法、三比值法、大卫三角法、气体增长速率，诊断变压器潜伏性故障。</div>
+      <div class="card-tags">
+        <span class="tag level-basic">科普：气体来源</span>
+        <span class="tag level-pro">专业：三比值法</span>
+        <span class="tag level-adv">可视化：三角图</span>
+      </div>
+      <div class="levels">
+        <span class="level level-basic">科普</span>
+        <span class="level level-pro">专业</span>
+        <span class="level level-adv">可视化</span>
+      </div>
+    </a>
+    
+    <a class="card" href="warning/index.html">
+      <div class="card-icon">🚨</div>
+      <div class="card-title">预警模型构建</div>
+      <div class="card-desc">阈值设定方法、趋势预测模型、多参数融合预警、机器学习异常检测，构建智能预警系统。</div>
+      <div class="card-tags">
+        <span class="tag level-basic">科普：预警原理</span>
+        <span class="tag level-pro">专业：预测算法</span>
+        <span class="tag level-adv">可视化：仪表盘</span>
+      </div>
+      <div class="levels">
+        <span class="level level-basic">科普</span>
+        <span class="level level-pro">专业</span>
+        <span class="level level-adv">可视化</span>
+      </div>
+    </a>
+    
   </div>
+  
 </div>
-<footer>⚡ 电力在线监测知识库 · 数据分析模块</footer>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../../index.html">返回首页</a></p>
+</footer>
 </body>
 </html>

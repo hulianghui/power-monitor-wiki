@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>预警模型构建 - 电力在线监测知识库</title>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(255,100,100,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:0.95rem;max-width:700px;margin:0 auto;}
+    
+    .container{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    .level-nav{display:flex;gap:0.5rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap;}
+    .level-btn{padding:0.5rem 1.2rem;border-radius:20px;font-size:0.85rem;text-decoration:none;transition:all 0.2s;border:1px solid var(--border);background:var(--card);color:var(--muted);}
+    .level-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .level-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .highlight-box.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
+    
+    .steps{display:flex;flex-direction:column;gap:0.8rem;margin:1rem 0;}
+    .step{display:flex;gap:1rem;align-items:flex-start;}
+    .step-num{background:var(--accent);color:#000;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;}
+    .step-content{flex:1;}
+    .step-title{font-weight:600;margin-bottom:0.2rem;}
+    .step-desc{color:var(--muted);font-size:0.9rem;}
+    
+    .model-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0;}
+    .model-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
+    .model-card h4{color:var(--accent);font-size:0.95rem;margin-bottom:0.5rem;}
+    .model-card p{color:var(--muted);font-size:0.85rem;}
+    
+    .formula{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem 1.5rem;margin:1rem 0;font-family:'Courier New',monospace;font-size:0.95rem;}
+    
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1rem 0;}
+    @media(max-width:768px){.grid-2{grid-template-columns:1fr;}}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../index.html">← 数据分析</a>
+    <a href="../../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>🚨 预警模型<em>构建</em></h1>
+  <p>从阈值设定到智能预测，从单参量告警到多参数融合，构建可靠的设备状态预警系统</p>
+</div>
+
+<div class="container">
+  
+  <div class="level-nav">
+    <a href="#basic" class="level-btn active">📚 科普入门</a>
+    <a href="#professional" class="level-btn">🔬 专业方法</a>
+    <a href="#visual" class="level-btn">📊 可视化</a>
+  </div>
+
+  <!-- ==================== 科普部分 ==================== -->
+  <div class="section" id="basic">
+    <h2>📚 科普入门：预警的基本原理</h2>
+    
+    <h3>什么是预警系统？</h3>
+    <p>预警系统是监测数据的"安全哨兵"，在设备故障发生前发出警告，为运维人员争取宝贵的处置时间。</p>
+    
+    <h3>预警等级划分</h3>
+    <table>
+      <tr>
+        <th>等级</th>
+        <th>颜色</th>
+        <th>含义</th>
+        <th>响应</th>
+      </tr>
+      <tr>
+        <td>正常</td>
+        <td style="color:#00e5a0">🟢 绿色</td>
+        <td>设备运行正常</td>
+        <td>继续监测</td>
+      </tr>
+      <tr>
+        <td>关注</td>
+        <td style="color:#ffaa00">🟡 黄色</td>
+        <td>参数异常，需关注</td>
+        <td>加强监测频率</td>
+      </tr>
+      <tr>
+        <td>预警</td>
+        <td style="color:#ff6600">🟠 橙色</td>
+        <td>接近危险，需准备</td>
+        <td>安排检修计划</td>
+      </tr>
+      <tr>
+        <td>告警</td>
+        <td style="color:#ff6464">🔴 红色</td>
+        <td>已超限，需立即处理</td>
+        <td>立即停运或处置</td>
+      </tr>
+    </table>
+    
+    <h3>最简单的预警方法：阈值告警</h3>
+    <p>当监测值超过预设阈值时触发告警，是最基本也最常用的方法。</p>
+    
+    <div class="highlight-box">
+      <strong>📊 常见阈值类型：</strong><br>
+      • <strong>上限阈值：</strong>温度、振动、局放量等不超过某值<br>
+      • <strong>下限阈值：</strong>油位、压力等不低于某值<br>
+      • <strong>变化率阈值：</strong>温升速率、气体增长率等<br>
+      • <strong>相对阈值：</strong>三相不平衡度、相对温差等
+    </div>
+    
+    <h3>阈值的设定原则</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">参考标准规范</div>
+          <div class="step-desc">如GB、DL标准中的注意值、限值</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">结合设备实际</div>
+          <div class="step-desc">考虑设备型号、运行年限、负载特点</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">统计分析历史数据</div>
+          <div class="step-desc">基于正常运行的统计分布设定</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">留有安全裕度</div>
+          <div class="step-desc">预警阈值应低于危险阈值，留出处置时间</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="highlight-box warn">
+      <strong>⚠️ 阈值设定的常见误区：</strong><br>
+      • 阈值过紧：误报频繁，产生"狼来了"效应<br>
+      • 阈值过松：漏报风险，失去预警意义<br>
+      • 忽视设备差异：不同设备用相同阈值<br>
+      • 静态不变：不根据运行情况动态调整
+    </div>
+  </div>
+
+  <!-- ==================== 专业部分 ==================== -->
+  <div class="section" id="professional">
+    <h2>🔬 专业方法：智能预警模型</h2>
+    
+    <h3>1. 多级阈值预警</h3>
+    <p>设置多个阈值层级，实现分级预警。</p>
+    
+    <table>
+      <tr>
+        <th>层级</th>
+        <th>阈值类型</th>
+        <th>典型设置</th>
+      </tr>
+      <tr>
+        <td>一级预警</td>
+        <td>基准阈值</td>
+        <td>统计均值 + 2σ</td>
+      </tr>
+      <tr>
+        <td>二级预警</td>
+        <td>关注阈值</td>
+        <td>标准注意值</td>
+      </tr>
+      <tr>
+        <td>三级预警</td>
+        <td>警示阈值</td>
+        <td>标准注意值 × 1.2</td>
+      </tr>
+      <tr>
+        <td>四级告警</td>
+        <td>危险阈值</td>
+        <td>标准限值</td>
+      </tr>
+    </table>
+    
+    <h3>2. 趋势预测预警</h3>
+    <p>基于历史数据预测未来趋势，提前发出预警。</p>
+    
+    <div class="model-cards">
+      <div class="model-card">
+        <h4>线性回归预测</h4>
+        <p>拟合历史趋势线，外推预测值。适合缓慢变化的参数如油色谱。</p>
+      </div>
+      <div class="model-card">
+        <h4>时间序列模型(ARIMA)</h4>
+        <p>考虑周期性和趋势，适合有规律的负载相关参数。</p>
+      </div>
+      <div class="model-card">
+        <h4>LSTM神经网络</h4>
+        <p>深度学习方法，捕捉复杂时序特征，预测精度高。</p>
+      </div>
+      <div class="model-card">
+        <h4>Prophet模型</h4>
+        <p>Facebook开源，自动处理季节性和节假日效应。</p>
+      </div>
+    </div>
+    
+    <h3>3. 多参数融合预警</h3>
+    <p>单一参数预警易误报漏报，融合多个参数可提高预警准确性。</p>
+    
+    <div class="highlight-box">
+      <strong>🔗 融合方式：</strong><br>
+      • <strong>加权评分法：</strong>各参数赋权，总分超过阈值预警<br>
+      • <strong>逻辑组合法：</strong>温度高 且 局放大 → 故障概率高<br>
+      • <strong>贝叶斯推断：</strong>根据先验概率更新故障后验概率<br>
+      • <strong>机器学习分类：</strong>多特征输入，模型输出故障概率
+    </div>
+    
+    <h3>4. 异常检测算法</h3>
+    <p>无需预设阈值，自动发现异常模式。</p>
+    
+    <div class="model-cards">
+      <div class="model-card">
+        <h4>统计学方法</h4>
+        <p>3σ原则、箱线图法，检测偏离正常分布的异常点。</p>
+      </div>
+      <div class="model-card">
+        <h4>孤立森林(Isolation Forest)</h4>
+        <p>无监督方法，异常点更容易被孤立，适合多维数据。</p>
+      </div>
+      <div class="model-card">
+        <h4>自编码器(Autoencoder)</h4>
+        <p>深度学习方法，正常数据可重建，异常数据重建误差大。</p>
+      </div>
+      <div class="model-card">
+        <h4>One-Class SVM</h4>
+        <p>单类支持向量机，构建正常数据边界，边界外为异常。</p>
+      </div>
+    </div>
+    
+    <h3>5. 预警模型评估指标</h3>
+    <table>
+      <tr>
+        <th>指标</th>
+        <th>公式</th>
+        <th>理想值</th>
+      </tr>
+      <tr>
+        <td>准确率(Accuracy)</td>
+        <td>(TP+TN)/(TP+TN+FP+FN)</td>
+        <td>接近1</td>
+      </tr>
+      <tr>
+        <td>精确率(Precision)</td>
+        <td>TP/(TP+FP)</td>
+        <td>接近1</td>
+      </tr>
+      <tr>
+        <td>召回率(Recall)</td>
+        <td>TP/(TP+FN)</td>
+        <td>接近1</td>
+      </tr>
+      <tr>
+        <td>F1分数</td>
+        <td>2×P×R/(P+R)</td>
+        <td>接近1</td>
+      </tr>
+      <tr>
+        <td>误报率(FPR)</td>
+        <td>FP/(FP+TN)</td>
+        <td>接近0</td>
+      </tr>
+    </table>
+    <p><small>TP=真阳性，TN=真阴性，FP=假阳性(误报)，FN=假阴性(漏报)</small></p>
+  </div>
+
+  <!-- ==================== 可视化部分 ==================== -->
+  <div class="section" id="visual">
+    <h2>📊 可视化：预警系统展示</h2>
+    
+    <h3>1. 实时监控仪表盘</h3>
+    <div class="grid-2">
+      <div class="highlight-box">
+        <strong>🎯 仪表盘要素：</strong><br>
+        • 关键参数实时数值<br>
+        • 状态指示灯（绿/黄/橙/红）<br>
+        • 当前预警等级<br>
+        • 最近告警列表
+      </div>
+      <div class="highlight-box">
+        <strong>📊 趋势面板：</strong><br>
+        • 24小时趋势曲线<br>
+        • 阈值线标注<br>
+        • 当前值标记<br>
+        • 预测区间显示
+      </div>
+    </div>
+    
+    <h3>2. 预警地图</h3>
+    <p>在变电站平面图或设备布置图上标注各监测点状态，一目了然。</p>
+    
+    <h3>3. 告警时间线</h3>
+    <p>按时间顺序展示告警事件，方便追溯分析。</p>
+    
+    <h3>4. 风险矩阵</h3>
+    <p>用热力图或气泡图展示多设备风险等级分布。</p>
+    
+    <h3>5. 健康指数仪表</h3>
+    <div class="highlight-box">
+      <strong>💡 设备健康指数计算：</strong><br>
+      健康指数 = Σ(参数得分 × 权重)<br>
+      <br>
+      • 各参数归一化后评分（0-100）<br>
+      • 按重要性分配权重<br>
+      • 综合得分反映设备整体健康状态
+    </div>
+  </div>
+
+  <!-- ==================== 实践建议 ==================== -->
+  <div class="section">
+    <h2>💡 实践建议</h2>
+    
+    <h3>预警系统建设路径</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">基础阶段：阈值告警</div>
+          <div class="step-desc">建立单参数阈值告警，确保基本预警能力</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">进阶阶段：趋势预警</div>
+          <div class="step-desc">引入趋势预测，实现提前预警</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">高级阶段：多参融合</div>
+          <div class="step-desc">融合多源数据，提高预警准确性</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">智能阶段：AI预警</div>
+          <div class="step-desc">机器学习模型，实现智能诊断和预警</div>
+        </div>
+      </div>
+    </div>
+    
+    <h3>降低误报率的策略</h3>
+    <div class="highlight-box">
+      <strong>🔧 实用技巧：</strong><br>
+      • 设置确认时间：连续N次超阈值才告警<br>
+      • 关联条件过滤：温度高 且 负载正常 才告警<br>
+      • 历史数据校验：排除已知异常时段<br>
+      • 人工反馈机制：标记误报，优化模型<br>
+      • 定期校准：根据运行情况调整阈值
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回数据分析</a> · <a href="../../../index.html">返回首页</a></p>
+</footer>
+
+</body>
+</html>

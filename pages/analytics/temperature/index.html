@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>温度数据分析 - 电力在线监测知识库</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <style>
+    :root { --bg:#070d1a;--card:#0d1b2e;--border:rgba(0,180,255,0.15);--accent:#00b4ff;--accent2:#00e5a0;--text:#d0e8ff;--muted:#5a7a99;--warn:#ffaa00;--danger:#ff6464; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;}
+    header{position:sticky;top:0;z-index:100;background:rgba(7,13,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    .logo span{color:var(--text);}
+    nav{display:flex;gap:1.5rem;align-items:center;}
+    nav a{color:var(--muted);text-decoration:none;font-size:0.9rem;}
+    nav a:hover{color:var(--accent);}
+    
+    .hero{padding:3rem 2rem 2rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(255,100,100,0.08) 0%,transparent 70%);}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem;}
+    .hero h1 em{font-style:normal;color:var(--accent);}
+    .hero p{color:var(--muted);font-size:0.95rem;max-width:700px;margin:0 auto;}
+    
+    .container{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;}
+    
+    /* 层次导航 */
+    .level-nav{display:flex;gap:0.5rem;margin-bottom:2rem;justify-content:center;flex-wrap:wrap;}
+    .level-btn{padding:0.5rem 1.2rem;border-radius:20px;font-size:0.85rem;text-decoration:none;transition:all 0.2s;border:1px solid var(--border);background:var(--card);color:var(--muted);}
+    .level-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .level-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+    
+    .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:2rem;}
+    .section h2{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+    .section h3{font-size:1.1rem;font-weight:600;color:var(--accent2);margin:1.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+    .section p{color:var(--text);margin-bottom:0.8rem;}
+    
+    .highlight-box{background:rgba(0,180,255,0.08);border:1px solid rgba(0,180,255,0.2);border-radius:10px;padding:1.2rem;margin:1rem 0;}
+    .highlight-box.warn{background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2);}
+    .highlight-box.danger{background:rgba(255,100,100,0.08);border-color:rgba(255,100,100,0.2);}
+    
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;}
+    th,td{padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    th{background:rgba(0,180,255,0.08);color:var(--accent);font-weight:600;}
+    
+    .formula{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:1rem 1.5rem;margin:1rem 0;font-family:'Courier New',monospace;font-size:0.95rem;overflow-x:auto;}
+    
+    .chart-container{background:rgba(0,0,0,0.2);border-radius:10px;padding:1rem;margin:1rem 0;position:relative;height:280px;}
+    .chart-container.tall{height:350px;}
+    
+    .steps{display:flex;flex-direction:column;gap:0.8rem;margin:1rem 0;}
+    .step{display:flex;gap:1rem;align-items:flex-start;}
+    .step-num{background:var(--accent);color:#000;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;}
+    .step-content{flex:1;}
+    .step-title{font-weight:600;margin-bottom:0.2rem;}
+    .step-desc{color:var(--muted);font-size:0.9rem;}
+    
+    .case-box{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:1.5rem;margin:1rem 0;}
+    .case-box h4{color:var(--accent2);margin-bottom:0.5rem;}
+    
+    footer{border-top:1px solid var(--border);text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;margin-top:2rem;}
+    footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <a class="logo" href="../../../index.html">⚡ <span>电力在线监测知识库</span></a>
+  <nav>
+    <a href="../index.html">← 数据分析</a>
+    <a href="../../../index.html">首页</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>🌡️ 温度数据<em>分析</em></h1>
+  <p>从温升曲线解读到相对温差法，从趋势预测到可视化展示，系统掌握温度数据分析方法</p>
+</div>
+
+<div class="container">
+  
+  <!-- 层次导航 -->
+  <div class="level-nav">
+    <a href="#basic" class="level-btn active">📚 科普入门</a>
+    <a href="#professional" class="level-btn">🔬 专业方法</a>
+    <a href="#visual" class="level-btn">📊 可视化</a>
+  </div>
+
+  <!-- ==================== 科普部分 ==================== -->
+  <div class="section" id="basic">
+    <h2>📚 科普入门：温度数据怎么看</h2>
+    
+    <h3>温度监测数据的基本特征</h3>
+    <p>温度是一种<strong>缓慢变化</strong>的物理量，通常以<strong>时间序列</strong>形式呈现。理解温度数据需要关注以下几个关键点：</p>
+    
+    <div class="chart-container">
+      <canvas id="basicChart"></canvas>
+    </div>
+    
+    <table>
+      <tr>
+        <th>特征量</th>
+        <th>含义</th>
+        <th>关注点</th>
+      </tr>
+      <tr>
+        <td>绝对温度</td>
+        <td>当前测点温度值</td>
+        <td>是否超过上限阈值</td>
+      </tr>
+      <tr>
+        <td>温升</td>
+        <td>温度与环境温度之差</td>
+        <td>反映发热程度</td>
+      </tr>
+      <tr>
+        <td>温升速率</td>
+        <td>单位时间温度变化</td>
+        <td>急速上升需警惕</td>
+      </tr>
+      <tr>
+        <td>相对温差</td>
+        <td>同型测点温度差值</td>
+        <td>三相不平衡诊断</td>
+      </tr>
+    </table>
+    
+    <h3>温升曲线的典型形态</h3>
+    <p>设备投运后温度会逐渐上升，最终趋于稳定。正常的温升曲线呈现<strong>指数饱和</strong>形态：</p>
+    
+    <div class="highlight-box">
+      <strong>📈 正常温升曲线特征：</strong><br>
+      • 启动阶段：温度快速上升<br>
+      • 过渡阶段：上升速度放缓<br>
+      • 稳定阶段：温度基本恒定（波动<2℃/h）<br>
+      • 正常运行：温度随负载小幅波动
+    </div>
+    
+    <div class="highlight-box danger">
+      <strong>⚠️ 异常温升曲线特征：</strong><br>
+      • 温度持续上升，无法稳定<br>
+      • 温升速率突然增大（>5℃/h）<br>
+      • 同型测点温差过大（>10℃）<br>
+      • 温度周期性异常波动
+    </div>
+    
+    <h3>三相温度平衡判断</h3>
+    <p>对于三相设备（变压器、开关柜等），三相温度应该基本平衡。判断方法：</p>
+    
+    <div class="formula">
+      不平衡度 = (最高相温度 - 最低相温度) / 三相平均温度 × 100%
+    </div>
+    
+    <div class="case-box">
+      <h4>💡 判断标准</h4>
+      <p>• 不平衡度 < 5%：正常</p>
+      <p>• 不平衡度 5%~10%：关注，可能存在轻微缺陷</p>
+      <p>• 不平衡度 > 10%：异常，需排查原因</p>
+    </div>
+  </div>
+
+  <!-- ==================== 专业部分 ==================== -->
+  <div class="section" id="professional">
+    <h2>🔬 专业方法：深入分析技术</h2>
+    
+    <h3>1. 相对温差法</h3>
+    <p>相对温差法是DL/T 664-2008《带电设备红外诊断应用规范》推荐的核心诊断方法，通过比较同型测点或自身的温差来判断缺陷程度。</p>
+    
+    <div class="formula">
+      δ = (T₁ - T₂) / T₁ × 100%
+    </div>
+    <p>其中：T₁ 为异常点温度（K），T₂ 为正常点温度（K）</p>
+    
+    <table>
+      <tr>
+        <th>相对温差 δ</th>
+        <th>缺陷等级</th>
+        <th>处理建议</th>
+      </tr>
+      <tr>
+        <td>δ < 10%</td>
+        <td>正常</td>
+        <td>继续监测</td>
+      </tr>
+      <tr>
+        <td>10% ≤ δ < 20%</td>
+        <td>一般缺陷</td>
+        <td>安排检修</td>
+      </tr>
+      <tr>
+        <td>20% ≤ δ < 40%</td>
+        <td>重大缺陷</td>
+        <td>尽快处理</td>
+      </tr>
+      <tr>
+        <td>δ ≥ 40%</td>
+        <td>紧急缺陷</td>
+        <td>立即停运</td>
+      </tr>
+    </table>
+    
+    <h3>2. 温度趋势预测</h3>
+    <p>利用历史温度数据预测未来温度变化，提前发现潜在问题。常用方法：</p>
+    
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">移动平均法</div>
+          <div class="step-desc">平滑短期波动，揭示长期趋势。适合稳定运行设备。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">指数平滑法</div>
+          <div class="step-desc">赋予近期数据更大权重，对变化更敏感。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">ARIMA时间序列</div>
+          <div class="step-desc">考虑趋势和周期性，适合有规律的负载变化场景。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">LSTM神经网络</div>
+          <div class="step-desc">深度学习方法，可捕捉复杂非线性关系，预测精度高。</div>
+        </div>
+      </div>
+    </div>
+    
+    <h3>3. 负载-温度相关性分析</h3>
+    <p>设备温度与负载电流密切相关。建立负载-温度模型，可区分正常温升和异常发热。</p>
+    
+    <div class="highlight-box">
+      <strong>📊 分析方法：</strong><br>
+      1. 收集负载电流和温度的历史数据<br>
+      2. 绘制散点图，观察相关性<br>
+      3. 拟合回归模型：T = a × I² + b × I + c<br>
+      4. 残差分析：实际温度与预测值的偏差<br>
+      5. 残差异常增大 → 可能存在接触不良等缺陷
+    </div>
+    
+    <h3>4. 多测点联合分析</h3>
+    <p>单个测点温度异常可能无法定位问题，结合多个测点数据可推断热源位置。</p>
+    
+    <div class="case-box">
+      <h4>🔧 案例：开关柜触头过热定位</h4>
+      <p><strong>场景：</strong>某10kV开关柜A相上触头温度异常升高</p>
+      <p><strong>分析：</strong></p>
+      <p>• A相上触头：85℃（异常）</p>
+      <p>• A相下触头：55℃（正常）</p>
+      <p>• B、C相触头：50-55℃（正常）</p>
+      <p><strong>结论：</strong>A相上触头接触电阻增大，需检修处理</p>
+    </div>
+  </div>
+
+  <!-- ==================== 可视化部分 ==================== -->
+  <div class="section" id="visual">
+    <h2>📊 可视化：直观展示温度状态</h2>
+    
+    <h3>1. 实时温度曲线</h3>
+    <p>最常用的可视化方式，展示温度随时间的变化趋势。</p>
+    
+    <div class="chart-container tall">
+      <canvas id="trendChart"></canvas>
+    </div>
+    
+    <h3>2. 三相温度对比图</h3>
+    <p>将A、B、C三相温度放在同一图表，直观显示三相平衡情况。</p>
+    
+    <div class="chart-container">
+      <canvas id="phaseChart"></canvas>
+    </div>
+    
+    <h3>3. 热力图（Heatmap）</h3>
+    <p>用于展示设备表面或多个测点的温度分布，颜色深浅代表温度高低。</p>
+    
+    <div class="highlight-box">
+      <strong>🎨 热力图配色建议：</strong><br>
+      • 低温区：蓝色（#0066ff）<br>
+      • 正常区：绿色（#00cc66）<br>
+      • 关注区：黄色（#ffcc00）<br>
+      • 警告区：橙色（#ff6600）<br>
+      • 危险区：红色（#ff0000）
+    </div>
+    
+    <h3>4. 温度仪表盘</h3>
+    <p>类似汽车仪表盘，直观显示当前温度所处的安全区域。</p>
+    
+    <div class="chart-container">
+      <canvas id="gaugeChart"></canvas>
+    </div>
+    
+    <h3>5. 温升速率预警图</h3>
+    <p>结合温度值和温升速率，构建二维预警区域。</p>
+    
+    <div class="highlight-box warn">
+      <strong>⚠️ 预警区域划分：</strong><br>
+      • 绿色区域：温度正常，温升速率正常<br>
+      • 黄色区域：温度偏高 或 温升速率偏大<br>
+      • 橙色区域：温度高 且 温升速率大<br>
+      • 红色区域：温度超限 或 温升速率超限
+    </div>
+  </div>
+
+  <!-- ==================== 实践案例 ==================== -->
+  <div class="section">
+    <h2>🔧 实践案例</h2>
+    
+    <div class="case-box">
+      <h4>案例1：变压器绕组温度异常分析</h4>
+      <p><strong>现象：</strong>某110kV变压器B相绕组温度持续高于A、C相约15℃</p>
+      <p><strong>分析过程：</strong></p>
+      <p>1. 排除负载不平衡因素（三相电流基本平衡）</p>
+      <p>2. 检查冷却系统（工作正常）</p>
+      <p>3. 分析温度变化规律（与环境温度无关）</p>
+      <p>4. 油色谱分析（发现乙炔，指示放电）</p>
+      <p><strong>结论：</strong>B相绕组存在局部过热，吊罩检查发现匝间短路</p>
+    </div>
+    
+    <div class="case-box">
+      <h4>案例2：开关柜触头温升预测</h4>
+      <p><strong>方法：</strong>使用LSTM模型预测触头温度</p>
+      <p><strong>效果：</strong>提前2小时预警，准确率达92%</p>
+      <p><strong>关键特征：</strong>历史温度、负载电流、环境温度</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ 电力在线监测知识库 · <a href="../index.html">返回数据分析</a> · <a href="../../../index.html">返回首页</a></p>
+</footer>
+
+<script>
+// 基础温度曲线
+const basicCtx = document.getElementById('basicChart').getContext('2d');
+new Chart(basicCtx, {
+  type: 'line',
+  data: {
+    labels: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+    datasets: [{
+      label: 'A相温度',
+      data: [45, 44, 43, 44, 48, 55, 62, 68, 72, 70, 65, 55],
+      borderColor: '#00b4ff',
+      tension: 0.3,
+      fill: false
+    }, {
+      label: 'B相温度',
+      data: [46, 45, 44, 45, 52, 65, 78, 88, 95, 92, 80, 60],
+      borderColor: '#ff6464',
+      tension: 0.3,
+      fill: false
+    }, {
+      label: 'C相温度',
+      data: [44, 43, 42, 43, 47, 54, 60, 65, 68, 66, 62, 53],
+      borderColor: '#00e5a0',
+      tension: 0.3,
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#d0e8ff' } } },
+    scales: {
+      x: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+
+// 趋势预测图
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+new Chart(trendCtx, {
+  type: 'line',
+  data: {
+    labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+    datasets: [{
+      label: '实测温度',
+      data: [42,42,41,41,42,44,48,55,62,68,72,75,76,75,73,70,66,60,55,50,47,45,44,43],
+      borderColor: '#00b4ff',
+      tension: 0.3,
+      fill: false
+    }, {
+      label: '预测温度',
+      data: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,55,52,49,47,46,45],
+      borderColor: '#ffaa00',
+      borderDash: [5,5],
+      tension: 0.3,
+      fill: false
+    }, {
+      label: '预警阈值',
+      data: Array(24).fill(80),
+      borderColor: '#ff6464',
+      borderDash: [10,5],
+      fill: false,
+      pointRadius: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#d0e8ff' } } },
+    scales: {
+      x: { ticks: { color: '#5a7a99', maxTicksLimit: 12 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' }, min: 30, max: 90 }
+    }
+  }
+});
+
+// 三相对比柱状图
+const phaseCtx = document.getElementById('phaseChart').getContext('2d');
+new Chart(phaseCtx, {
+  type: 'bar',
+  data: {
+    labels: ['上触头', '下触头', '母排接头', '电缆接头'],
+    datasets: [{
+      label: 'A相',
+      data: [52, 48, 45, 50],
+      backgroundColor: '#ff6464'
+    }, {
+      label: 'B相',
+      data: [55, 50, 46, 52],
+      backgroundColor: '#00e5a0'
+    }, {
+      label: 'C相',
+      data: [53, 49, 44, 51],
+      backgroundColor: '#00b4ff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#d0e8ff' } } },
+    scales: {
+      x: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { ticks: { color: '#5a7a99' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+
+// 仪表盘
+const gaugeCtx = document.getElementById('gaugeChart').getContext('2d');
+new Chart(gaugeCtx, {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [25, 35, 25, 10, 5],
+      backgroundColor: ['#0066ff', '#00cc66', '#ffcc00', '#ff6600', '#ff0000'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '70%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: false }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
